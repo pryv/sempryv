@@ -1,5 +1,7 @@
 {
     "cSpell.words": [
-        "Pryv"
-    ]
+        "Pryv",
+        "Vuetify"
+    ],
+    "editor.wordWrap": "off"
 }
