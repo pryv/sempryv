@@ -16,33 +16,34 @@
 </template>
 
 <script>
-var pryv = require("pryv");
+import pryv from "pryv";
 
 export default {
   mounted: function() {
     var credentials = null;
     var pryvDomain = "pryv.me";
-    var requestedPermissions = [{
-      streamId: "*",
-      level: "manage"
-    }];
+    var requestedPermissions = [
+      {
+        streamId: "*",
+        level: "manage"
+      }
+    ];
 
     var settings = {
       requestingAppId: "sempryv",
       requestedPermissions: requestedPermissions,
       spanButtonID: "pryv-button",
       callbacks: {
-        signedIn: function (authData) {
+        signedIn: function(authData) {
           credentials = authData;
           // ...
-        },
+        }
       }
     };
 
     pryv.Auth.config.registerURL.host = "reg." + pryvDomain;
     pryv.Auth.setup(settings);
-    var connection = new pryv.Connection(credentials);
-    console.log(connection)
+    credentials;
   }
 };
 </script>
