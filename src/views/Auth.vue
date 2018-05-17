@@ -7,7 +7,7 @@
             <v-toolbar-title>Authentication required</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-              <v-alert v-model="alert" :type="alertType" dismissible>
+              <v-alert v-model="alert" :type="alertType">
                 {{alertMessage}}
               </v-alert>
             <v-form>
@@ -28,14 +28,15 @@
                 @keyup.enter.native="connect()"
                 @input="resetAlert()"></v-text-field>
               <div class="text-xs-center">
-              <v-btn color="pryv" dark>
-                <img src="../assets/logo-pryv.png"/>&nbsp;
-                Pryv sign-In
-              </v-btn>
-              <v-btn color="primary" @click="connect()">
-                <v-icon left dark>arrow_forward</v-icon>
-                Connect
-              </v-btn>
+                <span id="pryv-button"></span>
+                <v-btn color="pryv" dark @click="usePryvCredentials()">
+                  <img src="../assets/logo-pryv.png"/>&nbsp;
+                  Pryv sign-In
+                </v-btn>
+                <v-btn color="primary" @click="connect()">
+                  <v-icon left dark>arrow_forward</v-icon>
+                  Connect
+                </v-btn>
               </div>
             </v-form>
           </v-card-text>
@@ -58,11 +59,12 @@ export default {
       alertMessage: "Authentication Failed"
     };
   },
+  mounted() {
+    auth.pryvSetup();
+  },
   methods: {
     connect() {
-      localStorage.setItem("username", this.username);
-      localStorage.setItem("token", this.token);
-
+      auth.login(this.username, this.token);
       auth.isConnected(
         () => {
           this.alertType = "success";
@@ -78,6 +80,11 @@ export default {
           this.alert = true;
         }
       );
+    },
+    usePryvCredentials() {
+      var credentials = auth.pryvCredentials();
+      this.username = credentials.username;
+      this.token = credentials.token;
     },
     resetAlert() {
       this.alert = false;

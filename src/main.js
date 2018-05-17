@@ -7,7 +7,7 @@ import "vuetify/dist/vuetify.min.css";
 
 Vue.use(Vuetify, {
   theme: {
-    pryv: "#bd1026"
+    pryv: "#B61E24"
   }
 });
 

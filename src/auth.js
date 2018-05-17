@@ -1,30 +1,5 @@
 import pryv from "pryv";
 
-// export function connect() {
-//   var credentials = null;
-//   var pryvDomain = "pryv.me";
-//   var requestedPermissions = [
-//     {
-//       streamId: "*",
-//       level: "manage"
-//     }
-//   ];
-
-//   var settings = {
-//     requestingAppId: "sempryv",
-//     requestedPermissions: requestedPermissions,
-//     spanButtonID: "pryv-button",
-//     callbacks: {
-//       signedIn: function(authData) {
-//         credentials = authData;
-//         // ...
-//       }
-//     }
-//   };
-//   pryv.Auth.config.registerURL.host = "reg." + pryvDomain;
-//   pryv.Auth.setup(settings);
-// }
-
 export default {
   isConnected(callback, error) {
     var conn = new pryv.Connection({
@@ -40,9 +15,37 @@ export default {
       }
     });
   },
-  signOut(callback) {
+  login(username, token) {
+    localStorage.setItem("username", username);
+    localStorage.setItem("token", token);
+  },
+  logout() {
     localStorage.removeItem("username");
     localStorage.removeItem("token");
-    callback();
+  },
+  pryvSetup() {
+    var pryvDomain = "pryv.me";
+    var requestedPermissions = [
+      {
+        streamId: "*",
+        level: "manage"
+      }
+    ];
+
+    var settings = {
+      requestingAppId: "sempryv",
+      requestedPermissions: requestedPermissions,
+      spanButtonID: "pryv-button",
+      callbacks: {}
+    };
+
+    pryv.Auth.config.registerURL.host = "reg." + pryvDomain;
+    pryv.Auth.setup(settings);
+  },
+  pryvCredentials() {
+    return {
+      username: pryv.Auth.connection.username,
+      token: pryv.Auth.connection.auth
+    };
   }
 };

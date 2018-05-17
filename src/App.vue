@@ -39,10 +39,9 @@ export default {
       );
     },
     logout() {
-      auth.signOut(() => {
-        this.authenticated = false;
-        this.$router.push({ name: "auth" });
-      });
+      auth.logout();
+      this.authenticated = false;
+      this.$router.push({ name: "auth" });
     }
   }
 };
