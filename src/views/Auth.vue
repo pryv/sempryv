@@ -5,6 +5,21 @@
         <v-card>
           <v-toolbar color="primary" dark>
             <v-toolbar-title>Authentication required</v-toolbar-title>
+            <v-spacer></v-spacer>
+                <v-btn color="pryv" dark
+                  v-if="!pryvSignedin"
+                  @click="pryvSignIn()">
+                  <img src="../assets/logo-pryv.png"/>&nbsp;
+                  Pryv sign in
+                  <v-icon right dark>person</v-icon>
+                </v-btn>
+                <v-btn color="pryv" dark
+                  v-if="pryvSignedin"
+                  @click="pryvSignOut()">
+                  <img src="../assets/logo-pryv.png"/>&nbsp;
+                  Sign out {{pryvUsername}}
+                  <v-icon right dark>exit_to_app</v-icon>
+                </v-btn>
           </v-toolbar>
           <v-card-text>
               <v-alert v-model="alert" :type="alertType">
@@ -27,19 +42,15 @@
                 v-model="token"
                 @keyup.enter.native="connect()"
                 @input="resetAlert()"></v-text-field>
-              <div class="text-xs-center">
-                <span id="pryv-button"></span>
-                <v-btn color="pryv" dark @click="usePryvCredentials()">
-                  <img src="../assets/logo-pryv.png"/>&nbsp;
-                  Pryv sign-In
-                </v-btn>
-                <v-btn color="primary" @click="connect()">
-                  <v-icon left dark>arrow_forward</v-icon>
-                  Connect
-                </v-btn>
-              </div>
             </v-form>
           </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" @click="connect()">
+              <v-icon left dark>arrow_forward</v-icon>
+              Connect
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
@@ -56,11 +67,24 @@ export default {
       token: "",
       alert: false,
       alertType: "error",
-      alertMessage: "Authentication Failed"
+      alertMessage: "Authentication Failed",
+      pryvSignedin: false,
+      pryvUsername: ""
     };
   },
   mounted() {
-    auth.pryvSetup();
+    auth.pryvSetup(
+      authData => {
+        this.pryvSignedin = true;
+        this.pryvUsername = authData.username;
+        this.loadPryvCredentials();
+      },
+      () => {
+        this.pryvSignedin = false;
+        this.username = "";
+        this.token = "";
+      }
+    );
   },
   methods: {
     connect() {
@@ -81,7 +105,13 @@ export default {
         }
       );
     },
-    usePryvCredentials() {
+    pryvSignIn() {
+      auth.signIn();
+    },
+    pryvSignOut() {
+      auth.signOut();
+    },
+    loadPryvCredentials() {
       var credentials = auth.pryvCredentials();
       this.username = credentials.username;
       this.token = credentials.token;

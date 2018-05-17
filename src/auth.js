@@ -2,10 +2,7 @@ import pryv from "pryv";
 
 export default {
   isConnected(callback, error) {
-    var conn = new pryv.Connection({
-      username: localStorage.username,
-      auth: localStorage.token
-    });
+    var conn = this.connection();
 
     conn.accessInfo(function(err) {
       if (err) {
@@ -15,6 +12,12 @@ export default {
       }
     });
   },
+  signIn() {
+    pryv.Auth.popupLogin();
+  },
+  signOut() {
+    pryv.Auth.logout();
+  },
   login(username, token) {
     localStorage.setItem("username", username);
     localStorage.setItem("token", token);
@@ -23,7 +26,7 @@ export default {
     localStorage.removeItem("username");
     localStorage.removeItem("token");
   },
-  pryvSetup() {
+  pryvSetup(callback, error) {
     var pryvDomain = "pryv.me";
     var requestedPermissions = [
       {
@@ -35,12 +38,24 @@ export default {
     var settings = {
       requestingAppId: "sempryv",
       requestedPermissions: requestedPermissions,
-      spanButtonID: "pryv-button",
-      callbacks: {}
+      callbacks: {
+        signedIn: function(authData) {
+          callback(authData);
+        },
+        needSignin: function() {
+          error();
+        }
+      }
     };
 
     pryv.Auth.config.registerURL.host = "reg." + pryvDomain;
     pryv.Auth.setup(settings);
+  },
+  connection() {
+    return new pryv.Connection({
+      username: localStorage.username,
+      auth: localStorage.token
+    });
   },
   pryvCredentials() {
     return {

@@ -6,9 +6,9 @@
           <v-card-title primary-title>
               <h3 class="headline mb-0">Pryv</h3>
           </v-card-title>
-          <v-card-actions>
-            <span id="pryv-button"></span>
-          </v-card-actions>
+          <v-card-text>
+            {{streams}}
+          </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
@@ -16,5 +16,26 @@
 </template>
 
 <script>
-export default {};
+import auth from "@/auth";
+
+export default {
+  data() {
+    return {
+      streams: ""
+    };
+  },
+  mounted() {
+    this.getStreams();
+  },
+  methods: {
+    getStreams() {
+      var conn = auth.connection();
+      var vm = this;
+
+      conn.fetchStructure(function(err, streams) {
+        vm.streams = String(streams);
+      });
+    }
+  }
+};
 </script>
