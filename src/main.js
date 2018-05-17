@@ -5,7 +5,11 @@ import router from "./router";
 
 import "vuetify/dist/vuetify.min.css";
 
-Vue.use(Vuetify);
+Vue.use(Vuetify, {
+  theme: {
+    pryv: "#bd1026"
+  }
+});
 
 Vue.config.productionTip = false;
 
