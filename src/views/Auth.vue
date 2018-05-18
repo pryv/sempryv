@@ -13,6 +13,12 @@
                   Pryv sign in
                   <v-icon right dark>person</v-icon>
                 </v-btn>
+                <v-btn flat color="tran" dark
+                  v-if="pryvSignedin"
+                  @click="loadPryvCredentials()">
+                  <v-icon left dark>arrow_downward</v-icon>
+                  Use Pryv credentials
+                </v-btn>
                 <v-btn color="pryv" dark
                   v-if="pryvSignedin"
                   @click="pryvSignOut()">
