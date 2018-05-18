@@ -8,15 +8,19 @@
           <v-list-tile-content>Home</v-list-tile-content>
         </v-list-tile>
         <v-divider></v-divider>
-        <pre>{{streams}}</pre>
+        <TreeView v-model="streams"></TreeView>
       </v-list>
     </v-navigation-drawer>
 </template>
 
 <script>
 import auth from "@/auth";
+import TreeView from "@/components/TreeView";
 
 export default {
+  components: {
+    TreeView
+  },
   data() {
     return {
       drawer: true,
@@ -32,11 +36,6 @@ export default {
     }
   },
   mounted() {
-    var vm = this;
-    auth.connection().accessInfo(function(err, result) {
-      console.log(result);
-      vm.accessInfo = result;
-    });
     this.getStreams();
   },
   methods: {
@@ -50,6 +49,7 @@ export default {
       var options = {
         state: null
       };
+
       conn.streams.get(options, function(err, streams) {
         var fstreams = streams.map(function(stream) {
           var obj = {
@@ -64,7 +64,7 @@ export default {
           }
           return obj;
         });
-        vm.streams = JSON.stringify(fstreams, null, 4);
+        vm.streams = fstreams;
       });
     }
   }

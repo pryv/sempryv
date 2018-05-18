@@ -9,8 +9,7 @@
     <v-toolbar color="primary" dark fixed clipped-left clipped-right app>
       <v-toolbar-side-icon
         @click="$refs.mainDrawer.toggle()"></v-toolbar-side-icon>
-      <v-toolbar-title
-        @click="$router.push({name: 'home'})">SemPryv</v-toolbar-title>
+      <v-toolbar-title>SemPryv</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn

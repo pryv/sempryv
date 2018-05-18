@@ -61,7 +61,7 @@ import auth from "@/auth";
 export default {
   data() {
     return {
-      drawer: true,
+      drawer: false,
       accessInfo: {}
     };
   },
@@ -76,7 +76,6 @@ export default {
   mounted() {
     var vm = this;
     auth.connection().accessInfo(function(err, result) {
-      console.log(result);
       vm.accessInfo = result;
     });
   },
