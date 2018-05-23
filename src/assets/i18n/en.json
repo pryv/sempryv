@@ -13,7 +13,8 @@
     "Pryv Sign In": "Pryv Sign In",
     "Use Pryv": "Use Pryv",
     "Sign out {username}": "Sign out {username}",
-    "Connect": "Connect",
+    "Connect with token": "Connect with token",
+    "Connect with Pryv": "Connect with Pryv",
     "Authentication successful": "Authentication successful",
     "Authentication failed": "Authentication failed"
 }

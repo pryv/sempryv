@@ -13,7 +13,8 @@
     "Pryv Sign In": "Se connecter à Pryv",
     "Use Pryv": "Utiliser Pryv",
     "Sign out {username}": "Déconnexion de {username}",
-    "Connect": "Connexion",
+    "Connect with token": "Connexion avec une clef",
+    "Connect with Pryv": "Connexion avec Pryv",
     "Authentication successful": "L'authentification est réussie",
     "Authentication failed": "L'authentification a échouée"
 }

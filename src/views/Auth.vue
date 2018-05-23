@@ -13,12 +13,6 @@
                   {{ $t('Pryv Sign In') }}
                   <v-icon right dark>person</v-icon>
                 </v-btn>
-                <v-btn flat color="tran" dark
-                  v-if="pryvSignedin"
-                  @click="loadPryvCredentials()">
-                  <v-icon left dark>arrow_downward</v-icon>
-                  {{ $t('Use Pryv') }}
-                </v-btn>
                 <v-btn color="pryv" dark
                   v-if="pryvSignedin"
                   @click="pryvSignOut()">
@@ -50,9 +44,15 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
+            <v-btn color="pryv" dark
+              v-if="pryvSignedin"
+              @click="connectWithPryv()">
+              <img src="../assets/logo-pryv.png"/>&nbsp;
+              {{ $t('Connect with Pryv') }}
+            </v-btn>
             <v-btn color="primary" @click="connect()">
               <v-icon left dark>arrow_forward</v-icon>
-              {{ $t('Connect') }}
+              {{ $t('Connect with token') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -114,10 +114,11 @@ export default {
     pryvSignOut() {
       auth.signOut();
     },
-    loadPryvCredentials() {
+    connectWithPryv() {
       var credentials = auth.pryvCredentials();
       this.username = credentials.username;
       this.token = credentials.token;
+      this.connect();
     },
     resetAlert() {
       this.alert = false;
