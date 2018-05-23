@@ -1,0 +1,19 @@
+{
+    "Home": "Home",
+    "Streams": "Streams",
+    "Logout": "Logout",
+    "Username": "Username",
+    "Token": "Token",
+    "Type": "Type",
+    "Application ID": "Application ID",
+    "Permissions": "Permissions",
+    "Meta": "Meta",
+    "Welcome to SemPryv": "Welcome to SemPryv",
+    "Authentication required": "Authentication required",
+    "Pryv Sign In": "Pryv Sign In",
+    "Use Pryv": "Use Pryv",
+    "Sign out {username}": "Sign out {username}",
+    "Connect": "Connect",
+    "Authentication successful": "Authentication successful",
+    "Authentication failed": "Authentication failed"
+}

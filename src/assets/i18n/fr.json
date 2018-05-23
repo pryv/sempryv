@@ -1,0 +1,19 @@
+{
+    "Home": "Accueil",
+    "Streams": "Flux",
+    "Logout": "Déconnexion",
+    "Username": "Nom d'utilisateur",
+    "Token": "Clef",
+    "Type": "Type",
+    "Application ID": "ID de l'application",
+    "Permissions": "Permissions",
+    "Meta": "Meta",
+    "Welcome to SemPryv": "Bienvenue sur SemPryv",
+    "Authentication required": "Authentification requise",
+    "Pryv Sign In": "Se connecter à Pryv",
+    "Use Pryv": "Utiliser Pryv",
+    "Sign out {username}": "Déconnexion de {username}",
+    "Connect": "Connexion",
+    "Authentication successful": "L'authentification est réussie",
+    "Authentication failed": "L'authentification a échouée"
+}

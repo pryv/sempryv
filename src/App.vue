@@ -12,6 +12,23 @@
       <v-toolbar-title>SemPryv</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
+        <v-menu offset-y>
+          <v-btn
+            flat
+            slot="activator"
+            dark>
+            {{ get_lang() }}
+            <v-icon>arrow_drop_down</v-icon>
+            </v-btn>
+          <v-list >
+            <v-list-tile @click="set_lang('en')">
+              <v-list-tile-title>EN</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile @click="set_lang('fr')">
+              <v-list-tile-title>FR</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
         <v-btn
           flat
           v-if="authenticated"
@@ -60,6 +77,14 @@ export default {
           this.$router.push({ name: "auth" });
         }
       );
+    },
+    set_lang: function(lang) {
+      const route = Object.assign({}, this.$route);
+      route.params.lang = lang;
+      this.$router.push(route);
+    },
+    get_lang: function() {
+      return this.$language.locale.toUpperCase();
     }
   }
 };

@@ -4,26 +4,26 @@
       <v-flex sm12 md8>
         <v-card>
           <v-toolbar color="primary" dark>
-            <v-toolbar-title>Authentication required</v-toolbar-title>
+            <v-toolbar-title>{{ $t('Authentication required') }}</v-toolbar-title>
             <v-spacer></v-spacer>
                 <v-btn color="pryv" dark
                   v-if="!pryvSignedin"
                   @click="pryvSignIn()">
                   <img src="../assets/logo-pryv.png"/>&nbsp;
-                  Pryv sign in
+                  {{ $t('Pryv Sign In') }}
                   <v-icon right dark>person</v-icon>
                 </v-btn>
                 <v-btn flat color="tran" dark
                   v-if="pryvSignedin"
                   @click="loadPryvCredentials()">
                   <v-icon left dark>arrow_downward</v-icon>
-                  Use Pryv credentials
+                  {{ $t('Use Pryv') }}
                 </v-btn>
                 <v-btn color="pryv" dark
                   v-if="pryvSignedin"
                   @click="pryvSignOut()">
                   <img src="../assets/logo-pryv.png"/>&nbsp;
-                  Sign out {{pryvUsername}}
+                  {{ $t('Sign out {username}', {username: pryvUsername}) }}
                   <v-icon right dark>exit_to_app</v-icon>
                 </v-btn>
           </v-toolbar>
@@ -54,7 +54,7 @@
             <v-spacer></v-spacer>
             <v-btn color="primary" @click="connect()">
               <v-icon left dark>arrow_forward</v-icon>
-              Connect
+              {{ $t('Connect') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -97,7 +97,7 @@ export default {
       auth.isConnected(
         () => {
           this.alertType = "success";
-          this.alertMessage = "Authentication successful";
+          this.alertMessage = this.$t("Authentication successful");
           this.alert = true;
           setTimeout(() => {
             this.$router.push({ name: "home" });
@@ -105,7 +105,7 @@ export default {
         },
         () => {
           this.alertType = "error";
-          this.alertMessage = "Authentication failed";
+          this.alertMessage = this.$t("Authentication failed");
           this.alert = true;
         }
       );

@@ -3,7 +3,7 @@
     <v-container fill-height>
       <v-layout align-center class="text-xs-center">
         <v-flex>
-          <h3 class="display-3">Welcome to the SemPryv</h3>
+          <h3 class="display-3">{{ $t('Welcome to SemPryv') }}</h3>
         </v-flex>
       </v-layout>
     </v-container>

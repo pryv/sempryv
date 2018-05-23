@@ -1,24 +1,24 @@
 <template>
     <v-navigation-drawer v-model="drawer" fixed clipped right app>
-      <v-list>
+      <v-list subheader>
         <v-list-tile @click="logout()" color="red">
           <v-list-tile-action>
             <v-icon>exit_to_app</v-icon>
           </v-list-tile-action>
-          <v-list-tile-content>Logout</v-list-tile-content>
+          <v-list-tile-content>{{ $t('Logout') }}</v-list-tile-content>
         </v-list-tile>
         <v-divider></v-divider>
       </v-list>
       <v-list subheader>
         <v-list-tile>
           <v-list-tile-content>
-              <v-list-tile-title>Username</v-list-tile-title>
+              <v-list-tile-title>{{ $t('Username') }}</v-list-tile-title>
               <v-list-tile-sub-title><v-icon>person</v-icon> {{username}}</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile>
           <v-list-tile-content>
-              <v-list-tile-title>Token</v-list-tile-title>
+              <v-list-tile-title>{{ $t('Token') }}</v-list-tile-title>
               <v-list-tile-sub-title><v-icon>vpn_key</v-icon> {{token}}</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
@@ -27,26 +27,26 @@
       <v-list>
         <v-list-tile>
           <v-list-tile-content>
-              <v-list-tile-title>Type</v-list-tile-title>
+              <v-list-tile-title>{{ $t('Type') }}</v-list-tile-title>
               <v-list-tile-sub-title>{{accessInfo.type}}</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile>
           <v-list-tile-content>
-              <v-list-tile-title>Application ID</v-list-tile-title>
+              <v-list-tile-title>{{ $t('Application ID') }}</v-list-tile-title>
               <v-list-tile-sub-title>{{accessInfo.name}}</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile>
           <v-list-tile-content>
-              <v-list-tile-title>Permissions</v-list-tile-title>
+              <v-list-tile-title>{{ $t('Permissions') }}</v-list-tile-title>
               <v-list-tile-sub-title>&nbsp;</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
         <pre class="list-details">{{JSON.stringify(accessInfo.permissions, null, 4)}}</pre>
         <v-list-tile>
           <v-list-tile-content>
-              <v-list-tile-title>Meta</v-list-tile-title>
+              <v-list-tile-title>{{ $t('Meta') }}</v-list-tile-title>
               <v-list-tile-sub-title>&nbsp;</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
@@ -78,10 +78,14 @@ export default {
     auth.connection().accessInfo(function(err, result) {
       vm.accessInfo = result;
     });
+    if (localStorage.getItem("InfoDrawer") !== null) {
+      this.drawer = localStorage.getItem("InfoDrawer") == "true";
+    }
   },
   methods: {
     toggle() {
       this.drawer = !this.drawer;
+      localStorage.setItem("InfoDrawer", this.drawer);
     },
     logout() {
       auth.logout();

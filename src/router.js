@@ -10,19 +10,23 @@ export default new Router({
   mode: "history",
   routes: [
     {
-      path: "/",
+      path: "/:lang/",
       name: "home",
       component: Home
     },
     {
-      path: "/auth",
+      path: "/:lang/auth",
       name: "auth",
       component: Auth
     },
     {
-      path: "/stream/:name",
+      path: "/:lang/stream/:name",
       name: "stream",
       component: Stream
+    },
+    {
+      path: "*",
+      redirect: "/en/"
     }
   ]
 });

@@ -1,13 +1,14 @@
 <template>
     <v-navigation-drawer v-model="drawer" fixed clipped app>
-      <v-list>
+      <v-list subheader>
         <v-list-tile :to="{name: 'home'}" exact>
           <v-list-tile-action>
             <v-icon>home</v-icon>
           </v-list-tile-action>
-          <v-list-tile-content>Home</v-list-tile-content>
+          <v-list-tile-content>{{ $t('Home') }}</v-list-tile-content>
         </v-list-tile>
         <v-divider></v-divider>
+        <v-subheader>{{ $t('Streams') }}</v-subheader>
         <TreeView v-model="streams"></TreeView>
       </v-list>
     </v-navigation-drawer>
@@ -23,7 +24,7 @@ export default {
   },
   data() {
     return {
-      drawer: true,
+      drawer: false,
       streams: ""
     };
   },
@@ -37,10 +38,14 @@ export default {
   },
   mounted() {
     this.getStreams();
+    if (localStorage.getItem("MainDrawer") !== null) {
+      this.drawer = localStorage.getItem("MainDrawer") == "true";
+    }
   },
   methods: {
     toggle() {
       this.drawer = !this.drawer;
+      localStorage.setItem("MainDrawer", this.drawer);
     },
     getStreams() {
       var conn = auth.connection();
