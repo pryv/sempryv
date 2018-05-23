@@ -16,5 +16,6 @@
     "Connect with token": "Connexion avec une clef",
     "Connect with Pryv": "Connexion avec Pryv",
     "Authentication successful": "L'authentification est réussie",
-    "Authentication failed": "L'authentification a échouée"
+    "Authentication failed": "L'authentification a échouée",
+    "Parent": "Parent"
 }

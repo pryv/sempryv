@@ -8,8 +8,7 @@
           <v-list-tile-content>{{ $t('Home') }}</v-list-tile-content>
         </v-list-tile>
         <v-divider></v-divider>
-        <v-subheader>{{ $t('Streams') }}</v-subheader>
-        <TreeView v-model="streams"></TreeView>
+        <TreeView v-model="streams" :level="0"></TreeView>
       </v-list>
     </v-navigation-drawer>
 </template>
@@ -56,20 +55,7 @@ export default {
       };
 
       conn.streams.get(options, function(err, streams) {
-        var fstreams = streams.map(function(stream) {
-          var obj = {
-            name: stream.name
-          };
-          if (stream.children.length) {
-            obj.children = stream._children.map(function(children) {
-              return {
-                name: children.name
-              };
-            });
-          }
-          return obj;
-        });
-        vm.streams = fstreams;
+        vm.streams = streams;
       });
     }
   }

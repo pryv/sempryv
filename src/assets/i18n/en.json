@@ -16,5 +16,6 @@
     "Connect with token": "Connect with token",
     "Connect with Pryv": "Connect with Pryv",
     "Authentication successful": "Authentication successful",
-    "Authentication failed": "Authentication failed"
+    "Authentication failed": "Authentication failed",
+    "Parent": "Parent"
 }

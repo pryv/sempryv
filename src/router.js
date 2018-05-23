@@ -20,7 +20,7 @@ export default new Router({
       component: Auth
     },
     {
-      path: "/:lang/stream/:name",
+      path: "/:lang/streams/:id",
       name: "stream",
       component: Stream
     },

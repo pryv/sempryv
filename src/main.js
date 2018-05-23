@@ -6,6 +6,8 @@ import { i18n, momentLocales } from "./language";
 import moment from "moment";
 
 import "vuetify/dist/vuetify.min.css";
+import "@mdi/font/css/materialdesignicons.css";
+import "font-awesome/css/font-awesome.css";
 
 Vue.use(Vuetify, {
   theme: {
