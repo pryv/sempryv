@@ -83,7 +83,6 @@ export default {
       authData => {
         this.pryvSignedin = true;
         this.pryvUsername = authData.username;
-        this.loadPryvCredentials();
       },
       () => {
         this.pryvSignedin = false;
