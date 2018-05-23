@@ -15,6 +15,17 @@
         </v-toolbar-items>
       </v-toolbar>
       <v-layout>
+        <v-flex v-if="children.length != 0">
+          <v-subheader>Childrens</v-subheader>
+          <v-list dense>
+            <v-list-tile
+              v-for="child in children"
+              :key="child.id"
+              :to="{name:'stream', params:{id: child.id}}">
+              <v-list-tile-title>{{ child.name }}</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-flex>
       </v-layout>
   </v-container>
 </template>
@@ -23,11 +34,21 @@
 import auth from "@/auth";
 
 export default {
-  props: ["value"],
   data() {
     return {
-      stream: ""
+      stream: "",
+      streams: []
     };
+  },
+  computed: {
+    children() {
+      if (!this.stream) {
+        return []
+      }
+      return this.stream.childrenIds.map(childrenId =>
+        this.streams.filter(stream => stream.id == childrenId)[0]
+      );
+    }
   },
   mounted() {
     this.getStream(this.$route.params.id);
@@ -41,8 +62,11 @@ export default {
       var conn = auth.connection();
       var options = { id: streamId };
       var vm = this;
-      conn.streams.update(options, function(err, streams) {
-        vm.stream = streams;
+      conn.streams.getFlatenedObjects(options, function(err, streams) {
+        vm.streams = streams;
+        vm.stream = streams.filter(stream => {
+          return stream.id == streamId;
+        })[0];
       });
     },
     clientDataColor(stream) {
