@@ -34,16 +34,14 @@
             <v-form>
               <v-text-field
                 prepend-icon="person"
-                name="username"
-                label="Username"
+                :label="$t('Username')"
                 type="text"
                 v-model="username"
                 @keyup.enter.native="connect()"
                 @input="resetAlert()"></v-text-field>
               <v-text-field
                 prepend-icon="vpn_key"
-                name="token"
-                label="Token"
+                :label="$t('Token')"
                 type="text"
                 v-model="token"
                 @keyup.enter.native="connect()"
