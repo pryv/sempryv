@@ -1,6 +1,6 @@
 <template>
     <v-navigation-drawer v-model="drawer" fixed clipped right app>
-      <v-list subheader>
+      <v-list>
         <v-list-tile @click="logout()" color="red">
           <v-list-tile-action>
             <v-icon>exit_to_app</v-icon>

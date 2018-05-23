@@ -1,6 +1,6 @@
 <template>
     <v-navigation-drawer v-model="drawer" fixed clipped app>
-      <v-list subheader>
+      <v-list>
         <v-list-tile :to="{name: 'home'}" exact>
           <v-list-tile-action>
             <v-icon>home</v-icon>
