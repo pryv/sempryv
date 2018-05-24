@@ -46,7 +46,7 @@
         <pre class="info-details">{{JSON.stringify(accessInfo.permissions, null, 4)}}</pre>
         <v-list-tile>
           <v-list-tile-content>
-              <v-list-tile-title>{{ $t('Meta') }}</v-list-tile-title>
+              <v-list-tile-title>{{ $t('Metadata') }}</v-list-tile-title>
               <v-list-tile-sub-title>&nbsp;</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>

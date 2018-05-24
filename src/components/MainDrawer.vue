@@ -23,7 +23,7 @@ export default {
   },
   data() {
     return {
-      drawer: false,
+      drawer: true,
       streams: ""
     };
   },

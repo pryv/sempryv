@@ -7,7 +7,7 @@
     "Type": "Type",
     "Application ID": "Application ID",
     "Permissions": "Permissions",
-    "Meta": "Meta",
+    "Metadata": "Metadata",
     "Welcome to SemPryv": "Welcome to SemPryv",
     "Authentication required": "Authentication required",
     "Pryv Sign In": "Pryv Sign In",
@@ -17,5 +17,11 @@
     "Connect with Pryv": "Connect with Pryv",
     "Authentication successful": "Authentication successful",
     "Authentication failed": "Authentication failed",
-    "Parent": "Parent"
+    "Parent": "Parent",
+    "Id": "Id",
+    "Name": "Name",
+    "Client data": "Client data",
+    "Navigation": "Navigation",
+    "Stream info": "Stream info",
+    "Semantic annotations": "Semantic annotations"
 }

@@ -9,18 +9,12 @@
       <v-container fluid grid-list-xs>
         <v-layout row wrap>
           <v-flex d-flex xs9>
-            <v-container fill-height fluid>
-              <v-layout>
-                <v-flex>
-                  <h2>Semantic annotations</h2>
-                </v-flex>
-              </v-layout>
-            </v-container>
+            <semantic v-model="stream.id"></semantic>
           </v-flex>
           <v-flex
             d-flex
             xs3
-            style="border-left: solid 1px gray; overflow-x: hidden;">
+            style="border-left: solid 1px gray; overflow-x: auto;">
             <v-list dense>
               <v-subheader
                 v-if="parent || children.length > 0">
@@ -79,8 +73,12 @@
 
 <script>
 import auth from "@/auth";
+import Semantic from "@/components/Semantic";
 
 export default {
+  components: {
+    Semantic
+  },
   data() {
     return {
       stream: "",
