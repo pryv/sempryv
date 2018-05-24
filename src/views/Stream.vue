@@ -9,13 +9,23 @@
       <v-container fluid grid-list-xs>
         <v-layout row wrap>
           <v-flex d-flex xs9>
+            <v-container fill-height fluid>
+              <v-layout>
+                <v-flex>
+                  <h2>Semantic annotations</h2>
+                </v-flex>
+              </v-layout>
+            </v-container>
           </v-flex>
           <v-flex
             d-flex
             xs3
-            style="border-left: solid 1px gray;">
+            style="border-left: solid 1px gray; overflow-x: hidden;">
             <v-list dense>
-              <v-subheader>{{ $t('Navigation') }}</v-subheader>
+              <v-subheader
+                v-if="parent || children.length > 0">
+                {{ $t('Navigation') }}
+              </v-subheader>
               <v-list-tile
                 v-if="parent"
                 :to="{name:'stream', params:{id: parent.id}}">
@@ -53,6 +63,12 @@
                   {{ stream.name }}
                 </v-list-tile-sub-title>
               </v-list-tile>
+              <v-list-tile>
+                <v-list-tile-title>
+                  {{ $t('Client data') }}
+                </v-list-tile-title>
+              </v-list-tile>
+              <pre class="stream-details">{{JSON.stringify(stream.clientData, null, 4)}}</pre>
             </v-list>
           </v-flex>
         </v-layout>
@@ -81,11 +97,12 @@ export default {
       );
     },
     parent() {
-      if ((!this.stream) || (!this.stream.parentId)) {
+      if (!this.stream || !this.stream.parentId) {
         return null;
       }
-      console.log(this.streams.filter(stream => stream.id == this.stream.parentId)[0])
-      return this.streams.filter(stream => stream.id == this.stream.parentId)[0]
+      return this.streams.filter(
+        stream => stream.id == this.stream.parentId
+      )[0];
     }
   },
   mounted() {
@@ -118,3 +135,13 @@ export default {
   }
 };
 </script>
+
+<style>
+.stream-details {
+  font-family: "Exo", sans-serif;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.54);
+  padding-right: 16px;
+  padding-left: 16px;
+}
+</style>

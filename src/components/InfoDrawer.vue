@@ -43,14 +43,14 @@
               <v-list-tile-sub-title>&nbsp;</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
-        <pre class="list-details">{{JSON.stringify(accessInfo.permissions, null, 4)}}</pre>
+        <pre class="info-details">{{JSON.stringify(accessInfo.permissions, null, 4)}}</pre>
         <v-list-tile>
           <v-list-tile-content>
               <v-list-tile-title>{{ $t('Meta') }}</v-list-tile-title>
               <v-list-tile-sub-title>&nbsp;</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
-        <pre class="list-details">{{JSON.stringify(accessInfo.meta, null, 4)}}</pre>
+        <pre class="info-details">{{JSON.stringify(accessInfo.meta, null, 4)}}</pre>
       </v-list>
     </v-navigation-drawer>
 </template>
@@ -97,7 +97,7 @@ export default {
 </script>
 
 <style>
-.list-details {
+.info-details {
   font-family: "Exo", sans-serif;
   font-size: 14px;
   color: rgba(0, 0, 0, 0.54);
