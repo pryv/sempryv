@@ -43,10 +43,10 @@ export default {
   computed: {
     children() {
       if (!this.stream) {
-        return []
+        return [];
       }
-      return this.stream.childrenIds.map(childrenId =>
-        this.streams.filter(stream => stream.id == childrenId)[0]
+      return this.stream.childrenIds.map(
+        childrenId => this.streams.filter(stream => stream.id == childrenId)[0]
       );
     }
   },
