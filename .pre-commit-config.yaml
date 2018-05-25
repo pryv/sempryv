@@ -1,5 +1,5 @@
 repos:
-  - repo: git://github.com/pre-commit/pre-commit-hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v1.2.3
     hooks:
     - id: check-json
@@ -16,14 +16,10 @@ repos:
     rev: v4.3.4
     hooks:
     - id: isort
-  - repo: git://github.com/FalconSocial/pre-commit-mirrors-pep257
+  - repo: https://github.com/FalconSocial/pre-commit-mirrors-pep257
     rev: v0.3.3
     hooks:
     - id: pep257
-  - repo: https://github.com/pre-commit/mirrors-pylint
-    rev: v1.9.1
-    hooks:
-    - id: pylint
   - repo: https://github.com/Lucas-C/pre-commit-hooks
     rev: v1.1.5
     hooks:
@@ -32,3 +28,11 @@ repos:
     rev: v1.1.0
     hooks:
     - id: python-safety-dependencies-check
+  - repo: local
+    hooks:
+    - id: pylint
+      name: pylint
+      entry: pylint
+      language: python
+      files: \.py$
+      args: []
