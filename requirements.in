@@ -5,6 +5,9 @@ ipdb
 # Project requirements
 flask
 gunicorn
+logzero
+requests
+python-dotenv
 
 # Python tooling
 autoflake

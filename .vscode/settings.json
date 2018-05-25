@@ -1,3 +1,13 @@
 {
-    "python.pythonPath": "${workspaceFolder}/venv/bin/python"
+    "python.pythonPath": "${workspaceFolder}/venv/bin/python",
+    "files.exclude": {
+        "**/__pycache__": true,
+        "venv/": true
+    },
+    "cSpell.words": [
+        "Pryv",
+        "jsonify",
+        "sempryv"
+    ],
+    "python.formatting.provider": "yapf"
 }
