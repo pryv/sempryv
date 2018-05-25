@@ -5,9 +5,14 @@
         "venv/": true
     },
     "cSpell.words": [
+        "LOINC",
         "Pryv",
+        "SNOMEDCT",
+        "SNOWEDCT",
         "jsonify",
-        "sempryv"
+        "pylint",
+        "sempryv",
+        "serializable"
     ],
     "python.formatting.provider": "yapf"
 }

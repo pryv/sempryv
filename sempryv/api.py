@@ -2,15 +2,15 @@
 """Semantic API endpoints."""
 
 from flask import Blueprint, jsonify, request
-from sempryv.services import bioportal
+from sempryv import services
 
 # Flask blueprint
 BP = Blueprint('sempryv', __name__)
 
 
 @BP.route('search', methods=['GET'])
-def search():
+def search() -> str:
     """Search a semantic ontology."""
     term = request.args.get('term')
-    result = bioportal.search(term)
-    return jsonify(result['collection'])
+    results = services.suggest(term)
+    return jsonify([r.serializable() for r in results])
