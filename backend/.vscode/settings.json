@@ -1,0 +1,18 @@
+{
+    "python.pythonPath": "${workspaceFolder}/venv/bin/python",
+    "files.exclude": {
+        "**/__pycache__": true,
+        "venv/": true
+    },
+    "cSpell.words": [
+        "LOINC",
+        "Pryv",
+        "SNOMEDCT",
+        "SNOWEDCT",
+        "jsonify",
+        "pylint",
+        "sempryv",
+        "serializable"
+    ],
+    "python.formatting.provider": "yapf"
+}
