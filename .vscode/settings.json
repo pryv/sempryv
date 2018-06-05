@@ -7,12 +7,15 @@
     "cSpell.words": [
         "LOINC",
         "Pryv",
+        "Pryv",
         "SNOMEDCT",
         "SNOWEDCT",
+        "Vuetify",
         "jsonify",
         "pylint",
         "sempryv",
-        "serializable"
+        "serializable",
     ],
-    "python.formatting.provider": "yapf"
+    "python.formatting.provider": "yapf",
+    "editor.wordWrap": "off"
 }
