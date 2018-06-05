@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 """SemPryv semantic backend."""
 
+import os
 from flask import Flask
 
-from dotenv import load_dotenv
 from sempryv import api
 
 # Load `.env` file
-load_dotenv()
+if not os.environ.get('SEMPRYV_PRODUCTION'):
+    from dotenv import load_dotenv
+    load_dotenv()
 
 # Setup Flask
 APP = Flask(__name__)

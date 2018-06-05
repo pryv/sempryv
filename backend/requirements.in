@@ -1,24 +1,3 @@
-# Python interpreters and debuggers
-ipython
-ipdb
-
-# Project requirements
 flask
-gunicorn
 logzero
 requests
-python-dotenv
-
-# Python tooling
-autoflake
-autopep8
-flake8
-isort
-mypy
-pep257
-pip-tools
-pre-commit
-pylint
-rope
-safety
-yapf

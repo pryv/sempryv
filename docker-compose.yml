@@ -20,4 +20,6 @@ services:
     build:
      context: ./
      dockerfile: ./containers/backend/Dockerfile
+    environment:
+      - SEMPRYV_PRODUCTION=true
  
