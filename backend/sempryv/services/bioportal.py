@@ -26,6 +26,9 @@ def _search(term: str, **parameters: Any) -> Dict:
         # If it is a list, separated values by a comma
         if isinstance(v, list):
             value = ",".join(v)
+        # If it is a bool, put it lowercase
+        elif isinstance(v, bool):
+            value = str(v).lower()
         # Otherwise use the string representation
         else:
             value = str(v)
@@ -33,13 +36,9 @@ def _search(term: str, **parameters: Any) -> Dict:
         search_url += "&{}={}".format(quote(k), quote(value))
     # Do the request
     req = requests.get(search_url, headers={**_auth()})
+    print(search_url)
     # Return the result as a dictionary
     return req.json()
-
-
-def _code_from_id(uri):
-    """Extract and return a semantic code from its uri."""
-    return uri.split('/')[-1]
 
 
 def _system_from_id(uri):
@@ -56,7 +55,7 @@ def _to_semantic(entry):
     """Transform a bioportal entry to a semantic class."""
     result = SemanticClass(
         system=_system_from_id(entry['@id']),
-        code=_code_from_id(entry['@id']),
+        code=entry['notation'],
         title=entry['prefLabel'],
     )
     return result
@@ -64,5 +63,8 @@ def _to_semantic(entry):
 
 def suggest(term: str) -> List[SemanticClass]:
     """Suggest semantic classes from a given term."""
-    responses = _search(term, ontologies=['SNOMEDCT', 'LOINC'])
+    responses = _search(
+        term,
+        ontologies=['SNOMEDCT', 'LOINC'],
+        include=['notation', 'prefLabel'])
     return [_to_semantic(v) for v in responses['collection']]
