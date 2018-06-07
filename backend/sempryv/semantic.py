@@ -3,7 +3,7 @@
 
 
 # pylint: disable=too-few-public-methods
-class SemanticClass():
+class SemanticClass:
     """A semantic class."""
 
     def __init__(self, system, code, title):

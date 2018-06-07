@@ -14,7 +14,7 @@ BIOPORTAL_API_URL = "http://data.bioontology.org"
 def _auth() -> Dict:
     """Return the authorization headers for accessing the Bioportal API."""
     token = "apikey token={}"
-    return {'Authorization': token.format(os.environ.get('BIOPORTAL_API_KEY'))}
+    return {"Authorization": token.format(os.environ.get("BIOPORTAL_API_KEY"))}
 
 
 def _search(term: str, **parameters: Any) -> Dict:
@@ -43,20 +43,20 @@ def _search(term: str, **parameters: Any) -> Dict:
 
 def _system_from_id(uri):
     """Extract and return a semantic system from its uri."""
-    parts = uri.split('/')
-    if parts[-2] == 'LNC':
-        return 'LOINC'
-    if parts[-2] == 'SNOMEDCT':
-        return 'SNOMEDCT'
-    return 'NONE'
+    parts = uri.split("/")
+    if parts[-2] == "LNC":
+        return "LOINC"
+    if parts[-2] == "SNOMEDCT":
+        return "SNOMEDCT"
+    return "NONE"
 
 
 def _to_semantic(entry):
     """Transform a bioportal entry to a semantic class."""
     result = SemanticClass(
-        system=_system_from_id(entry['@id']),
-        code=entry['notation'],
-        title=entry['prefLabel'],
+        system=_system_from_id(entry["@id"]),
+        code=entry["notation"],
+        title=entry["prefLabel"],
     )
     return result
 
@@ -64,7 +64,6 @@ def _to_semantic(entry):
 def suggest(term: str) -> List[SemanticClass]:
     """Suggest semantic classes from a given term."""
     responses = _search(
-        term,
-        ontologies=['SNOMEDCT', 'LOINC'],
-        include=['notation', 'prefLabel'])
-    return [_to_semantic(v) for v in responses['collection']]
+        term, ontologies=["SNOMEDCT", "LOINC"], include=["notation", "prefLabel"]
+    )
+    return [_to_semantic(v) for v in responses["collection"]]
