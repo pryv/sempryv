@@ -1,25 +1,34 @@
 <template>
-  <v-app id="app" fixed app>
+  <v-app 
+    id="app" 
+    fixed 
+    app>
     <infoDrawer
-      ref="infoDrawer"
-      v-if="authenticated"></infoDrawer>
+      v-if="authenticated"
+      ref="infoDrawer"/>
     <MainDrawer
-      ref="mainDrawer"
-      v-if="authenticated"></MainDrawer>
-    <v-toolbar color="primary" dark fixed clipped-left clipped-right app>
+      v-if="authenticated"
+      ref="mainDrawer"/>
+    <v-toolbar 
+      color="primary" 
+      dark 
+      fixed 
+      clipped-left 
+      clipped-right 
+      app>
       <v-toolbar-side-icon
-        @click="$refs.mainDrawer.toggle()"></v-toolbar-side-icon>
+        @click="$refs.mainDrawer.toggle()"/>
       <v-toolbar-title>SemPryv</v-toolbar-title>
-      <v-spacer></v-spacer>
+      <v-spacer/>
       <v-toolbar-items>
         <v-menu offset-y>
           <v-btn
-            flat
             slot="activator"
+            flat
             dark>
             {{ get_lang() }}
             <v-icon>arrow_drop_down</v-icon>
-            </v-btn>
+          </v-btn>
           <v-list >
             <v-list-tile @click="set_lang('en')">
               <v-list-tile-title>EN</v-list-tile-title>
@@ -30,10 +39,10 @@
           </v-list>
         </v-menu>
         <v-btn
-          flat
           v-if="authenticated"
+          flat
           @click.stop="$refs.infoDrawer.toggle()">
-          <v-icon>account_circle</v-icon>&nbsp;{{username}}</v-btn>
+        <v-icon>account_circle</v-icon>&nbsp;{{ username }}</v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <v-content>

@@ -1,17 +1,27 @@
 <template>
-  <v-container fluid grid-list-lg>
-    <v-layout row wrap>
+  <v-container 
+    fluid 
+    grid-list-lg>
+    <v-layout 
+      row 
+      wrap>
       <v-flex xs12>
         <v-card>
           <v-toolbar
             :style="{ backgroundColor: clientDataColor(stream) }"
             dark>
-            <v-toolbar-title>{{stream.name}}</v-toolbar-title>
+            <v-toolbar-title>{{ stream.name }}</v-toolbar-title>
           </v-toolbar>
-          <v-container fluid grid-list-xs>
-            <v-layout row wrap>
-              <v-flex d-flex xs9>
-                <semantic v-model="stream.id"></semantic>
+          <v-container 
+            fluid 
+            grid-list-xs>
+            <v-layout 
+              row 
+              wrap>
+              <v-flex 
+                d-flex 
+                xs9>
+                <semantic v-model="stream.id"/>
               </v-flex>
               <v-flex
                 d-flex
@@ -29,10 +39,10 @@
                       <v-icon>arrow_upward</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                      {{parent.id}}
+                      {{ parent.id }}
                     </v-list-tile-content>
                   </v-list-tile>
-                  <v-divider v-if="parent && children.length > 0"></v-divider>
+                  <v-divider v-if="parent && children.length > 0"/>
                   <v-list-tile
                     v-for="child in children"
                     :key="child.id"
@@ -64,22 +74,28 @@
                       {{ $t('Client data') }}
                     </v-list-tile-title>
                   </v-list-tile>
-                  <pre class="stream-details">{{JSON.stringify(stream.clientData, null, 4)}}</pre>
+                  <pre class="stream-details">{{ JSON.stringify(stream.clientData, null, 4) }}</pre>
                 </v-list>
               </v-flex>
             </v-layout>
           </v-container>
         </v-card>
       </v-flex>
-      <v-flex xs12
-        v-if="events.length > 0">
+      <v-flex 
+        v-if="events.length > 0"
+        xs12>
         <v-card>
-          <v-toolbar card height="40" dense
-            :style="{ color: clientDataColor(stream) }">
+          <v-toolbar 
+            :style="{ color: clientDataColor(stream) }" 
+            card 
+            height="40"
+            dense>
             <v-toolbar-title> {{ $t('Events') }}</v-toolbar-title>
           </v-toolbar>
           <v-list two-line>
-            <div v-for="(event, index) in events" :key="index">
+            <div 
+              v-for="(event, index) in events" 
+              :key="index">
               {{ event.content }} || {{ event.id }} || {{ event.trashed }}
             </div>
           </v-list>

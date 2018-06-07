@@ -1,9 +1,12 @@
 <template>
-  <v-container fill-height fluid v-if="stream">
+  <v-container 
+    v-if="stream" 
+    fill-height 
+    fluid>
     <v-layout>
       <v-flex>
         <h2>{{ $t('Semantic annotations') }}</h2>
-        <p>{{stream.id}}</p>
+        <p>{{ stream.id }}</p>
       </v-flex>
     </v-layout>
   </v-container>
@@ -13,7 +16,12 @@
 import auth from "@/auth";
 
 export default {
-  props: ["value"],
+  props: {
+    value: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       stream: null

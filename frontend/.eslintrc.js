@@ -1,7 +1,9 @@
 module.exports = {
   root: true,
-  'extends': [
-    'plugin:vue/essential',
-    '@vue/prettier'
+  extends: [
+    "plugin:vue/essential",
+    "plugin:vue/strongly-recommended",
+    "plugin:vue/recommended",
+    "@vue/prettier",
   ]
-}
+};

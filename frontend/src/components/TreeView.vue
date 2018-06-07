@@ -1,8 +1,9 @@
 <template>
   <v-list>
     <div
-      :style="{ paddingLeft: indentation }"
-      v-for="stream in value" :key="stream.name">
+      v-for="stream in value"
+      :style="{ paddingLeft: indentation }" 
+      :key="stream.name">
       <v-list-tile
         v-if="stream.children.length == 0"
         :to="{name:'stream', params:{id: stream.id}}">
@@ -14,7 +15,7 @@
           </v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          {{stream.name}}
+          {{ stream.name }}
         </v-list-tile-content>
       </v-list-tile>
       <v-list-group
@@ -25,19 +26,19 @@
           @click.native.stop>
           <v-list-tile-action>
             <v-icon
-              size="18"
               :style="{ color: clientDataColor(stream) }"
+              size="18"
               left>
               mdi-checkbox-multiple-blank-circle
             </v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            {{stream.name}}
+            {{ stream.name }}
           </v-list-tile-content>
         </v-list-tile>
         <treeview
-        v-model="stream.children"
-        :level="level + 1"></treeview>
+          v-model="stream.children"
+          :level="level + 1"/>
       </v-list-group>
     </div>
   </v-list>
@@ -45,8 +46,17 @@
 
 <script>
 export default {
-  name: "treeview",
-  props: ["value", "level"],
+  name: "Treeview",
+  props: {
+    value: {
+      type: Object,
+      required: true
+    },
+    level: {
+      type: Number,
+      required: true
+    }
+  },
   computed: {
     indentation() {
       return this.level * 10 + "px";
