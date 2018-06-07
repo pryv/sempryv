@@ -18,16 +18,18 @@ export default {
   signOut() {
     pryv.Auth.logout();
   },
-  login(username, token) {
+  login(domain, username, token) {
+    localStorage.setItem("domain", domain);
     localStorage.setItem("username", username);
     localStorage.setItem("token", token);
   },
   logout() {
+    localStorage.removeItem("domain");
     localStorage.removeItem("username");
     localStorage.removeItem("token");
   },
-  pryvSetup(callback, error) {
-    var pryvDomain = "pryv.me";
+  pryvSetup(domain, callback, error) {
+    var pryvDomain = domain;
     var requestedPermissions = [
       {
         streamId: "*",
@@ -53,12 +55,14 @@ export default {
   },
   connection() {
     return new pryv.Connection({
+      domain: localStorage.domain,
       username: localStorage.username,
       auth: localStorage.token
     });
   },
   pryvCredentials() {
     return {
+      domain: pryv.Auth.connection.domain,
       username: pryv.Auth.connection.username,
       token: pryv.Auth.connection.auth
     };

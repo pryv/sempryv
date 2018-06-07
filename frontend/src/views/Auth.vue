@@ -1,49 +1,57 @@
 <template>
-  <v-container 
-    fluid 
+  <v-container
+    fluid
     fill-height>
-    <v-layout 
-      align-center 
+    <v-layout
+      align-center
       justify-center>
-      <v-flex 
-        sm12 
+      <v-flex
+        sm12
         md8>
         <v-card>
-          <v-toolbar 
-            color="primary" 
+          <v-toolbar
+            color="primary"
             dark>
             <v-toolbar-title>{{ $t('Authentication required') }}</v-toolbar-title>
             <v-spacer/>
-            <v-btn 
-              v-if="!pryvSignedin" 
+            <v-btn
+              v-if="!pryvSignedin"
               color="pryv"
               dark
               @click="pryvSignIn()">
               <img src="../assets/logo-pryv.png">&nbsp;
-              {{ $t('Pryv Sign In') }}
-              <v-icon 
-                right 
+              {{ $t('Sign In @{domain}', {domain: domain}) }}
+              <v-icon
+                right
                 dark>person</v-icon>
             </v-btn>
-            <v-btn 
-              v-if="pryvSignedin" 
+            <v-btn
+              v-if="pryvSignedin"
               color="pryv"
               dark
               @click="pryvSignOut()">
               <img src="../assets/logo-pryv.png">&nbsp;
-              {{ $t('Sign out {username}', {username: pryvUsername}) }}
-              <v-icon 
-                right 
+              {{ $t('Sign out {username}@{domain}', {username: pryvUsername, domain: domain}) }}
+              <v-icon
+                right
                 dark>exit_to_app</v-icon>
             </v-btn>
           </v-toolbar>
           <v-card-text>
-            <v-alert 
-              v-model="alert" 
+            <v-alert
+              v-model="alert"
               :type="alertType">
               {{ alertMessage }}
             </v-alert>
             <v-form>
+              <v-select
+                :items="domains"
+                v-model="domain"
+                :label="$t('Domain')"
+                single-line
+                prepend-icon="account_balance"
+                combobox
+                @input="domainChanged()"/>
               <v-text-field
                 :label="$t('Username')"
                 v-model="username"
@@ -62,21 +70,21 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer/>
-            <v-btn 
-              v-if="pryvSignedin" 
+            <v-btn
+              v-if="pryvSignedin"
               color="pryv"
               dark
               @click="connectWithPryv()">
               <img src="../assets/logo-pryv.png">&nbsp;
               {{ $t('Connect with Pryv') }}
             </v-btn>
-            <v-btn 
-              color="primary" 
+            <v-btn
+              color="primary"
               @click="connect()">
-              <v-icon 
-                left 
+              <v-icon
+                left
                 dark>arrow_forward</v-icon>
-              {{ $t('Connect with token') }}
+              {{ $t('Connect') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -91,6 +99,8 @@ import auth from "@/auth";
 export default {
   data() {
     return {
+      domain: "",
+      domains: ["pryv.me", "pryv.li"],
       username: "",
       token: "",
       alert: false,
@@ -101,21 +111,14 @@ export default {
     };
   },
   mounted() {
-    auth.pryvSetup(
-      authData => {
-        this.pryvSignedin = true;
-        this.pryvUsername = authData.username;
-      },
-      () => {
-        this.pryvSignedin = false;
-        this.username = "";
-        this.token = "";
-      }
-    );
+    this.domain = localStorage.domain;
+    this.username = localStorage.username;
+    this.token = localStorage.token;
+    this.setup(this.domain);
   },
   methods: {
     connect() {
-      auth.login(this.username, this.token);
+      auth.login(this.domain, this.username, this.token);
       auth.isConnected(
         () => {
           this.alertType = "success";
@@ -129,6 +132,24 @@ export default {
           this.alertType = "error";
           this.alertMessage = this.$t("Authentication failed");
           this.alert = true;
+        }
+      );
+    },
+    domainChanged() {
+      this.setup(this.domain);
+      this.resetAlert();
+    },
+    setup(domain) {
+      auth.pryvSetup(
+        domain,
+        authData => {
+          this.pryvSignedin = true;
+          this.pryvUsername = authData.username;
+        },
+        () => {
+          this.pryvSignedin = false;
+          this.username = "";
+          this.token = "";
         }
       );
     },

@@ -1,7 +1,7 @@
 <template>
-  <v-app 
-    id="app" 
-    fixed 
+  <v-app
+    id="app"
+    fixed
     app>
     <infoDrawer
       v-if="authenticated"
@@ -9,12 +9,12 @@
     <MainDrawer
       v-if="authenticated"
       ref="mainDrawer"/>
-    <v-toolbar 
-      color="primary" 
-      dark 
-      fixed 
-      clipped-left 
-      clipped-right 
+    <v-toolbar
+      color="primary"
+      dark
+      fixed
+      clipped-left
+      clipped-right
       app>
       <v-toolbar-side-icon
         @click="$refs.mainDrawer.toggle()"/>
@@ -42,7 +42,7 @@
           v-if="authenticated"
           flat
           @click.stop="$refs.infoDrawer.toggle()">
-        <v-icon>account_circle</v-icon>&nbsp;{{ username }}</v-btn>
+        <v-icon>account_circle</v-icon>&nbsp;{{ username }} @ {{ domain }}</v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <v-content>
@@ -65,6 +65,9 @@ export default {
     authenticated: false
   }),
   computed: {
+    domain: function() {
+      return localStorage.getItem("domain");
+    },
     username: function() {
       return localStorage.getItem("username");
     }

@@ -10,10 +10,10 @@
     "Metadata": "Metadata",
     "Welcome to SemPryv": "Welcome to SemPryv",
     "Authentication required": "Authentication required",
-    "Pryv Sign In": "Pryv Sign In",
+    "Sign In @{domain}": "Sign In @{domain}",
     "Use Pryv": "Use Pryv",
-    "Sign out {username}": "Sign out {username}",
-    "Connect with token": "Connect with token",
+    "Sign out {username}@{domain}": "Sign out {username}@{domain}",
+    "Connect": "Connect",
     "Connect with Pryv": "Connect with Pryv",
     "Authentication successful": "Authentication successful",
     "Authentication failed": "Authentication failed",
@@ -24,5 +24,6 @@
     "Navigation": "Navigation",
     "Stream info": "Stream info",
     "Semantic annotations": "Semantic annotations",
-    "Events": "Events"
+    "Events": "Events",
+    "Domain": "Domain"
 }
