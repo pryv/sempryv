@@ -49,7 +49,7 @@ export default {
   name: "Treeview",
   props: {
     value: {
-      type: Object,
+      type: Array,
       required: true
     },
     level: {
