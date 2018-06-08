@@ -9,7 +9,6 @@ repos:
     - id: debug-statements
     - id: end-of-file-fixer
     - id: fix-encoding-pragma
-    - id: flake8
     - id: mixed-line-ending
     - id: trailing-whitespace
   - repo: https://github.com/pre-commit/mirrors-isort
