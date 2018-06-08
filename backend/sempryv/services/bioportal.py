@@ -36,7 +36,6 @@ def _search(term: str, **parameters: Any) -> Dict:
         search_url += "&{}={}".format(quote(k), quote(value))
     # Do the request
     req = requests.get(search_url, headers={**_auth()})
-    print(search_url)
     # Return the result as a dictionary
     return req.json()
 

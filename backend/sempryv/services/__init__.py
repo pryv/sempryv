@@ -16,7 +16,6 @@ def _services():
 
 def _load(module):
     """Load a module from its name."""
-    print(module)
     return import_module("{}.{}".format(__name__, module))
 
 
