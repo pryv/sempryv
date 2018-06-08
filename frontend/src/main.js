@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuetify from "vuetify";
+import VueResource from "vue-resource";
 import App from "./App.vue";
 import router from "./router";
 import { i18n, momentLocales } from "./language";
@@ -14,6 +15,7 @@ Vue.use(Vuetify, {
     pryv: "#B61E24"
   }
 });
+Vue.use(VueResource);
 
 Vue.config.productionTip = false;
 
