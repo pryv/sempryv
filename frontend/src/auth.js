@@ -24,7 +24,6 @@ export default {
     localStorage.setItem("token", token);
   },
   logout() {
-    localStorage.removeItem("domain");
     localStorage.removeItem("username");
     localStorage.removeItem("token");
   },
