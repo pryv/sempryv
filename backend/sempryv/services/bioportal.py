@@ -6,6 +6,7 @@ from typing import Any, Dict, List
 from urllib.parse import quote
 
 import requests
+from sempryv.ontologies import loinc, snomedct
 from sempryv.semantic import SemanticClass
 
 BIOPORTAL_API_URL = "http://data.bioontology.org"
@@ -44,10 +45,10 @@ def _system_from_id(uri):
     """Extract and return a semantic system from its uri."""
     parts = uri.split("/")
     if parts[-2] == "LNC":
-        return "LOINC"
+        return loinc
     if parts[-2] == "SNOMEDCT":
-        return "SNOMEDCT"
-    return "NONE"
+        return snomedct
+    raise ValueError("Unknown system")
 
 
 def _to_semantic(entry):
@@ -55,7 +56,7 @@ def _to_semantic(entry):
     result = SemanticClass(
         system=_system_from_id(entry["@id"]),
         code=entry["notation"],
-        title=entry["prefLabel"],
+        names=[entry["prefLabel"], *entry["synonym"]],
     )
     return result
 
@@ -63,6 +64,12 @@ def _to_semantic(entry):
 def suggest(term: str) -> List[SemanticClass]:
     """Suggest semantic classes from a given term."""
     responses = _search(
-        term, ontologies=["SNOMEDCT", "LOINC"], include=["notation", "prefLabel"]
+        term,
+        ontologies=["SNOMEDCT", "LOINC"],
+        include=["notation", "prefLabel", "synonym"],
+        pagesize=50,
+        display_context=False,
+        display_links=False,
     )
-    return [_to_semantic(v) for v in responses["collection"]]
+    results = [r for r in responses["collection"] if "synonym" in r]
+    return [_to_semantic(v) for v in results]
