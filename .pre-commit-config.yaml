@@ -32,7 +32,7 @@ repos:
     hooks:
     - id: pylint
       name: pylint
-      entry: pylint
-      language: python
+      entry: ./backend/venv/bin/pylint
+      language: system
       files: \.py$
       args: []
