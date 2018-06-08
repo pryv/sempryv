@@ -3,12 +3,12 @@
     <v-toolbar
       dark
       color="primary">
-      <v-toolbar-title>Add code</v-toolbar-title>
+      <v-toolbar-title>{{ $t('Add code') }}</v-toolbar-title>
       <v-spacer/>
       <v-btn
         icon
         dark
-        @click.native="$emit('close')">
+        @click.native="close()">
         <v-icon>close</v-icon>
       </v-btn>
     </v-toolbar>
@@ -21,14 +21,15 @@
             <h2>{{ $t('Semantic annotations') }}</h2>
             <v-text-field
               v-model="search"
-              label="Semantic code"
+              :label="$t('Search')"
               clearable
             />
-            <div
+            <v-btn
               v-for="(item, index) in items"
-              :key="index">
-              <div>{{ item }}</div>
-            </div>
+              :key="index"
+              @click="add(item)">
+              <div>{{ item.display }}</div>
+            </v-btn>
           </v-flex>
         </v-layout>
       </v-container>
@@ -72,8 +73,20 @@ export default {
       this.$http
         .get("http://localhost:8000/api/search?term=" + val)
         .then(response => {
-          this.items = response.body.map(entry => entry.display);
+          this.items = response.body;
         });
+    },
+    reset() {
+      clearTimeout(self.timer);
+      this.search = "";
+    },
+    close() {
+      this.reset();
+      this.$emit("close");
+    },
+    add(item) {
+      this.reset();
+      this.$emit("add", item);
     }
   }
 };

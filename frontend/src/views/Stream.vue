@@ -21,7 +21,10 @@
               <v-flex
                 d-flex
                 xs9>
-                <semantic v-model="stream.id"/>
+                <semantic
+                  v-model="stream.id"
+                  @updated="refreshStream()"
+                />
               </v-flex>
               <v-flex
                 d-flex
@@ -139,7 +142,7 @@ export default {
     }
   },
   mounted() {
-    this.getStream(this.$route.params.id);
+    this.refreshStream();
   },
   beforeRouteUpdate(to, from, next) {
     this.getStream(to.params.id);
@@ -162,6 +165,9 @@ export default {
           vm.events = events;
         });
       });
+    },
+    refreshStream() {
+      this.getStream(this.$route.params.id);
     },
     clientDataColor(stream) {
       if (stream.clientData) {

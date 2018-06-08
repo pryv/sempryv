@@ -3,21 +3,36 @@
     v-if="stream"
     fill-height
     fluid>
-    <v-layout>
-      <v-flex>
+    <v-layout
+      row
+      wrap>
+      <v-flex xs12>
         <h2>{{ $t('Semantic annotations') }}</h2>
-        <p>{{ stream.id }}</p>
+        <v-spacer/>
+        <v-btn
+          color="primary"
+          @click="addDialog = true">
+          Add
+        </v-btn>
       </v-flex>
-      <v-btn
-        color="primary"
-        @click="addDialog = true">
-        Add
-      </v-btn>
-    </v-layout>
+      <v-flex
+        v-if="stream.clientData && stream.clientData.sempryv && stream.clientData.sempryv.codes"
+        xs12>
+        <v-btn
+          v-for="(item, index) in stream.clientData.sempryv.codes"
+          :key="index"
+          @click="del(index)">
+          {{ item.display }}
+        </v-btn>
+      </v-flexxs12>
+    </v-flex></v-layout>
     <v-dialog
       v-model="addDialog"
+      persistent
       max-width="50%">
-      <AddCode @close="addDialog = false"/>
+      <AddCode
+        @close="addDialog = false"
+        @add="add"/>
     </v-dialog>
   </v-container>
 </template>
@@ -57,6 +72,39 @@ export default {
         vm.stream = streams.filter(stream => {
           return stream.id == streamId;
         })[0];
+      });
+    },
+    closeDialog() {
+      this.addDialog = false;
+    },
+    add(item) {
+      if (!this.stream.clientData) {
+        this.stream.clientData = {};
+      }
+      if (!this.stream.clientData.sempryv) {
+        this.stream.clientData.sempryv = {};
+      }
+      if (!this.stream.clientData.sempryv.codes) {
+        this.stream.clientData.sempryv.codes = [];
+      }
+      this.stream.clientData["sempryv"]["codes"].push(item);
+      var conn = auth.connection();
+      var vm = this;
+      conn.streams.update(this.stream, function(err, streamUpdated) {
+        if (err == null) {
+          vm.closeDialog();
+          vm.$emit("updated");
+        }
+      });
+    },
+    del(index) {
+      this.stream.clientData.sempryv.codes.splice(index, 1);
+      var conn = auth.connection();
+      var vm = this;
+      conn.streams.update(this.stream, function(err, streamUpdated) {
+        if (err == null) {
+          vm.$emit("updated");
+        }
       });
     }
   }
