@@ -1,25 +1,25 @@
 <template>
-  <v-container 
-    fluid 
+  <v-container
+    fluid
     grid-list-lg>
-    <v-layout 
-      row 
+    <v-layout
+      row
       wrap>
       <v-flex xs12>
-        <v-card>
+        <v-card v-if="stream">
           <v-toolbar
             :style="{ backgroundColor: clientDataColor(stream) }"
             dark>
             <v-toolbar-title>{{ stream.name }}</v-toolbar-title>
           </v-toolbar>
-          <v-container 
-            fluid 
+          <v-container
+            fluid
             grid-list-xs>
-            <v-layout 
-              row 
+            <v-layout
+              row
               wrap>
-              <v-flex 
-                d-flex 
+              <v-flex
+                d-flex
                 xs9>
                 <semantic v-model="stream.id"/>
               </v-flex>
@@ -81,20 +81,20 @@
           </v-container>
         </v-card>
       </v-flex>
-      <v-flex 
+      <v-flex
         v-if="events.length > 0"
         xs12>
         <v-card>
-          <v-toolbar 
-            :style="{ color: clientDataColor(stream) }" 
-            card 
+          <v-toolbar
+            :style="{ color: clientDataColor(stream) }"
+            card
             height="40"
             dense>
             <v-toolbar-title> {{ $t('Events') }}</v-toolbar-title>
           </v-toolbar>
           <v-list two-line>
-            <div 
-              v-for="(event, index) in events" 
+            <div
+              v-for="(event, index) in events"
               :key="index">
               {{ event.content }} || {{ event.id }} || {{ event.trashed }}
             </div>
@@ -115,7 +115,7 @@ export default {
   },
   data() {
     return {
-      stream: "",
+      stream: null,
       events: [],
       streams: []
     };

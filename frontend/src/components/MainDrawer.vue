@@ -1,12 +1,12 @@
 <template>
-  <v-navigation-drawer 
-    v-model="drawer" 
-    fixed 
-    clipped 
+  <v-navigation-drawer
+    v-model="drawer"
+    fixed
+    clipped
     app>
     <v-list subheader>
-      <v-list-tile 
-        :to="{name: 'home'}" 
+      <v-list-tile
+        :to="{name: 'home'}"
         exact>
         <v-list-tile-action>
           <v-icon>home</v-icon>
@@ -14,8 +14,8 @@
         <v-list-tile-content>{{ $t('Home') }}</v-list-tile-content>
       </v-list-tile>
       <v-divider/>
-      <TreeView 
-        v-model="streams" 
+      <TreeView
+        v-model="streams"
         :level="0"/>
     </v-list>
   </v-navigation-drawer>
@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       drawer: true,
-      streams: ""
+      streams: []
     };
   },
   computed: {
