@@ -1,21 +1,35 @@
 <template>
-  <v-container 
-    v-if="stream" 
-    fill-height 
+  <v-container
+    v-if="stream"
+    fill-height
     fluid>
     <v-layout>
       <v-flex>
         <h2>{{ $t('Semantic annotations') }}</h2>
         <p>{{ stream.id }}</p>
       </v-flex>
+      <v-btn
+        color="primary"
+        @click="addDialog = true">
+        Add
+      </v-btn>
     </v-layout>
+    <v-dialog
+      v-model="addDialog"
+      max-width="50%">
+      <AddCode @close="addDialog = false"/>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
 import auth from "@/auth";
+import AddCode from "@/components/AddCode";
 
 export default {
+  components: {
+    AddCode
+  },
   props: {
     value: {
       type: String,
@@ -24,7 +38,8 @@ export default {
   },
   data() {
     return {
-      stream: null
+      stream: null,
+      addDialog: false
     };
   },
   watch: {
