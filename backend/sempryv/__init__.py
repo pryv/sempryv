@@ -3,6 +3,8 @@
 
 import os
 from flask import Flask
+from flask_cors import CORS
+
 
 from sempryv import api
 
@@ -14,4 +16,5 @@ if not os.environ.get("SEMPRYV_PRODUCTION"):
 
 # Setup Flask
 APP = Flask(__name__)
+CORS(APP)
 APP.register_blueprint(api.BP, url_prefix="/api")
