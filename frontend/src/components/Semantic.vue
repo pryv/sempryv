@@ -18,14 +18,22 @@
       <v-flex
         v-if="stream.clientData && stream.clientData.sempryv && stream.clientData.sempryv.codes"
         xs12>
-        <v-btn
-          v-for="(item, index) in stream.clientData.sempryv.codes"
-          :key="index"
-          @click="del(index)">
-          {{ item.display }}
-        </v-btn>
-      </v-flexxs12>
-    </v-flex></v-layout>
+        <v-list>
+          <v-list-tile
+            v-for="(item, index) in stream.clientData.sempryv.codes"
+            :key="index">
+            <v-list-tile-content>
+              {{ item.display }}
+            </v-list-tile-content>
+            <v-list-tile-action @click="del(index)">
+              <v-btn icon>
+                <v-icon color="red lighten-1">delete</v-icon>
+              </v-btn>
+            </v-list-tile-action>
+          </v-list-tile>
+        </v-list>
+      </v-flex>
+    </v-layout>
     <v-dialog
       v-model="addDialog"
       persistent

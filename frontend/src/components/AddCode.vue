@@ -24,23 +24,27 @@
               :label="$t('Search')"
               clearable
             />
-            <v-btn
-              v-for="(item, index) in items"
-              :key="index"
-              @click="add(item)">
-              <div>{{ item.display }}</div>
-            </v-btn>
+            <v-list>
+              <v-list-tile
+                v-for="(item, index) in items"
+                :key="index"
+                @click="add(item)">
+                <v-list-tile-content>
+                  {{ item.display }}
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
           </v-flex>
         </v-layout>
       </v-container>
     </v-card-text>
-    <v-card-actions>
+    <!-- <v-card-actions>
       <v-spacer/>
       <v-btn
         color="primary"
         flat
         @click.stop="add()">Add</v-btn>
-    </v-card-actions>
+    </v-card-actions> -->
   </v-card>
 </template>
 
