@@ -20,6 +20,7 @@
           <v-flex>
             <h2>{{ $t('Semantic annotations') }}</h2>
             <v-text-field
+              ref="search"
               v-model="search"
               :label="$t('Search')"
               clearable
@@ -69,6 +70,9 @@ export default {
     }
   },
   methods: {
+    focus() {
+      this.$nextTick(this.$refs.search.focus);
+    },
     query(val) {
       if (val == null || val == "") {
         this.items = [];

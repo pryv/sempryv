@@ -37,6 +37,7 @@
       persistent
       max-width="50%">
       <AddCode
+        ref="addDialog"
         @close="addDialog = false"
         @add="add"/>
     </v-dialog>
@@ -66,6 +67,9 @@ export default {
   watch: {
     value() {
       this.getStream(this.$route.params.id);
+    },
+    addDialog(val) {
+      if (val) this.$refs.addDialog.focus();
     }
   },
   mounted() {
