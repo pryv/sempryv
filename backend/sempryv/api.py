@@ -5,7 +5,7 @@ from flask import Blueprint, jsonify, request
 from sempryv import services
 
 # Flask blueprint
-BP = Blueprint("sempryv", __name__)
+BP: Blueprint = Blueprint("sempryv", __name__)
 
 
 @BP.route("search", methods=["GET"])
