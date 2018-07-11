@@ -1,8 +1,6 @@
 <template>
   <v-container
-    v-if="stream"
-    fill-height
-    fluid>
+    v-if="stream">
     <v-layout
       row
       wrap>
@@ -69,6 +67,9 @@ export default {
     value() {
       this.getStream(this.$route.params.id);
     }
+  },
+  mounted() {
+    this.getStream(this.$route.params.id);
   },
   methods: {
     getStream(streamId) {

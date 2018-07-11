@@ -19,7 +19,6 @@
               row
               wrap>
               <v-flex
-                d-flex
                 xs9>
                 <semantic
                   v-model="stream.id"
