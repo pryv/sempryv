@@ -99,7 +99,7 @@ export default {
       this.stream.clientData["sempryv"]["codes"].push(item);
       var conn = auth.connection();
       var vm = this;
-      conn.streams.update(this.stream, function(err, streamUpdated) {
+      conn.streams.update(this.stream, function(err) {
         if (err == null) {
           vm.closeDialog();
           vm.$emit("updated");
@@ -110,7 +110,7 @@ export default {
       this.stream.clientData.sempryv.codes.splice(index, 1);
       var conn = auth.connection();
       var vm = this;
-      conn.streams.update(this.stream, function(err, streamUpdated) {
+      conn.streams.update(this.stream, function(err) {
         if (err == null) {
           vm.$emit("updated");
         }
