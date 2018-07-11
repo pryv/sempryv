@@ -26,14 +26,25 @@
               clearable
             />
             <v-list>
-              <v-list-tile
-                v-for="(item, index) in items"
-                :key="index"
-                @click="add(item)">
-                <v-list-tile-content>
-                  {{ item.display }}
-                </v-list-tile-content>
-              </v-list-tile>
+              <v-divider/>
+              <template v-for="(item, index) in items">
+                <v-list-tile :key="index">
+                  <v-list-tile-content>
+                    <v-list-tile-title>{{ item.display }}</v-list-tile-title>
+                    <v-list-tile-sub-title>
+                      <span class="system">{{ item.system_name }}</span> | {{ item.code }}
+                    </v-list-tile-sub-title>
+                  </v-list-tile-content>
+                  <v-list-tile-action @click="del(index)">
+                    <v-btn icon>
+                      <v-icon color="red lighten-1">delete</v-icon>
+                    </v-btn>
+                  </v-list-tile-action>
+                </v-list-tile>
+                <v-divider
+                  :inset="item.inset"
+                  :key="index"/>
+              </template>
             </v-list>
           </v-flex>
         </v-layout>
