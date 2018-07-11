@@ -187,5 +187,9 @@ export default {
   color: rgba(0, 0, 0, 0.54);
   padding-right: 16px;
   padding-left: 16px;
+  max-height: 300px;
+  max-width: 300px;
+  overflow-y: auto;
+  overflow-x: auto;
 }
 </style>
