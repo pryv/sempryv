@@ -5,5 +5,8 @@ module.exports = {
     "plugin:vue/strongly-recommended",
     "plugin:vue/recommended",
     "@vue/prettier",
-  ]
+  ],
+  globals: {
+    "process": false
+  }
 };
