@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Auth from "./views/Auth.vue";
 import Home from "./views/Home.vue";
 import Stream from "./views/Stream.vue";
+import Event from "./views/Event.vue";
 
 Vue.use(Router);
 
@@ -23,6 +24,11 @@ export default new Router({
       path: "/:lang/streams/:id",
       name: "stream",
       component: Stream
+    },
+    {
+      path: "/:lang/events/:id",
+      name: "event",
+      component: Event
     },
     {
       path: "*",

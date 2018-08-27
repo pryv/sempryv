@@ -40,20 +40,13 @@
                 </v-list-tile>
                 <v-divider
                   :inset="item.inset"
-                  :key="index"/>
+                  :key="index + 'divider'"/>
               </template>
             </v-list>
           </v-flex>
         </v-layout>
       </v-container>
     </v-card-text>
-    <!-- <v-card-actions>
-      <v-spacer/>
-      <v-btn
-        color="primary"
-        flat
-        @click.stop="add()">Add</v-btn>
-    </v-card-actions> -->
   </v-card>
 </template>
 

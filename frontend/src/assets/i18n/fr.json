@@ -23,9 +23,12 @@
     "Client data": "Données client",
     "Navigation": "Navigation",
     "Stream info": "Informations sur le flux",
+    "Event info": "Information sur l'évènement",
     "Semantic annotations": "Annotations sémantiques",
     "Events": "Évènements",
     "Domain": "Domaine",
     "Add code": "Ajouter un code",
-    "Search": "Recherche"
+    "Search": "Recherche",
+    "Time": "Heure",
+    "Content": "Contenu"
 }

@@ -1,6 +1,6 @@
 <template>
   <v-container
-    v-if="stream">
+    v-if="object">
     <v-layout
       row
       wrap>
@@ -14,11 +14,11 @@
         </v-btn>
       </v-flex>
       <v-flex
-        v-if="stream.clientData && stream.clientData.sempryv && stream.clientData.sempryv.codes"
+        v-if="object.clientData && object.clientData.sempryv && object.clientData.sempryv.codes"
         xs12>
         <v-list>
           <v-divider/>
-          <template v-for="(item, index) in stream.clientData.sempryv.codes">
+          <template v-for="(item, index) in object.clientData.sempryv.codes">
             <v-list-tile :key="index">
               <v-list-tile-content>
                 <v-list-tile-title>{{ item.display }}</v-list-tile-title>
@@ -34,7 +34,7 @@
             </v-list-tile>
             <v-divider
               :inset="item.inset"
-              :key="index"/>
+              :key="index + 'divider'"/>
           </template>
         </v-list>
       </v-flex>
@@ -63,34 +63,55 @@ export default {
     value: {
       type: String,
       required: true
+    },
+    type: {
+      type: String,
+      required: true
     }
   },
   data() {
     return {
-      stream: null,
+      object: null,
       addDialog: false
     };
   },
   watch: {
     value() {
-      this.getStream(this.$route.params.id);
+      this.getObject(this.$route.params.id);
     },
     addDialog(val) {
       if (val) this.$refs.addDialog.focus();
     }
   },
   mounted() {
-    this.getStream(this.$route.params.id);
+    this.getObject(this.$route.params.id);
   },
   methods: {
+    getObject(objectId) {
+      if (this.type == "stream") {
+        return this.getStream(objectId);
+      } else if (this.type == "event") {
+        return this.getEvent(objectId);
+      }
+    },
     getStream(streamId) {
       var conn = auth.connection();
       var options = { id: streamId };
       var vm = this;
       conn.streams.getFlatenedObjects(options, function(err, streams) {
         vm.streams = streams;
-        vm.stream = streams.filter(stream => {
+        vm.object = streams.filter(stream => {
           return stream.id == streamId;
+        })[0];
+      });
+    },
+    getEvent(eventId) {
+      var conn = auth.connection();
+      var filter = {};
+      var vm = this;
+      conn.events.get(filter, function(err, events) {
+        vm.object = events.filter(event => {
+          return event.id == eventId;
         })[0];
       });
     },
@@ -98,19 +119,36 @@ export default {
       this.addDialog = false;
     },
     add(item) {
-      if (!this.stream.clientData) {
-        this.stream.clientData = {};
+      if (!this.object.clientData) {
+        this.object.clientData = {};
       }
-      if (!this.stream.clientData.sempryv) {
-        this.stream.clientData.sempryv = {};
+      if (!this.object.clientData.sempryv) {
+        this.object.clientData.sempryv = {};
       }
-      if (!this.stream.clientData.sempryv.codes) {
-        this.stream.clientData.sempryv.codes = [];
+      if (!this.object.clientData.sempryv.codes) {
+        this.object.clientData.sempryv.codes = [];
       }
-      this.stream.clientData["sempryv"]["codes"].push(item);
+      this.object.clientData["sempryv"]["codes"].push(item);
+      if (this.type == "stream") {
+        return this.updateStream();
+      } else if (this.type == "event") {
+        return this.updateEvent();
+      }
+    },
+    updateStream() {
       var conn = auth.connection();
       var vm = this;
-      conn.streams.update(this.stream, function(err) {
+      conn.streams.update(this.object, function(err) {
+        if (err == null) {
+          vm.closeDialog();
+          vm.$emit("updated");
+        }
+      });
+    },
+    updateEvent() {
+      var conn = auth.connection();
+      var vm = this;
+      conn.events.update(this.object, function(err) {
         if (err == null) {
           vm.closeDialog();
           vm.$emit("updated");
@@ -118,10 +156,26 @@ export default {
       });
     },
     del(index) {
-      this.stream.clientData.sempryv.codes.splice(index, 1);
+      this.object.clientData.sempryv.codes.splice(index, 1);
+      if (this.type == "stream") {
+        return this.delFromStream();
+      } else if (this.type == "event") {
+        return this.delFromEvent();
+      }
+    },
+    delFromStream() {
       var conn = auth.connection();
       var vm = this;
-      conn.streams.update(this.stream, function(err) {
+      conn.streams.update(this.object, function(err) {
+        if (err == null) {
+          vm.$emit("updated");
+        }
+      });
+    },
+    delFromEvent() {
+      var conn = auth.connection();
+      var vm = this;
+      conn.events.update(this.object, function(err) {
         if (err == null) {
           vm.$emit("updated");
         }

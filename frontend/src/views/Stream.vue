@@ -22,6 +22,7 @@
                 xs9>
                 <semantic
                   v-model="stream.id"
+                  type="stream"
                   @updated="refreshStream()"
                 />
               </v-flex>
@@ -94,12 +95,21 @@
             dense>
             <v-toolbar-title> {{ $t('Events') }}</v-toolbar-title>
           </v-toolbar>
-          <v-list two-line>
-            <div
-              v-for="(event, index) in events"
-              :key="index">
-              {{ event.content }} || {{ event.id }} || {{ event.trashed }}
-            </div>
+          <v-list dense>
+            <template
+              v-for="(event, index) in events">
+              <v-list-tile
+                :to="{name:'event', params:{id: event.id}}"
+                :key="index">
+                <v-list-tile-content>
+                  <v-list-tile-title>{{ event.content }}</v-list-tile-title>
+                  <v-list-tile-sub-title>
+                    {{ event.id }}
+                  </v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-divider :key="index + 'divider'"/>
+            </template>
           </v-list>
         </v-card>
       </v-flex>

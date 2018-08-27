@@ -33,6 +33,7 @@
     "SNOWEDCT",
     "Vuetify",
     "jsonify",
+    "materialdesignicons",
     "pylint",
     "sempryv",
     "serializable"

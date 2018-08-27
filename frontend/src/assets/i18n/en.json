@@ -23,9 +23,12 @@
     "Client data": "Client data",
     "Navigation": "Navigation",
     "Stream info": "Stream info",
+    "Event info": "Event info",
     "Semantic annotations": "Semantic annotations",
     "Events": "Events",
     "Domain": "Domain",
     "Add code": "Add Code",
-    "Search": "Search"
+    "Search": "Search",
+    "Time": "Time",
+    "Content": "Content"
 }
