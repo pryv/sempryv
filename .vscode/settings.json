@@ -1,16 +1,15 @@
 {
-  // VSCode
   "files.exclude": {
-    "**/__pycache__": true,
-    "venv/": true
+    "**/venv/": true,
+    "**/__pycache__/": true,
+    "**/.mypy_cache/": true,
+    "**/node_modules/": true
   },
-  // Python
   "python.pythonPath": "${workspaceFolder}/backend/venv/bin/python",
   "python.formatting.provider": "black",
   "[python]": {
     "editor.formatOnSave": true
   },
-  // Vue.js
   "prettier.eslintIntegration": true,
   "eslint.autoFixOnSave": true,
   "eslint.validate": [
@@ -24,7 +23,6 @@
   "[vue]": {
     "editor.formatOnSave": true
   },
-  // Dictionary
   "cSpell.words": [
     "LOINC",
     "Pryv",
@@ -37,5 +35,5 @@
     "pylint",
     "sempryv",
     "serializable"
-  ],
+  ]
 }
