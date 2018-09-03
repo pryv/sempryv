@@ -45,41 +45,51 @@
                   </v-list-tile>
                   <v-subheader>{{ $t('Event info') }}</v-subheader>
                   <v-list-tile>
-                    <v-list-tile-title>
-                      {{ $t('Id') }}
-                    </v-list-tile-title>
-                    <v-list-tile-sub-title>
-                      {{ event.id }}
-                    </v-list-tile-sub-title>
+                    <v-list-tile-content>
+                      <v-list-tile-title>
+                        {{ $t('Id') }}
+                      </v-list-tile-title>
+                      <v-list-tile-sub-title>
+                        {{ event.id }}
+                      </v-list-tile-sub-title>
+                    </v-list-tile-content>
                   </v-list-tile>
                   <v-list-tile>
-                    <v-list-tile-title>
-                      {{ $t('Type') }}
-                    </v-list-tile-title>
-                    <v-list-tile-sub-title>
-                      {{ event.type }}
-                    </v-list-tile-sub-title>
+                    <v-list-tile-content>
+                      <v-list-tile-title>
+                        {{ $t('Type') }}
+                      </v-list-tile-title>
+                      <v-list-tile-sub-title>
+                        {{ event.type }}
+                      </v-list-tile-sub-title>
+                    </v-list-tile-content>
                   </v-list-tile>
                   <v-list-tile>
-                    <v-list-tile-title>
-                      {{ $t('Content') }}
-                    </v-list-tile-title>
-                    <v-list-tile-sub-title>
-                      {{ event.content }}
-                    </v-list-tile-sub-title>
+                    <v-list-tile-content>
+                      <v-list-tile-title>
+                        {{ $t('Content') }}
+                      </v-list-tile-title>
+                      <v-list-tile-sub-title>
+                        {{ event.content }}
+                      </v-list-tile-sub-title>
+                    </v-list-tile-content>
                   </v-list-tile>
                   <v-list-tile>
-                    <v-list-tile-title>
-                      {{ $t('Time') }}
-                    </v-list-tile-title>
-                    <v-list-tile-sub-title>
-                      {{ formatTime(event.time) }}
-                    </v-list-tile-sub-title>
+                    <v-list-tile-content>
+                      <v-list-tile-title>
+                        {{ $t('Time') }}
+                      </v-list-tile-title>
+                      <v-list-tile-sub-title>
+                        {{ formatTime(event.time) }}
+                      </v-list-tile-sub-title>
+                    </v-list-tile-content>
                   </v-list-tile>
                   <v-list-tile>
-                    <v-list-tile-title>
-                      {{ $t('Client data') }}
-                    </v-list-tile-title>
+                    <v-list-tile-content>
+                      <v-list-tile-title>
+                        {{ $t('Client data') }}
+                      </v-list-tile-title>
+                    </v-list-tile-content>
                   </v-list-tile>
                   <pre class="event-details">{{ JSON.stringify(event.clientData, null, 4) }}</pre>
                 </v-list>
