@@ -14,29 +14,31 @@
         </v-btn>
       </v-flex>
       <v-flex
-        v-if="object.clientData && object.clientData.sempryv && object.clientData.sempryv.codes"
+        v-if="object.clientData && object.clientData['sempryv:codes']"
         xs12>
-        <v-list>
-          <v-divider/>
-          <template v-for="(item, index) in object.clientData['sempryv:codes']">
-            <v-list-tile :key="index">
-              <v-list-tile-content>
-                <v-list-tile-title>{{ item.display }}</v-list-tile-title>
-                <v-list-tile-sub-title>
-                  <span class="system">{{ item.system_name }}</span> | {{ item.code }}
-                </v-list-tile-sub-title>
-              </v-list-tile-content>
-              <v-list-tile-action @click="del(item)">
-                <v-btn icon>
-                  <v-icon color="red lighten-1">delete</v-icon>
-                </v-btn>
-              </v-list-tile-action>
-            </v-list-tile>
-            <v-divider
-              :inset="item.inset"
-              :key="index + 'divider'"/>
-          </template>
-        </v-list>
+        <template v-for="(items, type) in object.clientData['sempryv:codes']">
+          <v-list :key="type">
+            <v-subheader>{{ type }}</v-subheader>
+            <template v-for="(item, index) in items">
+              <v-list-tile :key="index">
+                <v-list-tile-content>
+                  <v-list-tile-title>{{ item.display }}</v-list-tile-title>
+                  <v-list-tile-sub-title>
+                    <span class="system">{{ item.system_name }}</span> | {{ item.code }}
+                  </v-list-tile-sub-title>
+                </v-list-tile-content>
+                <v-list-tile-action @click="del(item)">
+                  <v-btn icon>
+                    <v-icon color="red lighten-1">delete</v-icon>
+                  </v-btn>
+                </v-list-tile-action>
+              </v-list-tile>
+              <v-divider
+                :inset="item.inset"
+                :key="index + 'divider'"/>
+            </template>
+          </v-list>
+        </template>
       </v-flex>
     </v-layout>
     <v-dialog
@@ -118,7 +120,7 @@ export default {
     },
     add(item) {
       var vm = this;
-      add_code(this.object, item, function(err) {
+      add_code(this.object, "note/txt", item, function(err) {
         if (err == null) {
           vm.closeDialog();
           vm.$emit("updated");
@@ -127,9 +129,10 @@ export default {
     },
     del(item) {
       var vm = this;
-      del_code(this.object, item, function(err) {
+      del_code(this.object, "note/txt", item, function(err) {
         if (err == null) {
           vm.$emit("updated");
+          vm.getObject(this.$route.params.id);
         }
       });
     }
