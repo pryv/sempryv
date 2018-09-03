@@ -116,12 +116,9 @@ export default {
   methods: {
     getEvent(eventId) {
       var conn = auth.connection();
-      var filter = {};
       var vm = this;
-      conn.events.get(filter, function(err, events) {
-        vm.event = events.filter(event => {
-          return event.id == eventId;
-        })[0];
+      conn.events.getOne(eventId, function(err, event) {
+        vm.event = event;
       });
     },
     refreshEvent() {
