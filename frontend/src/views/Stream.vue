@@ -168,10 +168,13 @@ export default {
           return stream.id == streamId;
         })[0];
         var filter = {
-          streams: [vm.stream.id]
+          streams: [vm.stream.id],
+          limit: 0
         };
         conn.events.get(filter, function(err, events) {
-          vm.events = events;
+          vm.events = events.filter(event => {
+            return event.streamId == vm.stream.id;
+          });
         });
       });
     },
