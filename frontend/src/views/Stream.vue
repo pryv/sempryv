@@ -29,8 +29,10 @@
               <v-flex
                 d-flex
                 xs3
-                style="border-left: solid 1px gray; overflow-x: auto;">
-                <v-list dense>
+                style="border-left: solid 1px gray;">
+                <v-list
+                  dense
+                  style="max-width: 100%;">
                   <v-subheader
                     v-if="parent || children.length > 0">
                     {{ $t('Navigation') }}
@@ -42,7 +44,7 @@
                       <v-icon>arrow_upward</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                      {{ parent.id }}
+                      {{ parent.name }}
                     </v-list-tile-content>
                   </v-list-tile>
                   <v-divider v-if="parent && children.length > 0"/>
@@ -57,25 +59,31 @@
                   </v-list-tile>
                   <v-subheader>{{ $t('Stream info') }}</v-subheader>
                   <v-list-tile>
-                    <v-list-tile-title>
-                      {{ $t('Id') }}
-                    </v-list-tile-title>
-                    <v-list-tile-sub-title>
-                      {{ stream.id }}
-                    </v-list-tile-sub-title>
+                    <v-list-tile-content>
+                      <v-list-tile-title>
+                        {{ $t('Id') }}
+                      </v-list-tile-title>
+                      <v-list-tile-sub-title>
+                        {{ stream.id }}
+                      </v-list-tile-sub-title>
+                    </v-list-tile-content>
                   </v-list-tile>
                   <v-list-tile>
-                    <v-list-tile-title>
-                      {{ $t('Name') }}
-                    </v-list-tile-title>
-                    <v-list-tile-sub-title>
-                      {{ stream.name }}
-                    </v-list-tile-sub-title>
+                    <v-list-tile-content>
+                      <v-list-tile-title>
+                        {{ $t('Name') }}
+                      </v-list-tile-title>
+                      <v-list-tile-sub-title>
+                        {{ stream.name }}
+                      </v-list-tile-sub-title>
+                    </v-list-tile-content>
                   </v-list-tile>
                   <v-list-tile>
-                    <v-list-tile-title>
-                      {{ $t('Client data') }}
-                    </v-list-tile-title>
+                    <v-list-tile-content>
+                      <v-list-tile-title>
+                        {{ $t('Client data') }}
+                      </v-list-tile-title>
+                    </v-list-tile-content>
                   </v-list-tile>
                   <pre class="stream-details">{{ JSON.stringify(stream.clientData, null, 4) }}</pre>
                 </v-list>
@@ -202,5 +210,7 @@ export default {
   padding-left: 16px;
   max-height: 300px;
   overflow-y: auto;
+  overflow-x: auto;
+  max-width: 100%;
 }
 </style>
