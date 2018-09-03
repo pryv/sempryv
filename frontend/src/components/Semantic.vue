@@ -18,7 +18,7 @@
         xs12>
         <v-list>
           <v-divider/>
-          <template v-for="(item, index) in object.clientData.sempryv.codes">
+          <template v-for="(item, index) in object.clientData['sempryv:codes']">
             <v-list-tile :key="index">
               <v-list-tile-content>
                 <v-list-tile-title>{{ item.display }}</v-list-tile-title>
@@ -26,7 +26,7 @@
                   <span class="system">{{ item.system_name }}</span> | {{ item.code }}
                 </v-list-tile-sub-title>
               </v-list-tile-content>
-              <v-list-tile-action @click="del(index)">
+              <v-list-tile-action @click="del(item)">
                 <v-btn icon>
                   <v-icon color="red lighten-1">delete</v-icon>
                 </v-btn>
@@ -53,6 +53,7 @@
 
 <script>
 import auth from "@/auth";
+import { add_code, del_code } from "@/libraries/semantic";
 import AddCode from "@/components/AddCode";
 
 export default {
@@ -116,63 +117,17 @@ export default {
       this.addDialog = false;
     },
     add(item) {
-      if (!this.object.clientData) {
-        this.object.clientData = {};
-      }
-      if (!this.object.clientData.sempryv) {
-        this.object.clientData.sempryv = {};
-      }
-      if (!this.object.clientData.sempryv.codes) {
-        this.object.clientData.sempryv.codes = [];
-      }
-      this.object.clientData["sempryv"]["codes"].push(item);
-      if (this.type == "stream") {
-        return this.updateStream();
-      } else if (this.type == "event") {
-        return this.updateEvent();
-      }
-    },
-    updateStream() {
-      var conn = auth.connection();
       var vm = this;
-      conn.streams.update(this.object, function(err) {
+      add_code(this.object, item, function(err) {
         if (err == null) {
           vm.closeDialog();
           vm.$emit("updated");
         }
       });
     },
-    updateEvent() {
-      var conn = auth.connection();
+    del(item) {
       var vm = this;
-      conn.events.update(this.object, function(err) {
-        if (err == null) {
-          vm.closeDialog();
-          vm.$emit("updated");
-        }
-      });
-    },
-    del(index) {
-      this.object.clientData.sempryv.codes.splice(index, 1);
-      if (this.type == "stream") {
-        return this.delFromStream();
-      } else if (this.type == "event") {
-        return this.delFromEvent();
-      }
-    },
-    delFromStream() {
-      var conn = auth.connection();
-      var vm = this;
-      conn.streams.update(this.object, function(err) {
-        if (err == null) {
-          vm.$emit("updated");
-        }
-      });
-    },
-    delFromEvent() {
-      var conn = auth.connection();
-      var vm = this;
-      conn.events.update(this.object, function(err) {
+      del_code(this.object, item, function(err) {
         if (err == null) {
           vm.$emit("updated");
         }
