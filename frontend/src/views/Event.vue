@@ -19,13 +19,7 @@
               row
               wrap>
               <v-flex
-                xs9>
-                <semantic
-                  v-model="event.id"
-                  type="event"
-                  @updated="refreshEvent()"
-                />
-              </v-flex>
+                xs9/>
               <v-flex
                 d-flex
                 xs3
