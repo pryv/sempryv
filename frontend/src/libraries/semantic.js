@@ -2,35 +2,54 @@ import auth from "@/auth";
 
 const namespace = "sempryv:codes";
 
-function update_stream(object, callback) {
+function getStream(streamId, callback) {
   var conn = auth.connection();
-  conn.streams.update(object, function(err) {
+  var options = { streamId: streamId };
+  conn.streams.getFlatenedObjects(options, function(err, streams) {
+    var stream = streams.filter(stream => {
+      return stream.id == streamId;
+    })[0];
+    callback(err, stream);
+  });
+}
+
+function update_stream(stream, callback) {
+  var conn = auth.connection();
+  conn.streams.update(stream, function(err) {
     callback(err);
   });
 }
 
-export function add_code(object, type, code, callback) {
-  if (!object.clientData) {
-    object.clientData = {};
-  }
-  if (!object.clientData[namespace]) {
-    object.clientData[namespace] = {};
-  }
-  if (!object.clientData[namespace][type]) {
-    object.clientData[namespace][type] = [];
-  }
-  object.clientData[namespace][type].push(code);
-  update_stream(object, callback);
+export function get_event_codes(event, callback) {
+  getStream(event.streamId, function(err, stream) {
+    if (stream && stream.clientData && stream.clientData["sempryv:codes"]) {
+      callback(null, stream.clientData["sempryv:codes"][event.type]);
+    }
+  });
 }
 
-export function del_code(object, type, code, callback) {
-  var index = object.clientData[namespace][type].indexOf(code);
-  object.clientData[namespace][type].splice(index, 1);
-  if (object.clientData[namespace][type].length == 0) {
-    delete object.clientData[namespace][type];
+export function add_code(stream, type, code, callback) {
+  if (!stream.clientData) {
+    stream.clientData = {};
   }
-  if (Object.keys(object.clientData[namespace]).length == 0) {
-    object.clientData[namespace] = null;
+  if (!stream.clientData[namespace]) {
+    stream.clientData[namespace] = {};
   }
-  update_stream(object, callback);
+  if (!stream.clientData[namespace][type]) {
+    stream.clientData[namespace][type] = [];
+  }
+  stream.clientData[namespace][type].push(code);
+  update_stream(stream, callback);
+}
+
+export function del_code(stream, type, code, callback) {
+  var index = stream.clientData[namespace][type].indexOf(code);
+  stream.clientData[namespace][type].splice(index, 1);
+  if (stream.clientData[namespace][type].length == 0) {
+    delete stream.clientData[namespace][type];
+  }
+  if (Object.keys(stream.clientData[namespace]).length == 0) {
+    stream.clientData[namespace] = null;
+  }
+  update_stream(stream, callback);
 }

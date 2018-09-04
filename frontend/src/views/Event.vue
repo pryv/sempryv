@@ -19,7 +19,25 @@
               row
               wrap>
               <v-flex
-                xs9/>
+                xs9>
+                <h2>{{ $t('Semantic annotations') }}</h2>
+                <div v-if="codes">
+                  <template
+                    v-for="(code, index) in codes">
+                    <v-list-tile :key="index">
+                      <v-list-tile-content>
+                        <v-list-tile-title>{{ code.display }}</v-list-tile-title>
+                        <v-list-tile-sub-title>
+                          <span class="system">{{ code.system_name }}</span> | {{ code.code }}
+                        </v-list-tile-sub-title>
+                      </v-list-tile-content>
+                    </v-list-tile>
+                    <v-divider
+                      :inset="code.inset"
+                      :key="index + 'divider'"/>
+                  </template>
+                </div>
+              </v-flex>
               <v-flex
                 d-flex
                 xs3
@@ -100,6 +118,7 @@
 import auth from "@/auth";
 import Semantic from "@/components/Semantic";
 import moment from "moment";
+import { get_event_codes } from "@/libraries/semantic";
 
 export default {
   components: {
@@ -107,7 +126,8 @@ export default {
   },
   data() {
     return {
-      event: null
+      event: null,
+      codes: null
     };
   },
   mounted() {
@@ -123,6 +143,9 @@ export default {
       var vm = this;
       conn.events.getOne(eventId, function(err, event) {
         vm.event = event;
+        get_event_codes(event, function(err, codes) {
+          vm.codes = codes;
+        });
       });
     },
     refreshEvent() {

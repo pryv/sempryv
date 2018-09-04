@@ -1,46 +1,36 @@
 <template>
-  <v-container
-    v-if="stream">
-    <v-layout
-      row
-      wrap>
-      <v-flex xs12>
-        <h2>{{ $t('Semantic annotations') }}</h2>
-        <v-spacer/>
-        <v-btn
-          color="primary"
-          @click="addDialog = true">
-          Add
-        </v-btn>
-      </v-flex>
-      <v-flex
-        v-if="stream.clientData && stream.clientData['sempryv:codes']"
-        xs12>
-        <template v-for="(items, type) in stream.clientData['sempryv:codes']">
-          <v-list :key="type">
-            <v-subheader>{{ type }}</v-subheader>
-            <template v-for="(item, index) in items">
-              <v-list-tile :key="index">
-                <v-list-tile-content>
-                  <v-list-tile-title>{{ item.display }}</v-list-tile-title>
-                  <v-list-tile-sub-title>
-                    <span class="system">{{ item.system_name }}</span> | {{ item.code }}
-                  </v-list-tile-sub-title>
-                </v-list-tile-content>
-                <v-list-tile-action @click="del(item)">
-                  <v-btn icon>
-                    <v-icon color="red lighten-1">delete</v-icon>
-                  </v-btn>
-                </v-list-tile-action>
-              </v-list-tile>
-              <v-divider
-                :inset="item.inset"
-                :key="index + 'divider'"/>
-            </template>
-          </v-list>
+  <div>
+    <h2>{{ $t('Semantic annotations') }}</h2>
+    <v-spacer/>
+    <v-btn
+      color="primary"
+      @click="addDialog = true">
+      Add
+    </v-btn>
+    <template
+      v-for="(items, type) in stream.clientData['sempryv:codes']">
+      <v-list :key="type">
+        <v-subheader>{{ type }}</v-subheader>
+        <template v-for="(item, index) in items">
+          <v-list-tile :key="index">
+            <v-list-tile-content>
+              <v-list-tile-title>{{ item.display }}</v-list-tile-title>
+              <v-list-tile-sub-title>
+                <span class="system">{{ item.system_name }}</span> | {{ item.code }}
+              </v-list-tile-sub-title>
+            </v-list-tile-content>
+            <v-list-tile-action @click="del(item)">
+              <v-btn icon>
+                <v-icon color="red lighten-1">delete</v-icon>
+              </v-btn>
+            </v-list-tile-action>
+          </v-list-tile>
+          <v-divider
+            :inset="item.inset"
+            :key="index + 'divider'"/>
         </template>
-      </v-flex>
-    </v-layout>
+      </v-list>
+    </template>
     <v-dialog
       v-model="addDialog"
       persistent
@@ -50,7 +40,7 @@
         @close="addDialog = false"
         @add="add"/>
     </v-dialog>
-  </v-container>
+  </div>
 </template>
 
 <script>
