@@ -1,6 +1,6 @@
 <template>
   <v-container
-    v-if="object">
+    v-if="stream">
     <v-layout
       row
       wrap>
@@ -14,9 +14,9 @@
         </v-btn>
       </v-flex>
       <v-flex
-        v-if="object.clientData && object.clientData['sempryv:codes']"
+        v-if="stream.clientData && stream.clientData['sempryv:codes']"
         xs12>
-        <template v-for="(items, type) in object.clientData['sempryv:codes']">
+        <template v-for="(items, type) in stream.clientData['sempryv:codes']">
           <v-list :key="type">
             <v-subheader>{{ type }}</v-subheader>
             <template v-for="(item, index) in items">
@@ -66,36 +66,28 @@ export default {
     value: {
       type: String,
       required: true
-    },
-    type: {
-      type: String,
-      required: true
     }
   },
   data() {
     return {
-      object: null,
+      stream: null,
       addDialog: false
     };
   },
   watch: {
     value() {
-      this.getObject(this.$route.params.id);
+      this.refresh();
     },
     addDialog(val) {
       if (val) this.$refs.addDialog.focus();
     }
   },
   mounted() {
-    this.getObject(this.$route.params.id);
+    this.refresh();
   },
   methods: {
-    getObject(objectId) {
-      if (this.type == "stream") {
-        return this.getStream(objectId);
-      } else if (this.type == "event") {
-        return this.getEvent(objectId);
-      }
+    refresh() {
+      this.getStream(this.value);
     },
     getStream(streamId) {
       var conn = auth.connection();
@@ -103,16 +95,9 @@ export default {
       var vm = this;
       conn.streams.getFlatenedObjects(options, function(err, streams) {
         vm.streams = streams;
-        vm.object = streams.filter(stream => {
+        vm.stream = streams.filter(stream => {
           return stream.id == streamId;
         })[0];
-      });
-    },
-    getEvent(eventId) {
-      var conn = auth.connection();
-      var vm = this;
-      conn.events.getOne(eventId, function(err, event) {
-        vm.object = event;
       });
     },
     closeDialog() {
@@ -120,7 +105,7 @@ export default {
     },
     add(item) {
       var vm = this;
-      add_code(this.object, "note/txt", item, function(err) {
+      add_code(this.stream, "note/txt", item, function(err) {
         if (err == null) {
           vm.closeDialog();
           vm.$emit("updated");
@@ -129,10 +114,10 @@ export default {
     },
     del(item) {
       var vm = this;
-      del_code(this.object, "note/txt", item, function(err) {
+      del_code(this.stream, "note/txt", item, function(err) {
         if (err == null) {
           vm.$emit("updated");
-          vm.getObject(this.$route.params.id);
+          vm.refresh();
         }
       });
     }

@@ -22,7 +22,6 @@
                 xs9>
                 <semantic
                   v-model="stream.id"
-                  type="stream"
                   @updated="refreshStream()"
                 />
               </v-flex>
