@@ -43,7 +43,7 @@
                       <v-divider
                         :key="entry + index + 'divider'"/>
                     </template>
-                  </v-subheader></template>
+                  </template>
                 </v-list>
               </v-flex>
               <v-flex
