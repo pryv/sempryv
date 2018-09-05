@@ -20,12 +20,19 @@ function update_stream(stream, callback) {
   });
 }
 
-export function get_event_codes(event, callback) {
-  getStream(event.streamId, function(err, stream) {
+function get_event_codes_rec(streamId, event, callback) {
+  getStream(streamId, function(err, stream) {
     if (stream && stream.clientData && stream.clientData["sempryv:codes"]) {
-      callback(null, stream.clientData["sempryv:codes"][event.type]);
+      callback(null, stream.clientData["sempryv:codes"][event.type], stream);
+    }
+    if (stream && stream.parentId) {
+      get_event_codes_rec(stream.parentId, event, callback);
     }
   });
+}
+
+export function get_event_codes(event, callback) {
+  get_event_codes_rec(event.streamId, event, callback);
 }
 
 export function add_code(stream, type, code, callback) {

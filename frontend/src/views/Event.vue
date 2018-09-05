@@ -21,22 +21,30 @@
               <v-flex
                 xs9>
                 <h2>{{ $t('Semantic annotations') }}</h2>
-                <div v-if="codes">
+                <v-list v-if="codes">
                   <template
-                    v-for="(code, index) in codes">
-                    <v-list-tile :key="index">
-                      <v-list-tile-content>
-                        <v-list-tile-title>{{ code.display }}</v-list-tile-title>
-                        <v-list-tile-sub-title>
-                          <span class="system">{{ code.system_name }}</span> | {{ code.code }}
-                        </v-list-tile-sub-title>
-                      </v-list-tile-content>
-                    </v-list-tile>
-                    <v-divider
-                      :inset="code.inset"
-                      :key="index + 'divider'"/>
-                  </template>
-                </div>
+                    v-for="(entrycodes, entry) in codes">
+                    <v-subheader
+                      :key="entry">
+                      from {{ streams[entry].name }}:
+                    </v-subheader>
+                    <template
+                      v-for="(code, index) in entrycodes">
+                      <v-list-tile
+                        :key="entry + index"
+                        :to="{name:'stream', params:{id: entry}}">
+                        <v-list-tile-content>
+                          <v-list-tile-title>{{ code.display }}</v-list-tile-title>
+                          <v-list-tile-sub-title>
+                            <span class="system">{{ code.system_name }}</span> | {{ code.code }} | <span class="system">{{ code.system_name }}</span>
+                          </v-list-tile-sub-title>
+                        </v-list-tile-content>
+                      </v-list-tile>
+                      <v-divider
+                        :key="entry + index + 'divider'"/>
+                    </template>
+                  </v-subheader></template>
+                </v-list>
               </v-flex>
               <v-flex
                 d-flex
@@ -119,6 +127,7 @@ import auth from "@/auth";
 import Semantic from "@/components/Semantic";
 import moment from "moment";
 import { get_event_codes } from "@/libraries/semantic";
+import Vue from "vue";
 
 export default {
   components: {
@@ -127,7 +136,8 @@ export default {
   data() {
     return {
       event: null,
-      codes: null
+      codes: {},
+      streams: {}
     };
   },
   mounted() {
@@ -143,8 +153,11 @@ export default {
       var vm = this;
       conn.events.getOne(eventId, function(err, event) {
         vm.event = event;
-        get_event_codes(event, function(err, codes) {
-          vm.codes = codes;
+        vm.codes = {};
+        vm.streams = {};
+        get_event_codes(event, function(err, codes, stream) {
+          Vue.set(vm.codes, stream.id, codes);
+          Vue.set(vm.streams, stream.id, stream);
         });
       });
     },
