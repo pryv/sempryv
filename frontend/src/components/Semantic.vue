@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="stream">
     <h2>{{ $t('Semantic annotations') }}</h2>
     <v-spacer/>
     <v-btn
