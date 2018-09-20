@@ -2,11 +2,22 @@
   <div v-if="stream">
     <h2>{{ $t('Semantic annotations') }}</h2>
     <v-spacer/>
-    <v-btn
-      color="primary"
-      @click="addDialog = true">
-      Add
-    </v-btn>
+    <v-layout wrap>
+      <v-flex>
+        <v-select
+          v-model="selectedType"
+          :items="types"
+          label="Type"/>
+      </v-flex>
+      <v-flex>
+        <v-btn
+          :disabled="!selectedType"
+          color="primary"
+          @click="addDialog = true">
+          Add
+        </v-btn>
+      </v-flex>
+    </v-layout>
     <template
       v-for="(items, type) in stream.clientData['sempryv:codes']">
       <v-list :key="type">
@@ -19,7 +30,7 @@
                 <span class="system">{{ item.system_name }}</span> | {{ item.code }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
-            <v-list-tile-action @click="del(item)">
+            <v-list-tile-action @click="del(type, item)">
               <v-btn icon>
                 <v-icon color="red lighten-1">delete</v-icon>
               </v-btn>
@@ -56,12 +67,17 @@ export default {
     value: {
       type: String,
       required: true
+    },
+    types: {
+      type: Array,
+      required: true
     }
   },
   data() {
     return {
       stream: null,
-      addDialog: false
+      addDialog: false,
+      selectedType: null
     };
   },
   watch: {
@@ -77,6 +93,7 @@ export default {
   },
   methods: {
     refresh() {
+      this.selectedType = null;
       this.getStream(this.value);
     },
     getStream(streamId) {
@@ -95,16 +112,16 @@ export default {
     },
     add(item) {
       var vm = this;
-      add_code(this.stream, "note/txt", item, function(err) {
+      add_code(this.stream, this.selectedType, item, function(err) {
         if (err == null) {
           vm.closeDialog();
           vm.$emit("updated");
         }
       });
     },
-    del(item) {
+    del(type, item) {
       var vm = this;
-      del_code(this.stream, "note/txt", item, function(err) {
+      del_code(this.stream, type, item, function(err) {
         if (err == null) {
           vm.$emit("updated");
           vm.refresh();
