@@ -23,7 +23,8 @@
                 <h2>{{ $t('Semantic annotations') }}</h2>
                 <v-list v-if="codes">
                   <template
-                    v-for="(entrycodes, entry) in codes">
+                    v-for="(entrycodes, entry) in codes"
+                    v-if="entrycodes.length">
                     <v-subheader
                       :key="entry">
                       from {{ streams[entry].name }}:
