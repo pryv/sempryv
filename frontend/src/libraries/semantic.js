@@ -70,6 +70,17 @@ export function del_code(stream, type, code, callback) {
   update_stream(stream, callback);
 }
 
+export function get_event_types(streamId, callback) {
+  var conn = auth.connection();
+  var filter = {
+    streams: [streamId],
+    limit: 0
+  };
+  conn.events.get(filter, function(err, events) {
+    callback(Array.from(new Set(events.map(event => event.type))));
+  });
+}
+
 export function get_recursive(stream) {
   var key = namespace + ":recursive";
   if (stream && stream.clientData && stream.clientData[key]) {
@@ -85,9 +96,10 @@ export function set_recursive(stream, value, callback) {
 }
 
 export default {
-  get_event_codes,
   add_code,
   del_code,
+  get_event_codes,
+  get_event_types,
   get_recursive,
   set_recursive
 };

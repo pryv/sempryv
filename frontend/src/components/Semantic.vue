@@ -74,15 +74,12 @@ export default {
     value: {
       type: String,
       required: true
-    },
-    types: {
-      type: Array,
-      required: true
     }
   },
   data() {
     return {
       stream: null,
+      types: [],
       addDialog: false,
       recursive: false,
       selectedType: null
@@ -114,6 +111,9 @@ export default {
           return stream.id == streamId;
         })[0];
         vm.recursive = semantic.get_recursive(vm.stream);
+        semantic.get_event_types(vm.stream.id, function(types) {
+          vm.types = types;
+        });
       });
     },
     closeDialog() {

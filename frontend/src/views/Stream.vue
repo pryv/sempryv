@@ -22,7 +22,6 @@
                 xs9>
                 <semantic
                   v-model="stream.id"
-                  :types="types"
                   @updated="refreshStream()"
                 />
               </v-flex>
@@ -156,12 +155,6 @@ export default {
       return this.streams.filter(
         stream => stream.id == this.stream.parentId
       )[0];
-    },
-    types() {
-      if (!this.events) {
-        return [];
-      }
-      return Array.from(new Set(this.events.map(event => event.type)));
     }
   },
   mounted() {
