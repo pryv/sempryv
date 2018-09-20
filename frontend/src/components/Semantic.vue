@@ -17,6 +17,13 @@
           Add
         </v-btn>
       </v-flex>
+      <v-flex>
+        <v-checkbox
+          v-model="recursive"
+          color="primary"
+          label="Apply to children streams"
+          @click="toggleRecursive()"/>
+      </v-flex>
     </v-layout>
     <template
       v-for="(items, type) in stream.clientData['sempryv:codes']">
@@ -56,7 +63,7 @@
 
 <script>
 import auth from "@/auth";
-import { add_code, del_code } from "@/libraries/semantic";
+import semantic from "@/libraries/semantic";
 import AddCode from "@/components/AddCode";
 
 export default {
@@ -77,6 +84,7 @@ export default {
     return {
       stream: null,
       addDialog: false,
+      recursive: false,
       selectedType: null
     };
   },
@@ -105,6 +113,7 @@ export default {
         vm.stream = streams.filter(stream => {
           return stream.id == streamId;
         })[0];
+        vm.recursive = semantic.get_recursive(vm.stream);
       });
     },
     closeDialog() {
@@ -112,7 +121,7 @@ export default {
     },
     add(item) {
       var vm = this;
-      add_code(this.stream, this.selectedType, item, function(err) {
+      semantic.add_code(this.stream, this.selectedType, item, function(err) {
         if (err == null) {
           vm.closeDialog();
           vm.$emit("updated");
@@ -121,11 +130,18 @@ export default {
     },
     del(type, item) {
       var vm = this;
-      del_code(this.stream, type, item, function(err) {
+      semantic.del_code(this.stream, type, item, function(err) {
         if (err == null) {
           vm.$emit("updated");
           vm.refresh();
         }
+      });
+    },
+    toggleRecursive() {
+      var vm = this;
+      semantic.set_recursive(this.stream, this.recursive, function() {
+        vm.$emit("updated");
+        vm.refresh();
       });
     }
   }
