@@ -22,7 +22,7 @@
           v-model="recursive"
           color="primary"
           label="Apply to children streams"
-          @click="toggleRecursive()"/>
+          @change="toggleRecursive()"/>
       </v-flex>
     </v-layout>
     <template
