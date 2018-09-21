@@ -1,4 +1,5 @@
 import auth from "@/auth";
+import moment from "moment";
 
 const namespace = "sempryv";
 
@@ -95,11 +96,29 @@ export function set_recursive(stream, value, callback) {
   update_stream(stream, callback);
 }
 
+export function to_fhir(event) {
+  var result = {};
+  result.resourceType = "Observation";
+  result.status = "final";
+  result.code = {};
+  result.code.coding = "TODO";
+  result.issued = moment.unix(event.time).toISOString();
+  result.identifier = [
+    {
+      use: "official",
+      system: "https://pryv.com/",
+      value: localStorage.username + "." + localStorage.domain + "@" + event.id
+    }
+  ];
+  return JSON.stringify(result, null, 4);
+}
+
 export default {
   add_code,
   del_code,
   get_event_codes,
   get_event_types,
   get_recursive,
-  set_recursive
+  set_recursive,
+  to_fhir
 };

@@ -11,6 +11,19 @@
             :style="{ backgroundColor: clientDataColor(stream) }"
             dark>
             <v-toolbar-title>{{ stream.name }}</v-toolbar-title>
+            <v-spacer/>
+            <v-btn
+              dark
+              color="primary"
+              @click="exportFhir(false)">
+              Export
+            </v-btn>
+            <v-btn
+              dark
+              color="primary"
+              @click="exportFhir(true)">
+              Export recursive
+            </v-btn>
           </v-toolbar>
           <v-container
             fluid
@@ -127,6 +140,8 @@
 <script>
 import auth from "@/auth";
 import Semantic from "@/components/Semantic";
+import semantic from "@/libraries/semantic";
+import { saveAs } from "file-saver/FileSaver";
 
 export default {
   components: {
@@ -195,6 +210,32 @@ export default {
         }
       }
       return "gray";
+    },
+    exportFhir(recursive) {
+      var conn = auth.connection();
+      var filter = {
+        streams: [this.stream.id],
+        limit: 0
+      };
+      var vm = this;
+      conn.events.get(filter, function(err, events) {
+        var selected = events;
+        if (!recursive) {
+          selected = selected.filter(event => {
+            return event.streamId == vm.stream.id;
+          });
+        }
+        var content = "";
+        for (var i = 0; i < selected.length; i++) {
+          var event = selected[i];
+          content += semantic.to_fhir(event);
+          content += "\n";
+        }
+        var blob = new Blob([content], {
+          type: "text/plain;charset=utf-8"
+        });
+        saveAs(blob, "test.txt");
+      });
     }
   }
 };
