@@ -6,7 +6,7 @@ from importlib import import_module
 
 
 def _services():
-    """List all services in the current package."""
+    """Return all the services in the current package."""
     services = []
     for name in os.listdir(os.path.dirname(__file__)):
         if name.endswith(".py") and name != "__init__.py":

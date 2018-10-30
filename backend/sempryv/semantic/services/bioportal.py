@@ -6,8 +6,8 @@ from typing import Any, Dict, List
 from urllib.parse import quote
 
 import requests
-from sempryv.ontologies import loinc, snomedct
 from sempryv.semantic import SemanticClass
+from sempryv.semantic.ontologies import loinc, snomedct
 
 BIOPORTAL_API_URL = "http://data.bioontology.org"
 

@@ -80,7 +80,7 @@ export default {
         return;
       }
       this.$http
-        .get(process.env.VUE_APP_BACKEND + "/api/search?term=" + val)
+        .get(process.env.VUE_APP_BACKEND + "/semantic/search?term=" + val)
         .then(response => {
           this.items = response.body;
         });

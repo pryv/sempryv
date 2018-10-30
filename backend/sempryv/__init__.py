@@ -6,7 +6,7 @@ from flask import Flask
 from flask_cors import CORS
 
 
-from sempryv import api
+from sempryv import semantic, converter
 
 # Load `.env` file
 if not os.environ.get("SEMPRYV_PRODUCTION"):
@@ -15,6 +15,10 @@ if not os.environ.get("SEMPRYV_PRODUCTION"):
     load_dotenv()
 
 # Setup Flask
-APP = Flask(__name__)
+APP = Flask(__name__, subdomain_matching=True)
+APP.config["SERVER_NAME"] = os.environ["SERVER_NAME"]
 CORS(APP)
-APP.register_blueprint(api.BP, url_prefix="/api")
+
+# Register blueprints
+APP.register_blueprint(semantic.BP, url_prefix="/semantic", subdomain=None)
+APP.register_blueprint(converter.BP, url_prefix="/", subdomain="<username>")
