@@ -141,7 +141,7 @@
 import auth from "@/auth";
 import Semantic from "@/components/Semantic";
 import semantic from "@/libraries/semantic";
-import { saveAs } from "file-saver/FileSaver";
+import { saveAs } from "file-saver";
 
 export default {
   components: {
