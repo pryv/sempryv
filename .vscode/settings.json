@@ -32,6 +32,7 @@
     "fhir",
     "jsonify",
     "materialdesignicons",
+    "ptvsd",
     "pylint",
     "sempryv",
     "serializable"

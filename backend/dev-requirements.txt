@@ -5,6 +5,7 @@
 #    pip-compile --output-file dev-requirements.txt dev-requirements.in
 #
 appdirs==1.4.3            # via black
+argh==0.26.2              # via watchdog
 aspy.yaml==1.1.1          # via pre-commit
 astroid==2.0.4            # via pylint
 attrs==18.2.0             # via black
@@ -41,20 +42,22 @@ mypy==0.641
 nodeenv==1.3.2            # via pre-commit
 packaging==18.0           # via dparse, safety
 parso==0.3.1              # via jedi
+pathtools==0.1.2          # via watchdog
 pep257==0.7.0
 pexpect==4.6.0            # via ipython
 pickleshare==0.7.5        # via ipython
 pip-tools==3.1.0
 pre-commit==1.12.0
-prompt-toolkit==2.0.6     # via ipython
+prompt-toolkit==2.0.7     # via ipython
+ptvsd==4.1.4
 ptyprocess==0.6.0         # via pexpect
 pycodestyle==2.4.0        # via autopep8, flake8
 pyflakes==2.0.0           # via autoflake, flake8
 pygments==2.2.0           # via ipython
 pylint==2.1.1
-pyparsing==2.2.2          # via packaging
+pyparsing==2.3.0          # via packaging
 python-dotenv==0.9.1
-pyyaml==3.13              # via aspy.yaml, dparse, pre-commit
+pyyaml==3.13              # via aspy.yaml, dparse, pre-commit, watchdog
 requests==2.20.0
 rope==0.11.0
 safety==1.8.4
@@ -63,7 +66,8 @@ toml==0.10.0              # via black, pre-commit
 traitlets==4.3.2          # via ipython
 typed-ast==1.1.0          # via mypy
 urllib3==1.24
-virtualenv==16.0.0        # via pre-commit
+virtualenv==16.1.0        # via pre-commit
+watchdog==0.9.0
 wcwidth==0.1.7            # via prompt-toolkit
 werkzeug==0.14.1
 wrapt==1.10.11            # via astroid

@@ -11,8 +11,10 @@ mypy
 pep257
 pip-tools
 pre-commit
+ptvsd
 pylint
 python-dotenv
 rope
 safety
+watchdog
 yapf

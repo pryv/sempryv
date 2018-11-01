@@ -1,0 +1,50 @@
+{
+    "version": "0.2.0",
+    "configurations": [{
+            "name": "Backend: Attach",
+            "type": "python",
+            "request": "attach",
+            "port": 5678,
+            "host": "localhost",
+        },
+        {
+            "name": "Backend: Run",
+            "type": "python",
+            "request": "launch",
+            "module": "sempryv",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/backend",
+            "env": {
+                "FLASK_ENV": "development",
+                "NO_DEBUG": "TRUE",
+            },
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Frontend: Run",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "serve"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/frontend",
+        },
+        {
+            "type": "firefox",
+            "request": "launch",
+            "name": "Frontend: Browser",
+            "reAttach": true,
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}/frontend/src",
+            "pathMappings": [{
+                "url": "webpack:///src/",
+                "path": "${webRoot}/"
+            }, {
+                "url": "webpack:///node_modules/",
+                "path": "${workspaceFolder}/frontend/node_modules"
+            }],
+        }
+    ]
+}
