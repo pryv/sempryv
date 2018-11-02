@@ -16,9 +16,9 @@ if not os.environ.get("SEMPRYV_PRODUCTION"):
 
 # Setup Flask
 APP = Flask(__name__, subdomain_matching=True)
-APP.config["SERVER_NAME"] = os.environ["SERVER_NAME"]
+APP.config["JSON_SORT_KEYS"] = False
 CORS(APP)
 
 # Register blueprints
-APP.register_blueprint(semantic.BP, url_prefix="/semantic", subdomain=None)
-APP.register_blueprint(converter.BP, url_prefix="/", subdomain="<username>")
+APP.register_blueprint(semantic.BP, url_prefix="/semantic")
+APP.register_blueprint(converter.BP, url_prefix="/<server>/")
