@@ -79,11 +79,21 @@ def _observation(event, server):
     observation = OrderedDict()
     observation["resourceType"] = "Observation"
     observation["status"] = "final"
-    observation["code"] = "TODO"
+    observation["code"] = _codes(event)
     observation["issued"] = datetime.datetime.now().isoformat()
+    observation["effectiveDateTime"] = datetime.datetime.fromtimestamp(
+        event["time"]
+    ).isoformat()
     observation["identifier"] = {
         "use": "official",
         "system": "https://pryv.com",
         "value": "{}/events/{}".format(server, event["id"]),
     }
+    observation["valueString"] = event["content"]
     return observation
+
+
+def _codes(event):
+    """Return the codes associated to an event."""
+    # TODO
+    return []
