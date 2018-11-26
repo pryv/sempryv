@@ -80,7 +80,7 @@ def _observation(event, server):
     observation["resourceType"] = "Observation"
     observation["status"] = "final"
     observation["code"] = _codes(event)
-    observation["issued"] = datetime.datetime.now().isoformat()
+    observation["issued"] = event["modified"]
     observation["effectiveDateTime"] = datetime.datetime.fromtimestamp(
         event["time"]
     ).isoformat()
@@ -89,8 +89,31 @@ def _observation(event, server):
         "system": "https://pryv.com",
         "value": "{}/events/{}".format(server, event["id"]),
     }
-    observation["valueString"] = event["content"]
+    key, value = _encode_value(event, server)
+    observation[key] = value
     return observation
+
+
+def _encode_value(event, server):
+    """Encode a value in the FHIR format."""
+    # Load the Pryv's "flat.json" file as dict
+    with open("flat.json", "r") as fp:
+        structure = json.load(fp)
+    # Get the event type
+    event_type = event["type"]
+    # Look for event type in the structure
+    flat_type = structure["types"].get(event_type, None)
+    # If not existing, just skip the rest and return as String
+    if not flat_type:
+        return "valueString", event["content"]
+    # Get the associated value type
+    value_type = flat_type.get("type", None)
+    # Return value encoded regarding its type
+    if value_type == "number":
+        value = {"value": event["content"], "unit": flat_type.get("description", None)}
+        return "valueQuantity", value
+    # In all other cases return only String types
+    return "valueString", event["content"]
 
 
 def _codes(event):
