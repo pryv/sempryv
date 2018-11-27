@@ -80,7 +80,9 @@ def _observation(event, server):
     observation["resourceType"] = "Observation"
     observation["status"] = "final"
     observation["code"] = _codes(event)
-    observation["issued"] = event["modified"]
+    observation["issued"] = datetime.datetime.fromtimestamp(
+        event["modified"]
+    ).isoformat()
     observation["effectiveDateTime"] = datetime.datetime.fromtimestamp(
         event["time"]
     ).isoformat()
