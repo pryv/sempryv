@@ -68,7 +68,7 @@ def _bundle(events, server, stream_id=None):
     """Create a bundle out of an id and observations."""
     bundle = OrderedDict()
     bundle["resourceType"] = "Bundle"
-    bundle["id"] = "bundle-{}{}".format(server, f"-{stream_id}" if stream_id else "")
+    bundle["id"] = "{}/streams/{}".format(server, stream_id)
     bundle["type"] = "collection"
     bundle["entry"] = [_observation(e, server) for e in events]
     return bundle
