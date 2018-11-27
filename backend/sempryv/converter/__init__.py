@@ -114,8 +114,11 @@ def _encode_value(event, server):
     if value_type == "number":
         value = {"value": event["content"], "unit": flat_type.get("description", None)}
         return "valueQuantity", value
-    # In all other cases return only String types
-    return "valueString", event["content"]
+    # If the value is a string, return it as such
+    if isinstance(event["content"], str):
+        return "valueString", event["content"]
+    # Otherwise assume it's an object
+    return "valueObject", event["content"]
 
 
 def _codes(event):
