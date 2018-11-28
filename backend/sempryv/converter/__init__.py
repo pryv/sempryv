@@ -17,17 +17,21 @@ BP: Blueprint = Blueprint("fhir", __name__)
 @BP.route("streams.<ext>")
 @BP.route("streams/<stream_id>")
 @BP.route("streams/<stream_id>.<ext>")
-def get_streams(server, stream_id=None, ext=None):
-    """TODO."""
+def streams_route(server, stream_id=None, ext=None):
+    """Route for exporting and converting streams."""
     token = request.headers.get("Authorization", None)
-    # streams = _get_streams(server, token)
+    recursive = request.args.get("recursive", "").lower() == "true"
+    structure = _get_streams_structure(server, token)
     events = _get_events(
-        server, token, streams=[stream_id] if stream_id else None, recursive=True
+        server,
+        token,
+        in_streams=[stream_id] if stream_id else None,
+        recursive=recursive,
     )
     if not ext or ext.lower() == "json":
         content = events
     elif ext.lower() == "fhir":
-        content = _bundle(events, server, stream_id)
+        content = _bundle(events, structure, server, stream_id)
     else:
         return Response(
             'File format "{}" not supported'.format(ext),
@@ -37,49 +41,65 @@ def get_streams(server, stream_id=None, ext=None):
     return jsonify(content)
 
 
-def _get_streams(server, token):
-    """Get streams associated with a token."""
+def _get_streams_structure(server, token):
+    """Get streams structure associated with a token."""
     response = requests.get(
         "https://{}/streams".format(server), headers={"Authorization": token}
     )
     if response.status_code != 200:
         return None
-    return json.loads(response.content)["streams"]
+    raw_streams = json.loads(response.content)["streams"]
+    flat_streams = _flaten_streams_structure(raw_streams)
+    return {v["id"]: v for v in flat_streams}
 
 
-def _get_events(server, token, streams=None, limit=0, recursive=True):
+def _flaten_streams_structure(structure):
+    """Flatten the streams structure."""
+    streams = list()
+    for stream in structure:
+        streams.append(stream)
+        if "children" in stream:
+            streams += _flaten_streams_structure(stream["children"])
+    return streams
+
+
+def _get_events(server, token, in_streams=None, limit=0, recursive=True):
     """Get events associated with a token."""
     query = f"?limit={limit}"
-    if streams:
+    if in_streams:
         sep = "&streams[]="
-        query += sep + sep.join(streams)
+        query += sep + sep.join(in_streams)
     response = requests.get(
         "https://{}/events{}".format(server, query), headers={"Authorization": token}
     )
     if response.status_code != 200:
         return None
     events = json.loads(response.content)["events"]
-    if not recursive:
-        events = [e for e in events if e["streamId"] in streams]
+    if not recursive and in_streams:
+        events = [e for e in events if e["streamId"] in in_streams]
     return events
 
 
-def _bundle(events, server, stream_id=None):
-    """Create a bundle out of an id and observations."""
+def _bundle(events, structure, server, stream_id=None):
+    """Create the bundle for the given stream ID."""
     bundle = OrderedDict()
     bundle["resourceType"] = "Bundle"
-    bundle["id"] = "{}/streams/{}".format(server, stream_id)
+    if not stream_id:
+        bundle["id"] = "{}/streams".format(server)
+    else:
+        bundle["id"] = "{}/streams/{}".format(server, stream_id)
     bundle["type"] = "collection"
-    bundle["entry"] = [_observation(e, server) for e in events]
+    bundle["entry"] = [_observation(e, structure, server) for e in events]
     return bundle
 
 
-def _observation(event, server):
+def _observation(event, structure, server):
     """Create an observation out of an event."""
     observation = OrderedDict()
     observation["resourceType"] = "Observation"
     observation["status"] = "final"
-    observation["code"] = _codes(event)
+    observation["code"] = dict()
+    observation["code"]["coding"] = _codes(event, structure)
     observation["issued"] = datetime.datetime.fromtimestamp(
         event["modified"]
     ).isoformat()
@@ -91,16 +111,16 @@ def _observation(event, server):
         "system": "https://pryv.com",
         "value": "{}/events/{}".format(server, event["id"]),
     }
-    key, value = _encode_value(event, server)
+    key, value = _encode_value(event)
     observation[key] = value
     return observation
 
 
-def _encode_value(event, server):
-    """Encode a value in the FHIR format."""
+def _encode_value(event):
+    """Encode a Pryv content in the related FHIR format."""
     # Load the Pryv's "flat.json" file as dict
-    with open("flat.json", "r") as fp:
-        structure = json.load(fp)
+    with open("flat.json", "r") as file_pointer:
+        structure = json.load(file_pointer)
     # Get the event type
     event_type = event["type"]
     # Look for event type in the structure
@@ -121,7 +141,46 @@ def _encode_value(event, server):
     return "valueObject", event["content"]
 
 
-def _codes(event):
+def _codes(event, structure):
     """Return the codes associated to an event."""
-    # TODO
-    return []
+    # List to store resulting codes
+    coding = list()
+    # Terminology
+    etype = event["type"]
+    namespace = "sempryv"
+    key_codes = namespace + ":codes"
+    key_rec = namespace + ":recursive"
+    # Codes associated to the event
+    if (
+        "clientData" in event
+        and key_codes in event["clientData"]
+        and etype in event["clientData"][key_codes]
+    ):
+        coding += event["clientData"][key_codes][etype]
+    # Codes associated with direct parent
+    parent_id = event["streamId"]
+    parent = structure[parent_id]
+    if (
+        "clientData" in parent
+        and key_codes in parent["clientData"]
+        and etype in parent["clientData"][key_codes]
+    ):
+        coding += parent["clientData"][key_codes][etype]
+    # Codes associated to the hierarchy
+    parent_id = structure[parent_id].get("parentId", None)
+    while parent_id:
+        parent = structure[parent_id]
+        if (
+            "clientData" in parent
+            and key_rec in parent["clientData"]
+            and parent["clientData"][key_rec]
+            and key_codes in parent["clientData"]
+            and etype in parent["clientData"][key_codes]
+        ):
+            coding += parent["clientData"][key_codes][etype]
+        parent_id = parent.get("parentId", None)
+    # Remove system_name from codes
+    for code in coding:
+        if "system_name" in code:
+            del code["system_name"]
+    return coding
