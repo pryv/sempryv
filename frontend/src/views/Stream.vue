@@ -1,134 +1,103 @@
 <template>
-  <v-container
-    fluid
-    grid-list-lg>
-    <v-layout
-      row
-      wrap>
+  <v-container fluid grid-list-lg>
+    <v-layout row wrap>
       <v-flex xs12>
         <v-card v-if="stream">
-          <v-toolbar
-            :style="{ backgroundColor: clientDataColor(stream) }"
-            dark>
+          <v-toolbar :style="{ backgroundColor: clientDataColor(stream) }" dark>
             <v-toolbar-title>{{ stream.name }}</v-toolbar-title>
-            <v-spacer/>
-            <v-btn
-              dark
-              color="primary"
-              @click="exportFhir(false)">
-              Export
-            </v-btn>
-            <v-btn
-              dark
-              color="primary"
-              @click="exportFhir(true)">
-              Export recursive
-            </v-btn>
+            <v-spacer />
+            <v-btn dark color="primary" @click="exportFhir(false);"
+              >Export</v-btn
+            >
+            <v-btn dark color="primary" @click="exportFhir(true);"
+              >Export recursive</v-btn
+            >
           </v-toolbar>
-          <v-container
-            fluid
-            grid-list-xs>
-            <v-layout
-              row
-              wrap>
-              <v-flex
-                xs9>
-                <semantic
-                  v-model="stream.id"
-                  @updated="refreshStream()"
-                />
+          <v-container fluid grid-list-xs>
+            <v-layout row wrap>
+              <v-flex xs9>
+                <semantic v-model="stream.id" @updated="refreshStream();" />
               </v-flex>
-              <v-flex
-                d-flex
-                xs3
-                style="border-left: solid 1px gray;">
-                <v-list
-                  dense
-                  style="max-width: 100%;">
-                  <v-subheader
-                    v-if="parent || children.length > 0">
-                    {{ $t('Navigation') }}
-                  </v-subheader>
+              <v-flex d-flex xs3 style="border-left: solid 1px gray;">
+                <v-list dense style="max-width: 100%;">
+                  <v-subheader v-if="parent || children.length > 0">{{
+                    $t("Navigation")
+                  }}</v-subheader>
                   <v-list-tile
                     v-if="parent"
-                    :to="{name:'stream', params:{id: parent.id}}">
+                    :to="{ name: 'stream', params: { id: parent.id } }"
+                  >
                     <v-list-tile-action>
                       <v-icon>arrow_upward</v-icon>
                     </v-list-tile-action>
-                    <v-list-tile-content>
-                      {{ parent.name }}
-                    </v-list-tile-content>
+                    <v-list-tile-content>{{ parent.name }}</v-list-tile-content>
                   </v-list-tile>
-                  <v-divider v-if="parent && children.length > 0"/>
+                  <v-divider v-if="parent && children.length > 0" />
                   <v-list-tile
                     v-for="child in children"
                     :key="child.id"
-                    :to="{name:'stream', params:{id: child.id}}">
+                    :to="{ name: 'stream', params: { id: child.id } }"
+                  >
                     <v-list-tile-action>
                       <v-icon>subdirectory_arrow_right</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>{{ child.name }}</v-list-tile-content>
                   </v-list-tile>
-                  <v-subheader>{{ $t('Stream info') }}</v-subheader>
+                  <v-subheader>{{ $t("Stream info") }}</v-subheader>
                   <v-list-tile>
                     <v-list-tile-content>
-                      <v-list-tile-title>
-                        {{ $t('Id') }}
-                      </v-list-tile-title>
-                      <v-list-tile-sub-title>
-                        {{ stream.id }}
-                      </v-list-tile-sub-title>
+                      <v-list-tile-title>{{ $t("Id") }}</v-list-tile-title>
+                      <v-list-tile-sub-title>{{
+                        stream.id
+                      }}</v-list-tile-sub-title>
                     </v-list-tile-content>
                   </v-list-tile>
                   <v-list-tile>
                     <v-list-tile-content>
-                      <v-list-tile-title>
-                        {{ $t('Name') }}
-                      </v-list-tile-title>
-                      <v-list-tile-sub-title>
-                        {{ stream.name }}
-                      </v-list-tile-sub-title>
+                      <v-list-tile-title>{{ $t("Name") }}</v-list-tile-title>
+                      <v-list-tile-sub-title>{{
+                        stream.name
+                      }}</v-list-tile-sub-title>
                     </v-list-tile-content>
                   </v-list-tile>
                   <v-list-tile>
                     <v-list-tile-content>
-                      <v-list-tile-title>
-                        {{ $t('Client data') }}
-                      </v-list-tile-title>
+                      <v-list-tile-title>{{
+                        $t("Client data")
+                      }}</v-list-tile-title>
                     </v-list-tile-content>
                   </v-list-tile>
-                  <pre class="stream-details">{{ JSON.stringify(stream.clientData, null, 4) }}</pre>
+                  <pre class="stream-details">
+                    {{ JSON.stringify(stream.clientData, null, 4) }}</pre
+                  >
                 </v-list>
               </v-flex>
             </v-layout>
           </v-container>
         </v-card>
       </v-flex>
-      <v-flex
-        v-if="events.length > 0"
-        xs12>
+      <v-flex v-if="events.length > 0" xs12>
         <v-card>
           <v-toolbar
             :style="{ color: clientDataColor(stream) }"
             card
             height="40"
-            dense>
-            <v-toolbar-title> {{ $t('Events') }}</v-toolbar-title>
+            dense
+          >
+            <v-toolbar-title>{{ $t("Events") }}</v-toolbar-title>
           </v-toolbar>
           <v-list dense>
-            <template
-              v-for="(event, index) in events">
+            <template v-for="(event, index) in events">
               <v-list-tile
-                :to="{name:'event', params:{id: event.id}}"
-                :key="index">
+                :to="{ name: 'event', params: { id: event.id } }"
+                :key="index"
+              >
                 <v-list-tile-content>
                   <v-list-tile-title>{{ event.content }}</v-list-tile-title>
-                  <v-list-tile-sub-title>
-                    {{ event.id }}
-                  </v-list-tile-sub-title>
+                  <v-list-tile-sub-title>{{ event.id }}</v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>
-              <v-divider :key="index + 'divider'"/>
+              <v-divider :key="index + 'divider'" />
             </template>
           </v-list>
         </v-card>
@@ -140,7 +109,6 @@
 <script>
 import auth from "@/auth";
 import Semantic from "@/components/Semantic";
-import semantic from "@/libraries/semantic";
 import { saveAs } from "file-saver";
 
 export default {
@@ -212,30 +180,26 @@ export default {
       return "gray";
     },
     exportFhir(recursive) {
-      var conn = auth.connection();
-      var filter = {
-        streams: [this.stream.id],
-        limit: 0
-      };
-      var vm = this;
-      conn.events.get(filter, function(err, events) {
-        var selected = events;
-        if (!recursive) {
-          selected = selected.filter(event => {
-            return event.streamId == vm.stream.id;
+      var address =
+        process.env.VUE_APP_BACKEND +
+        "/" +
+        localStorage.getItem("username") +
+        "." +
+        localStorage.getItem("domain") +
+        "/streams/" +
+        this.stream.id +
+        ".fhir?recursive=" +
+        recursive;
+      this.$http
+        .get(address, {
+          headers: { AUTHORIZATION: localStorage.getItem("token") }
+        })
+        .then(response => {
+          var blob = new Blob([JSON.stringify(response.body, null, 4)], {
+            type: "application/json;charset=utf-8"
           });
-        }
-        var content = "";
-        for (var i = 0; i < selected.length; i++) {
-          var event = selected[i];
-          content += semantic.to_fhir(event);
-          content += "\n";
-        }
-        var blob = new Blob([content], {
-          type: "text/plain;charset=utf-8"
+          saveAs(blob, "fhir.json");
         });
-        saveAs(blob, "test.txt");
-      });
     }
   }
 };
