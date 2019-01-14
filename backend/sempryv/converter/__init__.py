@@ -87,7 +87,7 @@ def _bundle(events, structure, server, stream_id=None):
     if not stream_id:
         bundle["id"] = "{}/streams".format(server)
     else:
-        bundle["id"] = "{}/streams/{}".format(server, stream_id)
+        bundle["id"] = "{}/streams#{}".format(server, stream_id)
     bundle["type"] = "collection"
     bundle["entry"] = [_observation(e, structure, server) for e in events]
     return bundle
