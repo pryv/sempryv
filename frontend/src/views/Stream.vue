@@ -6,17 +6,12 @@
           <v-toolbar :style="{ backgroundColor: clientDataColor(stream) }" dark>
             <v-toolbar-title>{{ stream.name }}</v-toolbar-title>
             <v-spacer />
-            <v-btn dark color="primary" @click="exportFhir(false);"
-              >Export</v-btn
-            >
-            <v-btn dark color="primary" @click="exportFhir(true);"
-              >Export recursive</v-btn
-            >
+            <v-btn dark color="primary" @click="exportFhir()">Export</v-btn>
           </v-toolbar>
           <v-container fluid grid-list-xs>
             <v-layout row wrap>
               <v-flex xs9>
-                <semantic v-model="stream.id" @updated="refreshStream();" />
+                <semantic v-model="stream.id" @updated="refreshStream()" />
               </v-flex>
               <v-flex d-flex xs3 style="border-left: solid 1px gray;">
                 <v-list dense style="max-width: 100%;">
@@ -179,7 +174,7 @@ export default {
       }
       return "gray";
     },
-    exportFhir(recursive) {
+    exportFhir() {
       var address =
         process.env.VUE_APP_BACKEND +
         "/" +
@@ -188,8 +183,7 @@ export default {
         localStorage.getItem("domain") +
         "/streams/" +
         this.stream.id +
-        ".fhir?recursive=" +
-        recursive;
+        ".fhir";
       this.$http
         .get(address, {
           headers: { AUTHORIZATION: localStorage.getItem("token") }

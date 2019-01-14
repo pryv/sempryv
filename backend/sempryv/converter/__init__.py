@@ -20,14 +20,8 @@ BP: Blueprint = Blueprint("fhir", __name__)
 def streams_route(server, stream_id=None, ext=None):
     """Route for exporting and converting streams."""
     token = request.headers.get("Authorization", None)
-    recursive = request.args.get("recursive", "").lower() == "true"
     structure = _get_streams_structure(server, token)
-    events = _get_events(
-        server,
-        token,
-        in_streams=[stream_id] if stream_id else None,
-        recursive=recursive,
-    )
+    events = _get_events(server, token, in_streams=[stream_id] if stream_id else None)
     if not ext or ext.lower() == "json":
         content = events
     elif ext.lower() == "fhir":
@@ -63,7 +57,7 @@ def _flaten_streams_structure(structure):
     return streams
 
 
-def _get_events(server, token, in_streams=None, limit=0, recursive=True):
+def _get_events(server, token, in_streams=None, limit=0):
     """Get events associated with a token."""
     query = f"?limit={limit}"
     if in_streams:
@@ -75,8 +69,6 @@ def _get_events(server, token, in_streams=None, limit=0, recursive=True):
     if response.status_code != 200:
         return None
     events = json.loads(response.content)["events"]
-    if not recursive and in_streams:
-        events = [e for e in events if e["streamId"] in in_streams]
     return events
 
 
