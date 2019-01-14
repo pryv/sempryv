@@ -132,7 +132,7 @@ def _encode_value(event):
     value_type = flat_type.get("type", None)
     # Return value encoded regarding its type
     if value_type == "number":
-        value = {"value": event["content"], "unit": flat_type.get("description", None)}
+        value = {"value": event["content"], "unit": event_type}
         return "valueQuantity", value
     # If the value is a string, return it as such
     if isinstance(event["content"], str):
