@@ -1,32 +1,29 @@
 <template>
   <div v-if="stream">
-    <h2>{{ $t('Semantic annotations') }}</h2>
-    <v-spacer/>
+    <h2>{{ $t("Semantic annotations") }}</h2>
+    <v-spacer />
     <v-layout wrap>
       <v-flex>
-        <v-select
-          v-model="selectedType"
-          :items="types"
-          label="Type"/>
+        <v-select v-model="selectedType" :items="types" combobox label="Type" />
       </v-flex>
       <v-flex>
         <v-btn
           :disabled="!selectedType"
           color="primary"
-          @click="addDialog = true">
-          Add
-        </v-btn>
+          @click="addDialog = true"
+          >Add</v-btn
+        >
       </v-flex>
       <v-flex>
         <v-checkbox
           v-model="recursive"
           color="primary"
           label="Apply to children streams"
-          @change="toggleRecursive()"/>
+          @change="toggleRecursive()"
+        />
       </v-flex>
     </v-layout>
-    <template
-      v-for="(items, type) in stream.clientData['sempryv:codes']">
+    <template v-for="(items, type) in stream.clientData['sempryv:codes']">
       <v-list :key="type">
         <v-subheader>{{ type }}</v-subheader>
         <template v-for="(item, index) in items">
@@ -34,7 +31,8 @@
             <v-list-tile-content>
               <v-list-tile-title>{{ item.display }}</v-list-tile-title>
               <v-list-tile-sub-title>
-                <span class="system">{{ item.system_name }}</span> | {{ item.code }}
+                <span class="system">{{ item.system_name }}</span> |
+                {{ item.code }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action @click="del(type, item)">
@@ -43,20 +41,12 @@
               </v-btn>
             </v-list-tile-action>
           </v-list-tile>
-          <v-divider
-            :inset="item.inset"
-            :key="index + 'divider'"/>
+          <v-divider :key="index + 'divider'" :inset="item.inset" />
         </template>
       </v-list>
     </template>
-    <v-dialog
-      v-model="addDialog"
-      persistent
-      max-width="50%">
-      <AddCode
-        ref="addDialog"
-        @close="addDialog = false"
-        @add="add"/>
+    <v-dialog v-model="addDialog" persistent max-width="50%">
+      <AddCode ref="addDialog" @close="addDialog = false" @add="add" />
     </v-dialog>
   </div>
 </template>
