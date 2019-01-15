@@ -13,19 +13,19 @@ from flask import Blueprint, Response, request, jsonify
 BP: Blueprint = Blueprint("fhir", __name__)
 
 
-@BP.route("streams")
-@BP.route("streams.<ext>")
-@BP.route("streams/<stream_id>")
-@BP.route("streams/<stream_id>.<ext>")
-def streams_route(server, stream_id=None, ext=None):
+@BP.route("events")
+@BP.route("events.<ext>")
+def streams_route(server, ext=None):
     """Route for exporting and converting streams."""
     token = request.headers.get("Authorization", None)
     structure = _get_streams_structure(server, token)
-    events = _get_events(server, token, in_streams=[stream_id] if stream_id else None)
-    if not ext or ext.lower() == "json":
+    events = _get_events(server, token, request.args)
+    if isinstance(events, Response):
+        return events
+    if not ext:
         content = events
     elif ext.lower() == "fhir":
-        content = _bundle(events, structure, server, stream_id)
+        content = _bundle(events, structure, server)
     else:
         return Response(
             'File format "{}" not supported'.format(ext),
@@ -57,29 +57,29 @@ def _flaten_streams_structure(structure):
     return streams
 
 
-def _get_events(server, token, in_streams=None, limit=0):
+def _get_events(server, token, params):
     """Get events associated with a token."""
-    query = f"?limit={limit}"
-    if in_streams:
-        sep = "&streams[]="
-        query += sep + sep.join(in_streams)
+    # query = f"?limit={limit}"
+    # if in_streams:
+    #     sep = "&streams[]="
+    #     query += sep + sep.join(in_streams)
     response = requests.get(
-        "https://{}/events{}".format(server, query), headers={"Authorization": token}
+        "https://{}/events".format(server),
+        headers={"Authorization": token},
+        params=params,
     )
     if response.status_code != 200:
-        return None
+        return Response(
+            response.content, status=response.status_code, mimetype="text/plain"
+        )
     events = json.loads(response.content)["events"]
     return events
 
 
-def _bundle(events, structure, server, stream_id=None):
+def _bundle(events, structure, server):
     """Create the bundle for the given stream ID."""
     bundle = OrderedDict()
     bundle["resourceType"] = "Bundle"
-    if not stream_id:
-        bundle["id"] = "{}/streams".format(server)
-    else:
-        bundle["id"] = "{}/streams#{}".format(server, stream_id)
     bundle["type"] = "collection"
     bundle["entry"] = [_observation(e, structure, server) for e in events]
     return bundle
