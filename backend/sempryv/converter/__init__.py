@@ -14,24 +14,14 @@ BP: Blueprint = Blueprint("fhir", __name__)
 
 
 @BP.route("events")
-@BP.route("events.<ext>")
-def streams_route(server, ext=None):
+def streams_route(server):
     """Route for exporting and converting streams."""
     token = request.headers.get("Authorization", None)
     structure = _get_streams_structure(server, token)
     events = _get_events(server, token, request.args)
     if isinstance(events, Response):
         return events
-    if not ext:
-        content = events
-    elif ext.lower() == "fhir":
-        content = _bundle(events, structure, server)
-    else:
-        return Response(
-            'File format "{}" not supported'.format(ext),
-            status=400,
-            mimetype="text/plain",
-        )
+    content = _bundle(events, structure, server)
     return jsonify(content)
 
 
