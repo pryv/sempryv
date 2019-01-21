@@ -15,9 +15,9 @@
               </v-flex>
               <v-flex d-flex xs3 style="border-left: solid 1px gray;">
                 <v-list dense style="max-width: 100%;">
-                  <v-subheader v-if="parent || children.length > 0">{{
-                    $t("Navigation")
-                  }}</v-subheader>
+                  <v-subheader v-if="parent || children.length > 0">
+                    {{ $t("Navigation") }}
+                  </v-subheader>
                   <v-list-tile
                     v-if="parent"
                     :to="{ name: 'stream', params: { id: parent.id } }"
@@ -42,24 +42,24 @@
                   <v-list-tile>
                     <v-list-tile-content>
                       <v-list-tile-title>{{ $t("Id") }}</v-list-tile-title>
-                      <v-list-tile-sub-title>{{
-                        stream.id
-                      }}</v-list-tile-sub-title>
+                      <v-list-tile-sub-title>
+                        {{ stream.id }}
+                      </v-list-tile-sub-title>
                     </v-list-tile-content>
                   </v-list-tile>
                   <v-list-tile>
                     <v-list-tile-content>
                       <v-list-tile-title>{{ $t("Name") }}</v-list-tile-title>
-                      <v-list-tile-sub-title>{{
-                        stream.name
-                      }}</v-list-tile-sub-title>
+                      <v-list-tile-sub-title>
+                        {{ stream.name }}
+                      </v-list-tile-sub-title>
                     </v-list-tile-content>
                   </v-list-tile>
                   <v-list-tile>
                     <v-list-tile-content>
-                      <v-list-tile-title>{{
-                        $t("Client data")
-                      }}</v-list-tile-title>
+                      <v-list-tile-title>
+                        {{ $t("Client data") }}
+                      </v-list-tile-title>
                     </v-list-tile-content>
                   </v-list-tile>
                   <pre class="stream-details">
@@ -181,7 +181,7 @@ export default {
         localStorage.getItem("username") +
         "." +
         localStorage.getItem("domain") +
-        "/events.fhir?streams=" +
+        "/events?streams=" +
         this.stream.id +
         "&limit=0";
       this.$http
