@@ -16,22 +16,27 @@ BP: Blueprint = Blueprint("fhir", __name__)
 @BP.route("events")
 def streams_route(server):
     """Route for exporting and converting streams."""
+    headers = {}
     token = request.headers.get("Authorization", None)
-    structure = _get_streams_structure(server, token)
-    events = _get_events(server, token, request.args)
+    if token:
+        headers["Authorization"] = token
+    if "token" in request.args:
+        headers["Authorization"] = request.args["token"]
+    structure = _get_streams_structure(server, headers)
+    events = _get_events(server, headers, request.args)
     if isinstance(events, Response):
         return events
     content = _bundle(events, structure, server)
     return jsonify(content)
 
 
-def _get_streams_structure(server, token):
-    """Get streams structure associated with a token."""
-    response = requests.get(
-        "https://{}/streams".format(server), headers={"Authorization": token}
-    )
+def _get_streams_structure(server, headers):
+    """Get streams structure associated with a request."""
+    response = requests.get("https://{}/streams".format(server), headers=headers)
     if response.status_code != 200:
-        return None
+        return Response(
+            response.content, status=response.status_code, mimetype="text/plain"
+        )
     raw_streams = json.loads(response.content)["streams"]
     flat_streams = _flaten_streams_structure(raw_streams)
     return {v["id"]: v for v in flat_streams}
@@ -47,16 +52,10 @@ def _flaten_streams_structure(structure):
     return streams
 
 
-def _get_events(server, token, params):
-    """Get events associated with a token."""
-    # query = f"?limit={limit}"
-    # if in_streams:
-    #     sep = "&streams[]="
-    #     query += sep + sep.join(in_streams)
+def _get_events(server, headers, params):
+    """Get events associated with a request parameters."""
     response = requests.get(
-        "https://{}/events".format(server),
-        headers={"Authorization": token},
-        params=params,
+        "https://{}/events".format(server), headers=headers, params=params
     )
     if response.status_code != 200:
         return Response(
