@@ -16,8 +16,8 @@ def fhir_export(server):
     token = request.headers.get("Authorization", None)
     if token:
         headers["Authorization"] = token
-    if "token" in request.args:
-        headers["Authorization"] = request.args["token"]
+    if "auth" in request.args:
+        headers["Authorization"] = request.args["auth"]
     structure = _get_streams_structure(server, headers)
     events = _get_events(server, headers, request.args)
     if isinstance(events, Response):
