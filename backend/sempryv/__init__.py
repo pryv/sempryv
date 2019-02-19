@@ -6,7 +6,7 @@ from flask import Flask
 from flask_cors import CORS
 
 
-from sempryv import semantic, converter
+from sempryv import semantic, fhir
 
 # Load `.env` file
 if not os.environ.get("SEMPRYV_PRODUCTION"):
@@ -21,4 +21,4 @@ CORS(APP)
 
 # Register blueprints
 APP.register_blueprint(semantic.BP, url_prefix="/semantic")
-APP.register_blueprint(converter.BP, url_prefix="/<server>/")
+APP.register_blueprint(fhir.BP, url_prefix="/<server>/")

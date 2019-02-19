@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""SemPryv FHIR backend."""
+"""FHIR export."""
 
 
 from collections import OrderedDict
@@ -7,15 +7,11 @@ import json
 import datetime
 
 import requests
-from flask import Blueprint, Response, request, jsonify
-
-# Flask blueprint
-BP: Blueprint = Blueprint("fhir", __name__)
+from flask import Response, request, jsonify
 
 
-@BP.route("events")
-def streams_route(server):
-    """Route for exporting and converting streams."""
+def fhir_export(server):
+    """Route for exporting FHIR events."""
     headers = {}
     token = request.headers.get("Authorization", None)
     if token:
