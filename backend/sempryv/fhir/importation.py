@@ -5,7 +5,7 @@ import json
 
 from flask import Response, request
 
-from sempryv.fhir.pryv import _get_events, _get_streams_structure
+from sempryv.fhir.pryv import get_events, get_streams_structure
 
 
 def fhir_import(server, stream_id):
@@ -17,7 +17,9 @@ def fhir_import(server, stream_id):
         headers["Authorization"] = token
     if "auth" in request.args:
         headers["Authorization"] = request.args["auth"]
-    structure = _get_streams_structure(server, headers)
+    structure = get_streams_structure(server, headers)
+    if isinstance(structure, Response):
+        return structure
 
     # FHIR format checking
     malformatted = False
@@ -36,4 +38,8 @@ def fhir_import(server, stream_id):
         return Response(
             "The input format is not supported", status=400, mimetype="text/plain"
         )
-    return Response(request.data, mimetype="application/json")
+    try:
+        _import(server, headers, stream_id, fhir)
+    except RuntimeError:
+        return Response("Error while tryint to import the events", 400)
+    return Response("OK", 200)

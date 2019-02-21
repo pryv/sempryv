@@ -7,7 +7,7 @@ import json
 from collections import OrderedDict
 from flask import Response, request, jsonify
 
-from sempryv.fhir.pryv import _get_events, _get_streams_structure
+from sempryv.fhir.pryv import get_events, get_streams_structure
 
 
 def fhir_export(server):
@@ -18,8 +18,10 @@ def fhir_export(server):
         headers["Authorization"] = token
     if "auth" in request.args:
         headers["Authorization"] = request.args["auth"]
-    structure = _get_streams_structure(server, headers)
-    events = _get_events(server, headers, request.args)
+    structure = get_streams_structure(server, headers)
+    if isinstance(structure, Response):
+        return structure
+    events = get_events(server, headers, request.args)
     if isinstance(events, Response):
         return events
     content = _bundle(events, structure, server)

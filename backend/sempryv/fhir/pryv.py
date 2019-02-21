@@ -7,7 +7,7 @@ import requests
 from flask import Response
 
 
-def _get_streams_structure(server, headers):
+def get_streams_structure(server, headers):
     """Get streams structure associated with a request."""
     response = requests.get("https://{}/streams".format(server), headers=headers)
     if response.status_code != 200:
@@ -29,7 +29,7 @@ def _flaten_streams_structure(structure):
     return streams
 
 
-def _get_events(server, headers, params):
+def get_events(server, headers, params):
     """Get events associated with a request parameters."""
     response = requests.get(
         "https://{}/events".format(server), headers=headers, params=params
