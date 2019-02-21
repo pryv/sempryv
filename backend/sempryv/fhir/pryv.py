@@ -40,3 +40,11 @@ def get_events(server, headers, params):
         )
     events = json.loads(response.content)["events"]
     return events
+
+
+def batch_call(server, headers, batch):
+    """Do a batch call on a server."""
+    response = requests.post("https://{}/".format(server), headers=headers, json=batch)
+    print(response.text)
+    print(response.content)
+    return response.status_code == 200
