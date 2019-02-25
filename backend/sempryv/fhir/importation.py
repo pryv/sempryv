@@ -6,7 +6,7 @@ import datetime
 
 from flask import Response, request
 
-from sempryv.fhir.pryv import get_events, get_streams_structure
+from sempryv.fhir.pryv import get_streams_structure, batch_call
 
 
 def fhir_import(server, stream_id):
@@ -79,7 +79,6 @@ def _decode_value(observation):
         )
     if "valueObject" in observation:
         return "unknown/object", observation["valueObject"]
-    print(observation)
 
 
 def _store_event(server, headers, events):
