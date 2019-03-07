@@ -93,7 +93,7 @@ export default {
   data() {
     return {
       domain: "pryv.me",
-      domains: ["pryv.me", "pryv.li"],
+      domains: ["pryv.me"],
       username: "",
       token: "",
       alert: false,
