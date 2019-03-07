@@ -44,13 +44,12 @@
               {{ alertMessage }}
             </v-alert>
             <v-form>
-              <v-select
+              <v-combobox
                 :items="domains"
                 v-model="domain"
                 :label="$t('Domain')"
                 single-line
                 prepend-icon="account_balance"
-                combobox
                 @input="domainChanged()"/>
               <v-text-field
                 :label="$t('Username')"

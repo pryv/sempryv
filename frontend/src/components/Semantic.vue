@@ -4,7 +4,7 @@
     <v-spacer />
     <v-layout wrap>
       <v-flex>
-        <v-select v-model="selectedType" :items="types" combobox label="Type" />
+        <v-combobox v-model="selectedType" :items="types" label="Type" />
       </v-flex>
       <v-flex>
         <v-btn
