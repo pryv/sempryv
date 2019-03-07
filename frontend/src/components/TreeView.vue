@@ -2,7 +2,7 @@
   <v-list>
     <div
       v-for="stream in value"
-      :key="stream.name" 
+      :key="stream.name"
       :style="{ paddingLeft: indentation }"
     >
       <v-list-tile
