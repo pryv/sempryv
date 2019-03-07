@@ -88,10 +88,14 @@ export default {
   },
   methods: {
     clienDataCodes() {
-      if (this.stream && this.stream.clientData && this.stream.clientData["sempryv:codes"]) {
-          return this.stream.clientData["sempryv:codes"];
+      if (
+        this.stream &&
+        this.stream.clientData &&
+        this.stream.clientData["sempryv:codes"]
+      ) {
+        return this.stream.clientData["sempryv:codes"];
       }
-      return null
+      return null;
     },
     refresh() {
       this.selectedType = null;

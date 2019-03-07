@@ -1,48 +1,37 @@
 <template>
-  <v-container
-    fluid
-    grid-list-lg>
-    <v-layout
-      row
-      wrap>
+  <v-container fluid grid-list-lg>
+    <v-layout row wrap>
       <v-flex xs12>
         <v-card v-if="event">
-          <v-toolbar
-            :style="{ backgroundColor: clientDataColor(event) }"
-            dark>
+          <v-toolbar :style="{ backgroundColor: clientDataColor(event) }" dark>
             <v-toolbar-title>{{ event.id }}</v-toolbar-title>
           </v-toolbar>
-          <v-container
-            fluid
-            grid-list-xs>
-            <v-layout
-              row
-              wrap>
-              <v-flex
-                xs9>
-                <h2>{{ $t('Semantic annotations') }}</h2>
+          <v-container fluid grid-list-xs>
+            <v-layout row wrap>
+              <v-flex xs9>
+                <h2>{{ $t("Semantic annotations") }}</h2>
                 <v-list v-if="codes">
-                  <template
-                    v-for="(entrycodes, entry) in codes"
-                    v-if="entrycodes.length">
-                    <v-subheader
-                      :key="entry">
+                  <template v-for="(entrycodes, entry) in codes">
+                    <v-subheader :key="entry">
                       from {{ streams[entry].name }}:
                     </v-subheader>
-                    <template
-                      v-for="(code, index) in entrycodes">
+                    <template v-for="(code, index) in entrycodes">
                       <v-list-tile
                         :key="entry + index"
-                        :to="{name:'stream', params:{id: entry}}">
+                        :to="{ name: 'stream', params: { id: entry } }"
+                      >
                         <v-list-tile-content>
-                          <v-list-tile-title>{{ code.display }}</v-list-tile-title>
+                          <v-list-tile-title>{{
+                            code.display
+                          }}</v-list-tile-title>
                           <v-list-tile-sub-title>
-                            <span class="system">{{ code.system_name }}</span> | {{ code.code }} | <span class="system">{{ code.system_name }}</span>
+                            <span class="system">{{ code.system_name }}</span> |
+                            {{ code.code }} |
+                            <span class="system">{{ code.system_name }}</span>
                           </v-list-tile-sub-title>
                         </v-list-tile-content>
                       </v-list-tile>
-                      <v-divider
-                        :key="entry + index + 'divider'"/>
+                      <v-divider :key="entry + index + 'divider'" />
                     </template>
                   </template>
                 </v-list>
@@ -50,13 +39,15 @@
               <v-flex
                 d-flex
                 xs3
-                style="border-left: solid 1px gray; overflow-x: auto;">
+                style="border-left: solid 1px gray; overflow-x: auto;"
+              >
                 <v-list dense>
                   <v-subheader>
-                    {{ $t('Navigation') }}
+                    {{ $t("Navigation") }}
                   </v-subheader>
                   <v-list-tile
-                    :to="{name:'stream', params:{id: event.streamId}}">
+                    :to="{ name: 'stream', params: { id: event.streamId } }"
+                  >
                     <v-list-tile-action>
                       <v-icon>arrow_upward</v-icon>
                     </v-list-tile-action>
@@ -64,11 +55,11 @@
                       {{ event.streamId }}
                     </v-list-tile-content>
                   </v-list-tile>
-                  <v-subheader>{{ $t('Event info') }}</v-subheader>
+                  <v-subheader>{{ $t("Event info") }}</v-subheader>
                   <v-list-tile>
                     <v-list-tile-content>
                       <v-list-tile-title>
-                        {{ $t('Id') }}
+                        {{ $t("Id") }}
                       </v-list-tile-title>
                       <v-list-tile-sub-title>
                         {{ event.id }}
@@ -78,7 +69,7 @@
                   <v-list-tile>
                     <v-list-tile-content>
                       <v-list-tile-title>
-                        {{ $t('Type') }}
+                        {{ $t("Type") }}
                       </v-list-tile-title>
                       <v-list-tile-sub-title>
                         {{ event.type }}
@@ -88,7 +79,7 @@
                   <v-list-tile>
                     <v-list-tile-content>
                       <v-list-tile-title>
-                        {{ $t('Content') }}
+                        {{ $t("Content") }}
                       </v-list-tile-title>
                       <v-list-tile-sub-title>
                         {{ event.content }}
@@ -98,7 +89,7 @@
                   <v-list-tile>
                     <v-list-tile-content>
                       <v-list-tile-title>
-                        {{ $t('Time') }}
+                        {{ $t("Time") }}
                       </v-list-tile-title>
                       <v-list-tile-sub-title>
                         {{ formatTime(event.time) }}
@@ -108,11 +99,13 @@
                   <v-list-tile>
                     <v-list-tile-content>
                       <v-list-tile-title>
-                        {{ $t('Client data') }}
+                        {{ $t("Client data") }}
                       </v-list-tile-title>
                     </v-list-tile-content>
                   </v-list-tile>
-                  <pre class="event-details">{{ JSON.stringify(event.clientData, null, 4) }}</pre>
+                  <pre class="event-details">{{
+                    JSON.stringify(event.clientData, null, 4)
+                  }}</pre>
                 </v-list>
               </v-flex>
             </v-layout>
@@ -125,15 +118,11 @@
 
 <script>
 import auth from "@/auth";
-import Semantic from "@/components/Semantic";
 import moment from "moment";
 import { get_event_codes } from "@/libraries/semantic";
 import Vue from "vue";
 
 export default {
-  components: {
-    Semantic
-  },
   data() {
     return {
       event: null,

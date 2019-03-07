@@ -1,89 +1,83 @@
 <template>
-  <v-container
-    fluid
-    fill-height>
-    <v-layout
-      align-center
-      justify-center>
-      <v-flex
-        sm12
-        md8>
+  <v-container fluid fill-height>
+    <v-layout align-center justify-center>
+      <v-flex sm12 md8>
         <v-card>
-          <v-toolbar
-            color="primary"
-            dark>
-            <v-toolbar-title>{{ $t('Authentication required') }}</v-toolbar-title>
-            <v-spacer/>
-            <v-btn
-              v-if="!pryvSignedin"
-              color="pryv"
-              dark
-              @click="pryvSignIn()">
-              <img src="../assets/logo-pryv.png">&nbsp;
-              {{ $t('Sign In @{domain}', {domain: domain}) }}
-              <v-icon
-                right
-                dark>person</v-icon>
+          <v-toolbar color="primary" dark>
+            <v-toolbar-title>{{
+              $t("Authentication required")
+            }}</v-toolbar-title>
+            <v-spacer />
+            <v-btn v-if="!pryvSignedin" color="pryv" dark @click="pryvSignIn()">
+              <img src="../assets/logo-pryv.png" />
+              &nbsp;
+              {{ $t("Sign In @{domain}", { domain: domain }) }}
+              <v-icon right dark>
+                person
+              </v-icon>
             </v-btn>
-            <v-btn
-              v-if="pryvSignedin"
-              color="pryv"
-              dark
-              @click="pryvSignOut()">
-              <img src="../assets/logo-pryv.png">&nbsp;
-              {{ $t('Sign out {username}@{domain}', {username: pryvUsername, domain: domain}) }}
-              <v-icon
-                right
-                dark>exit_to_app</v-icon>
+            <v-btn v-if="pryvSignedin" color="pryv" dark @click="pryvSignOut()">
+              <img src="../assets/logo-pryv.png" />
+              &nbsp;
+              {{
+                $t("Sign out {username}@{domain}", {
+                  username: pryvUsername,
+                  domain: domain
+                })
+              }}
+              <v-icon right dark>
+                exit_to_app
+              </v-icon>
             </v-btn>
           </v-toolbar>
           <v-card-text>
-            <v-alert
-              v-model="alert"
-              :type="alertType">
+            <v-alert v-model="alert" :type="alertType">
               {{ alertMessage }}
             </v-alert>
             <v-form>
               <v-combobox
-                :items="domains"
                 v-model="domain"
+                :items="domains"
                 :label="$t('Domain')"
                 single-line
                 prepend-icon="account_balance"
-                @input="domainChanged()"/>
+                @input="domainChanged()"
+              />
               <v-text-field
-                :label="$t('Username')"
                 v-model="username"
+                :label="$t('Username')"
                 prepend-icon="person"
                 type="text"
                 @keyup.enter.native="connect()"
-                @input="resetAlert()"/>
+                @input="resetAlert()"
+              />
               <v-text-field
-                :label="$t('Token')"
                 v-model="token"
+                :label="$t('Token')"
                 prepend-icon="vpn_key"
                 type="text"
                 @keyup.enter.native="connect()"
-                @input="resetAlert()"/>
+                @input="resetAlert()"
+              />
             </v-form>
           </v-card-text>
           <v-card-actions>
-            <v-spacer/>
+            <v-spacer />
             <v-btn
               v-if="pryvSignedin"
               color="pryv"
               dark
-              @click="connectWithPryv()">
-              <img src="../assets/logo-pryv.png">&nbsp;
-              {{ $t('Connect with Pryv') }}
+              @click="connectWithPryv()"
+            >
+              <img src="../assets/logo-pryv.png" />
+              &nbsp;
+              {{ $t("Connect with Pryv") }}
             </v-btn>
-            <v-btn
-              color="primary"
-              @click="connect()">
-              <v-icon
-                left
-                dark>arrow_forward</v-icon>
-              {{ $t('Connect') }}
+            <v-btn color="primary" @click="connect()">
+              <v-icon left dark>
+                arrow_forward
+              </v-icon>
+              {{ $t("Connect") }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -171,5 +165,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

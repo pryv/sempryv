@@ -1,35 +1,18 @@
 <template>
-  <v-app
-    id="app"
-    fixed
-    app>
-    <infoDrawer
-      v-if="authenticated"
-      ref="infoDrawer"/>
-    <MainDrawer
-      v-if="authenticated"
-      ref="mainDrawer"/>
-    <v-toolbar
-      color="primary"
-      dark
-      fixed
-      clipped-left
-      clipped-right
-      app>
-      <v-toolbar-side-icon
-        @click="$refs.mainDrawer.toggle()"/>
+  <v-app id="app" fixed app>
+    <infoDrawer v-if="authenticated" ref="infoDrawer" />
+    <MainDrawer v-if="authenticated" ref="mainDrawer" />
+    <v-toolbar color="primary" dark fixed clipped-left clipped-right app>
+      <v-toolbar-side-icon @click="$refs.mainDrawer.toggle()" />
       <v-toolbar-title>SemPryv</v-toolbar-title>
-      <v-spacer/>
+      <v-spacer />
       <v-toolbar-items>
         <v-menu offset-y>
-          <v-btn
-            slot="activator"
-            flat
-            dark>
+          <v-btn slot="activator" flat dark>
             {{ get_lang() }}
             <v-icon>arrow_drop_down</v-icon>
           </v-btn>
-          <v-list >
+          <v-list>
             <v-list-tile @click="set_lang('en')">
               <v-list-tile-title>EN</v-list-tile-title>
             </v-list-tile>
@@ -41,12 +24,15 @@
         <v-btn
           v-if="authenticated"
           flat
-          @click.stop="$refs.infoDrawer.toggle()">
-        <v-icon>account_circle</v-icon>&nbsp;{{ username }} @ {{ domain }}</v-btn>
+          @click.stop="$refs.infoDrawer.toggle()"
+        >
+          <v-icon>account_circle</v-icon>&nbsp;{{ username }} @
+          {{ domain }}</v-btn
+        >
       </v-toolbar-items>
     </v-toolbar>
     <v-content>
-      <router-view/>
+      <router-view />
     </v-content>
   </v-app>
 </template>
@@ -101,7 +87,6 @@ export default {
   }
 };
 </script>
-
 
 <style>
 @import url("https://fonts.googleapis.com/css?family=Exo");
