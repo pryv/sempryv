@@ -62,9 +62,9 @@
                       </v-list-tile-title>
                     </v-list-tile-content>
                   </v-list-tile>
-                  <pre class="stream-details">
-                    {{ JSON.stringify(stream.clientData, null, 4) }}</pre
-                  >
+                  <pre class="stream-details">{{
+                    JSON.stringify(stream.clientData, null, 4)
+                  }}</pre>
                 </v-list>
               </v-flex>
             </v-layout>
