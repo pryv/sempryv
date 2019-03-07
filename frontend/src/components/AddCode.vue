@@ -30,7 +30,7 @@
                     </v-list-tile-sub-title>
                   </v-list-tile-content>
                 </v-list-tile>
-                <v-divider :inset="item.inset" :key="index + 'divider'" />
+                <v-divider :key="index + 'divider'" :inset="item.inset" />
               </template>
             </v-list>
           </v-flex>
