@@ -104,16 +104,20 @@ export default {
     };
   },
   mounted() {
+    // Get previous credentials if any, and try to connect with them
     this.domain = localStorage.domain || "pryv.me";
-    this.username = localStorage.username;
+    this.username = localStorage.username || "";
     this.token = localStorage.token;
     this.setup(this.domain);
   },
   methods: {
     connect() {
+      // Store login credentials
       auth.login(this.domain, this.username, this.token);
+      // Chech if the login credentials are correct
       auth.isConnected(
         () => {
+          // Authentication successful, display a success message and go to home page
           this.alertType = "success";
           this.alertMessage = this.$t("Authentication successful");
           this.alert = true;
@@ -122,6 +126,8 @@ export default {
           }, 1000);
         },
         () => {
+          // Authentication error, display an error message
+          this.alertType = "success";
           this.alertType = "error";
           this.alertMessage = this.$t("Authentication failed");
           this.alert = true;
@@ -136,10 +142,12 @@ export default {
       auth.pryvSetup(
         domain,
         authData => {
+          // If setup succeed
           this.pryvSignedin = true;
           this.pryvUsername = authData.username;
         },
         () => {
+          // If setup failed
           this.pryvSignedin = false;
           this.username = "";
           this.token = "";
@@ -153,6 +161,7 @@ export default {
       auth.signOut();
     },
     connectWithPryv() {
+      // Use credentials obtained by using the Pryv popup and connect with them.
       var credentials = auth.pryvCredentials();
       this.username = credentials.username;
       this.token = credentials.token;
