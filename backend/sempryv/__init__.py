@@ -16,7 +16,6 @@ if not os.environ.get("SEMPRYV_PRODUCTION"):
 
 # Setup Flask
 APP = Flask(__name__, subdomain_matching=True)
-APP.config["JSON_SORT_KEYS"] = False
 CORS(APP)
 
 # Register blueprints
