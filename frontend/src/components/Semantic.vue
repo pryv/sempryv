@@ -53,7 +53,7 @@
 
 <script>
 import auth from "@/auth";
-import semantic from "@/libraries/semantic";
+import semantic from "@/semantic";
 import AddCode from "@/components/AddCode";
 
 export default {

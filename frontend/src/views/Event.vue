@@ -119,7 +119,7 @@
 <script>
 import auth from "@/auth";
 import moment from "moment";
-import { get_event_codes } from "@/libraries/semantic";
+import { get_event_codes } from "@/semantic";
 import Vue from "vue";
 
 export default {
