@@ -9,7 +9,7 @@
           <v-container fluid grid-list-xs>
             <v-layout row wrap>
               <v-flex xs9>
-                <h2>{{ $t("Semantic annotations") }}</h2>
+                <h2>{{ $t("Computed semantic annotations") }}</h2>
                 <v-list v-if="codes">
                   <template v-for="(entrycodes, entry) in codes">
                     <v-subheader :key="entry">
