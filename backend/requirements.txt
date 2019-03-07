@@ -13,7 +13,7 @@ idna==2.8                 # via requests
 itsdangerous==1.1.0       # via flask
 jinja2==2.10              # via flask
 logzero==1.5.0
-markupsafe==1.1.0         # via jinja2
+markupsafe==1.1.1         # via jinja2
 requests==2.21.0
 six==1.12.0               # via flask-cors
 urllib3==1.24.1           # via requests
