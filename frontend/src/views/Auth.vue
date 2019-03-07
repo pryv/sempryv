@@ -92,7 +92,7 @@ import auth from "@/auth";
 export default {
   data() {
     return {
-      domain: "",
+      domain: "pryv.me",
       domains: ["pryv.me", "pryv.li"],
       username: "",
       token: "",
