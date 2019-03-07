@@ -23,7 +23,7 @@
         />
       </v-flex>
     </v-layout>
-    <template v-for="(items, type) in stream.clientData['sempryv:codes']">
+    <template v-for="(items, type) in clienDataCodes()">
       <v-list :key="type">
         <v-subheader>{{ type }}</v-subheader>
         <template v-for="(item, index) in items">
@@ -87,6 +87,12 @@ export default {
     this.refresh();
   },
   methods: {
+    clienDataCodes() {
+      if (this.stream && this.stream.clientData && this.stream.clientData["sempryv:codes"]) {
+          return this.stream.clientData["sempryv:codes"];
+      }
+      return null
+    },
     refresh() {
       this.selectedType = null;
       this.getStream(this.value);
