@@ -111,7 +111,7 @@ export default {
     };
   },
   mounted() {
-    this.domain = localStorage.domain;
+    this.domain = localStorage.domain || "pryv.me";
     this.username = localStorage.username;
     this.token = localStorage.token;
     this.setup(this.domain);
