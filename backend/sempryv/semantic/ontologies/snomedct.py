@@ -19,5 +19,5 @@ def preferred_name_for(*names):
 
 
 def _count_parenthesis(value):
-    """Count the number of `.` and `:` in the given string."""
+    """Count the number of `(` and `)` in the given string."""
     return sum([i for i, c in enumerate(value) if c in ["(", ")"]])
