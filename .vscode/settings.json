@@ -10,19 +10,6 @@
   "[python]": {
     "editor.formatOnSave": true
   },
-  "prettier.eslintIntegration": true,
-  "eslint.autoFixOnSave": true,
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    {
-      "autoFix": true,
-      "language": "vue"
-    }
-  ],
-  "[vue]": {
-    "editor.formatOnSave": true
-  },
   "cSpell.words": [
     "LOINC",
     "Pryv",
