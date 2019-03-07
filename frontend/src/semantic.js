@@ -1,5 +1,4 @@
 import auth from "@/auth";
-import moment from "moment";
 
 const namespace = "sempryv";
 
