@@ -12,6 +12,7 @@ pep257
 pip-tools
 pre-commit
 ptvsd
+pydocstyle
 pylint
 python-dotenv
 rope
