@@ -25,10 +25,14 @@
     "Stream info": "Stream info",
     "Event info": "Event info",
     "Semantic annotations": "Semantic annotations",
+    "Computed semantic annotations": "Computed semantic annotations",
     "Events": "Events",
     "Domain": "Domain",
     "Add code": "Add Code",
     "Search": "Search",
     "Time": "Time",
-    "Content": "Content"
+    "Content": "Content",
+    "Add": "Add",
+    "Apply to children streams": "Apply to children streams",
+    "Export": "Export"
 }

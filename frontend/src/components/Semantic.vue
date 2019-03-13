@@ -4,21 +4,21 @@
     <v-spacer />
     <v-layout wrap>
       <v-flex>
-        <v-combobox v-model="selectedType" :items="types" label="Type" />
+        <v-combobox v-model="selectedType" :items="types" :label="$t('Type')" />
       </v-flex>
       <v-flex>
         <v-btn
           :disabled="!selectedType"
           color="primary"
           @click="addDialog = true"
-          >Add</v-btn
+          >{{ $t("Add") }}</v-btn
         >
       </v-flex>
       <v-flex>
         <v-checkbox
           v-model="recursive"
           color="primary"
-          label="Apply to children streams"
+          :label="$t('Apply to children streams')"
           @change="toggleRecursive()"
         />
       </v-flex>

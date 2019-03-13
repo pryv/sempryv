@@ -25,10 +25,14 @@
     "Stream info": "Informations sur le flux",
     "Event info": "Information sur l'évènement",
     "Semantic annotations": "Annotations sémantiques",
+    "Computed semantic annotations": "Annotations sémantiques calculées",
     "Events": "Évènements",
     "Domain": "Domaine",
     "Add code": "Ajouter un code",
     "Search": "Recherche",
     "Time": "Heure",
-    "Content": "Contenu"
+    "Content": "Contenu",
+    "Add": "Ajouter",
+    "Apply to children streams": "Appliquer au streams enfants",
+    "Export": "Exporter"
 }

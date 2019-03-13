@@ -6,7 +6,9 @@
           <v-toolbar :style="{ backgroundColor: clientDataColor(stream) }" dark>
             <v-toolbar-title>{{ stream.name }}</v-toolbar-title>
             <v-spacer />
-            <v-btn dark color="primary" @click="exportFhir()">Export</v-btn>
+            <v-btn dark color="primary" @click="exportFhir()">{{
+              $t("Export")
+            }}</v-btn>
           </v-toolbar>
           <v-container fluid grid-list-xs>
             <v-layout row wrap>
