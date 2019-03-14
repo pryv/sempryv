@@ -214,8 +214,11 @@ export default {
   padding-right: 16px;
   padding-left: 16px;
   max-height: 300px;
-  overflow-y: auto;
-  overflow-x: auto;
+  overflow: hidden;
   max-width: 100%;
+}
+
+.stream-details:hover {
+  overflow: auto;
 }
 </style>

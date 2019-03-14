@@ -177,6 +177,11 @@ export default {
   padding-right: 16px;
   padding-left: 16px;
   max-height: 300px;
-  overflow-y: auto;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.event-details:hover {
+  overflow: auto;
 }
 </style>
