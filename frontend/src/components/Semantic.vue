@@ -6,23 +6,25 @@
       <v-flex>
         <v-combobox v-model="selectedType" :items="types" :label="$t('Type')" />
       </v-flex>
-      <v-flex>
-        <v-btn
-          :disabled="!selectedType"
-          color="primary"
-          @click="addDialog = true"
-          >{{ $t("Add") }}</v-btn
-        >
-      </v-flex>
-      <v-flex>
-        <v-checkbox
-          v-model="recursive"
-          color="primary"
-          :label="$t('Apply to children streams')"
-          @change="toggleRecursive()"
-        />
-      </v-flex>
+      <v-btn
+        :disabled="!selectedType"
+        color="primary"
+        @click="addDialog = true"
+        >{{ $t("Add") }}</v-btn
+      >
+      <v-btn
+        :disabled="!selectedType"
+        color="tertiary"
+        @click="suggestionsDialog = true"
+        >{{ $t("Suggestions") }}</v-btn
+      >
     </v-layout>
+    <v-checkbox
+      v-model="recursive"
+      color="primary"
+      :label="$t('Apply to children streams')"
+      @change="toggleRecursive()"
+    />
     <template v-for="(items, type) in clienDataCodes()">
       <v-list :key="type">
         <v-subheader>{{ type }}</v-subheader>
@@ -48,6 +50,13 @@
     <v-dialog v-model="addDialog" persistent max-width="50%">
       <AddCode ref="addDialog" @close="addDialog = false" @add="add" />
     </v-dialog>
+    <v-dialog v-model="suggestionsDialog" persistent max-width="50%">
+      <Suggestions
+        ref="suggestionsDialog"
+        @close="suggestionsDialog = false"
+        @add="add"
+      />
+    </v-dialog>
   </div>
 </template>
 
@@ -55,10 +64,12 @@
 import auth from "@/auth";
 import semantic from "@/semantic";
 import AddCode from "@/components/AddCode";
+import Suggestions from "@/components/Suggestions";
 
 export default {
   components: {
-    AddCode
+    AddCode,
+    Suggestions
   },
   props: {
     value: {
@@ -71,6 +82,7 @@ export default {
       stream: null,
       types: [],
       addDialog: false,
+      suggestionsDialog: false,
       recursive: false,
       selectedType: null
     };

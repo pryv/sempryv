@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-toolbar dark color="primary">
-      <v-toolbar-title>{{ $t("Add code") }}</v-toolbar-title>
+      <v-toolbar-title>{{ $t("Suggestions") }}</v-toolbar-title>
       <v-spacer />
       <v-btn icon dark @click.native="close()">
         <v-icon>close</v-icon>
@@ -11,14 +11,8 @@
       <v-container fill-height fluid>
         <v-layout>
           <v-flex>
-            <v-text-field
-              ref="search"
-              v-model="search"
-              :label="$t('Search')"
-              clearable
-            />
             <v-list>
-              <template v-for="(item, index) in items">
+              <template v-for="(item, index) in suggestions">
                 <v-list-tile :key="index" @click="add(item)">
                   <v-list-tile-content>
                     <v-list-tile-title>{{ item.display }}</v-list-tile-title>
@@ -42,47 +36,27 @@
 export default {
   data() {
     return {
-      search: "",
-      timer: null,
-      items: []
+      suggestions: []
     };
   },
-  watch: {
-    search() {
-      if (self.timer != null) {
-        clearTimeout(self.timer);
-      }
-      var vm = this;
-      self.timer = setTimeout(function() {
-        vm.query(vm.search);
-      }, 200);
-    }
-  },
   methods: {
-    focus() {
-      this.$nextTick(this.$refs.search.focus);
-    },
-    query(val) {
-      if (val == null || val == "") {
-        this.items = [];
-        return;
-      }
+    query(type, path) {
       this.$http
-        .get(process.env.VUE_APP_BACKEND + "/semantic/search?term=" + val)
+        .get(
+          process.env.VUE_APP_BACKEND +
+            "/semantic/suggest?type=" +
+            type +
+            "&path=" +
+            path
+        )
         .then(response => {
-          this.items = response.body;
+          this.suggestions = response.body;
         });
     },
-    reset() {
-      clearTimeout(self.timer);
-      this.search = "";
-    },
     close() {
-      this.reset();
       this.$emit("close");
     },
     add(item) {
-      this.reset();
       this.$emit("add", item);
     }
   }
