@@ -16,6 +16,12 @@ def search() -> str:
     return jsonify([r.serializable() for r in results])
 
 
+@BP.route("suggest", methods=["GET"])
+def suggest() -> str:
+    """Suggest semantic ontologies."""
+    return jsonify("")
+
+
 # pylint: disable=too-few-public-methods
 class SemanticClass:
     """A semantic class."""
