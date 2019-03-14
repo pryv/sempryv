@@ -34,5 +34,6 @@
     "Content": "Contenu",
     "Add": "Ajouter",
     "Apply to children streams": "Appliquer au streams enfants",
-    "Export": "Exporter"
+    "Export": "Exporter",
+    "{num} firsts": "{num} premiers"
 }

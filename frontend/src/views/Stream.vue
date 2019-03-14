@@ -81,7 +81,11 @@
             height="40"
             dense
           >
-            <v-toolbar-title>{{ $t("Events") }}</v-toolbar-title>
+            <v-toolbar-title
+              >{{ $t("Events") }} ({{
+                $t("{num} firsts", { num: limit })
+              }})</v-toolbar-title
+            >
           </v-toolbar>
           <v-list dense>
             <template v-for="(event, index) in events">
@@ -116,7 +120,8 @@ export default {
     return {
       stream: null,
       events: [],
-      streams: []
+      streams: [],
+      limit: 50
     };
   },
   computed: {
@@ -156,7 +161,7 @@ export default {
         })[0];
         var filter = {
           streams: [vm.stream.id],
-          limit: 0
+          limit: vm.limit
         };
         conn.events.get(filter, function(err, events) {
           vm.events = events.filter(event => {
