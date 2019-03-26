@@ -2,7 +2,7 @@
 """Semantic API endpoints."""
 
 from flask import Blueprint, jsonify, request
-from sempryv.semantic import services
+from sempryv.semantic import providers
 
 # Flask blueprint
 BP: Blueprint = Blueprint("api", __name__)
@@ -12,7 +12,7 @@ BP: Blueprint = Blueprint("api", __name__)
 def search() -> str:
     """Search a semantic ontology."""
     term = request.args.get("term")
-    results = services.suggest(term)
+    results = providers.suggest(term)
     return jsonify([r.serializable() for r in results])
 
 
