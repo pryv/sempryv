@@ -29,11 +29,12 @@
     "Events": "Évènements",
     "Domain": "Domaine",
     "Add code": "Ajouter un code",
-    "Search": "Recherche",
+    "Search": "Chercher",
     "Time": "Heure",
     "Content": "Contenu",
     "Add": "Ajouter",
     "Apply to children streams": "Appliquer au streams enfants",
     "Export": "Exporter",
-    "{num} firsts": "{num} premiers"
+    "{num} firsts": "{num} premiers",
+    "Suggest": "Suggérer"
 }
