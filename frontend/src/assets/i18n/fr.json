@@ -36,5 +36,7 @@
     "Apply to children streams": "Appliquer au streams enfants",
     "Export": "Exporter",
     "{num} firsts": "{num} premiers",
-    "Suggest": "Suggérer"
+    "Suggest": "Suggérer",
+    "Suggestions": "Suggestions",
+    "No suggestion": "Pas de suggestions"
 }

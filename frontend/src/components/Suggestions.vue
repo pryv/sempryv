@@ -25,6 +25,9 @@
                 <v-divider :key="index + 'divider'" :inset="item.inset" />
               </template>
             </v-list>
+            <div v-if="!suggestions || suggestions.len == 0">
+              {{ $t("No suggestion") }}
+            </div>
           </v-flex>
         </v-layout>
       </v-container>
@@ -34,20 +37,38 @@
 
 <script>
 export default {
+  props: {
+    kind: {
+      type: String,
+      default: ""
+    },
+    streamId: {
+      type: String,
+      default: ""
+    }
+  },
   data() {
     return {
       suggestions: []
     };
   },
+  watch: {
+    kind() {
+      this.query(this.kind, this.streamId);
+    },
+    streamId() {
+      this.query(this.kind, this.streamId);
+    }
+  },
   methods: {
-    query(type, path) {
+    query(kind, streamId) {
       this.$http
         .get(
           process.env.VUE_APP_BACKEND +
-            "/semantic/suggest?type=" +
-            type +
-            "&path=" +
-            path
+            "/semantic/suggest?kind=" +
+            kind +
+            "&streamId=" +
+            streamId
         )
         .then(response => {
           this.suggestions = response.body;

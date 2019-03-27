@@ -10,13 +10,13 @@
         :disabled="!selectedType"
         color="primary"
         @click="addDialog = true"
-        >{{ $t("Search") }}</v-btn
+        >{{ $t("Add") }}</v-btn
       >
       <v-btn
         :disabled="!selectedType"
-        color="tertiary"
+        color="primary"
         @click="suggestionsDialog = true"
-        >{{ $t("Suggest") }}</v-btn
+        >{{ $t("Suggestions") }}</v-btn
       >
     </v-layout>
     <v-checkbox
@@ -47,12 +47,14 @@
         </template>
       </v-list>
     </template>
-    <v-dialog v-model="addDialog" persistent max-width="50%">
+    <v-dialog v-model="addDialog" max-width="50%">
       <AddCode ref="addDialog" @close="addDialog = false" @add="add" />
     </v-dialog>
-    <v-dialog v-model="suggestionsDialog" persistent max-width="50%">
+    <v-dialog v-model="suggestionsDialog" max-width="50%">
       <Suggestions
         ref="suggestionsDialog"
+        :kind="selectedType"
+        :stream-id="stream.id"
         @close="suggestionsDialog = false"
         @add="add"
       />
