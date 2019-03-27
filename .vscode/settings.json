@@ -40,5 +40,6 @@
     "pylint",
     "sempryv",
     "serializable"
-  ]
+  ],
+  "cSpell.enabled": false
 }
