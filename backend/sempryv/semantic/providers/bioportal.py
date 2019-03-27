@@ -61,8 +61,8 @@ def _to_semantic(entry):
     return result
 
 
-def suggest(term: str) -> List[SemanticClass]:
-    """Suggest semantic classes from a given term."""
+def search(term: str) -> List[SemanticClass]:
+    """Search semantic classes from a given term."""
     responses = _search(
         term,
         ontologies=["SNOMEDCT", "LOINC"],

@@ -12,7 +12,7 @@ BP: Blueprint = Blueprint("api", __name__)
 def search() -> str:
     """Search a semantic ontology."""
     term = request.args.get("term")
-    results = providers.suggest(term)
+    results = providers.search(term)
     return jsonify([r.serializable() for r in results])
 
 

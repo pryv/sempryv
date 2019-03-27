@@ -19,10 +19,10 @@ def _load(module):
     return import_module("{}.{}".format(__name__, module))
 
 
-def suggest(term):
-    """Query the providers for suggestions and return them aggregated."""
+def search(term):
+    """Query the providers for results and return them aggregated."""
     results = []
     providers = _providers()
     for provider in providers:
-        results += provider.suggest(term)
+        results += provider.search(term)
     return results
