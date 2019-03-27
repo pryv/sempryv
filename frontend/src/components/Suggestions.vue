@@ -25,7 +25,7 @@
                 <v-divider :key="index + 'divider'" :inset="item.inset" />
               </template>
             </v-list>
-            <div v-if="!suggestions || suggestions.len == 0">
+            <div v-if="!suggestions || suggestions.length == 0">
               {{ $t("No suggestion") }}
             </div>
           </v-flex>
