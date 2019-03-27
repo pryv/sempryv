@@ -20,6 +20,6 @@ def search() -> str:
 def suggest() -> str:
     """Suggest semantic ontologies."""
     kind = request.args.get("kind")
-    stream_id = request.args.get("stream_id")
-    results = suggestion.suggest(kind, stream_id)
+    path = request.args.get("path")
+    results = suggestion.suggest(kind, path)
     return jsonify([r.serializable() for r in results])

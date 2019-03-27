@@ -46,9 +46,26 @@
     },
     {
       "@id": "someRuleSet",
-      "pryv:pathExpression": "*/body",
+      "pryv:pathExpression": ".*",
       "pryv:mapping": ["pryv:mass", "pryv:temperature"]
 
+    },
+    {
+      "@id": "pryv:frequencyHerz",
+      "@type": "skos:Concept",
+      "skos:notation": "frequency/hz",
+      "skos:closeMatch": "loinc:34534"
+    },
+    {
+      "@id": "pryv:notetxt",
+      "@type": "skos:Concept",
+      "skos:notation": "note/txt",
+      "skos:closeMatch": "snomed-ct:102730007"
+    },
+    {
+      "@id": "someRuleSet",
+      "pryv:pathExpression": "diary",
+      "pryv:mapping": ["pryv:frequencyHerz", "pryv:notetxt"]
     }
   ]
 }
