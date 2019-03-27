@@ -2,7 +2,7 @@
 """Semantic API endpoints."""
 
 from flask import Blueprint, jsonify, request
-from sempryv.semantic import providers
+from sempryv.semantic import providers, suggestion
 
 # Flask blueprint
 BP: Blueprint = Blueprint("api", __name__)
@@ -19,7 +19,10 @@ def search() -> str:
 @BP.route("suggest", methods=["GET"])
 def suggest() -> str:
     """Suggest semantic ontologies."""
-    return jsonify("")
+    kind = request.args.get("kind")
+    stream_id = request.args.get("stream_id")
+    results = suggestion.suggest(kind, stream_id)
+    return jsonify([r.serializable() for r in results])
 
 
 # pylint: disable=too-few-public-methods
