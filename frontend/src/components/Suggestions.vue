@@ -67,7 +67,7 @@ export default {
           process.env.VUE_APP_BACKEND +
             "/semantic/suggest?kind=" +
             kind +
-            "&streamId=" +
+            "&path=" +
             streamId
         )
         .then(response => {
