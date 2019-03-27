@@ -92,6 +92,7 @@ export default {
   watch: {
     value() {
       this.refresh();
+      this.selectedType = "";
     },
     addDialog(val) {
       if (val) this.$refs.addDialog.focus();
