@@ -3,41 +3,52 @@
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "pryv": "http://pryv.com/types#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "snomed-ct":"http://purl.bioontology.org/ontology/SNOMEDCT/",
-    "skos:broader": {"@type": "@id"},
-    "skos:narower": {"@type": "@id"},
-    "skos:closeMatch": {"@type": "@id"},
-    "skos:broadMatch": {"@type": "@id"},
-    "skos:exactMatch": {"@type": "@id"},
-    "pryv:mapping": {"@type": "@id"}
+    "snomed-ct": "http://purl.bioontology.org/ontology/SNOMEDCT/",
+    "skos:broader": {
+      "@type": "@id"
+    },
+    "skos:narower": {
+      "@type": "@id"
+    },
+    "skos:closeMatch": {
+      "@type": "@id"
+    },
+    "skos:broadMatch": {
+      "@type": "@id"
+    },
+    "skos:exactMatch": {
+      "@type": "@id"
+    },
+    "pryv:mapping": {
+      "@type": "@id"
+    }
 
   },
-  "@graph":[
-   {
-     "@id":"pryv:temperature",
-     "@type": "skos:Concept",
-     "skos:notation":"temperature",
-     "skos:closeMatch": "snomed-ct:386725007" ,
-     "skos:broadMatch": "snomed-ct:386455007" 
-   },
-   {
-     "@id":"pryv:bodyTemperature",
-     "@type": "skos:Concept",
-     "skos:notation":"bodyTemperature",
-     "skos:broader":"pryv:temperature",
-     "skos:closeMatch": "snomed-ct:386725007"
-   },
-   {
-     "@id":"pryv:mass",
-     "@type": "skos:Concept",
-     "skos:notation":"mass",
-     "skos:closeMatch": "snomed-ct:118538004" 
-   },
+  "@graph": [{
+      "@id": "pryv:temperature",
+      "@type": "skos:Concept",
+      "skos:notation": "temperature",
+      "skos:closeMatch": "snomed-ct:386725007",
+      "skos:broadMatch": "snomed-ct:386455007"
+    },
     {
-      "@id":"someRuleSet",
-      "pryv:pathExpression":"*/body",
-      "pryv:mapping":["pryv:mass","pryv:temperature"]
-      
+      "@id": "pryv:bodyTemperature",
+      "@type": "skos:Concept",
+      "skos:notation": "bodyTemperature",
+      "skos:broader": "pryv:temperature",
+      "skos:closeMatch": "snomed-ct:386725007"
+    },
+    {
+      "@id": "pryv:mass",
+      "@type": "skos:Concept",
+      "skos:notation": "mass",
+      "skos:closeMatch": "snomed-ct:118538004"
+    },
+    {
+      "@id": "someRuleSet",
+      "pryv:pathExpression": "*/body",
+      "pryv:mapping": ["pryv:mass", "pryv:temperature"]
+
     }
   ]
 }

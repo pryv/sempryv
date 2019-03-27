@@ -2,11 +2,11 @@
 """Wrapper for the Bioportal API."""
 
 import os
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 from urllib.parse import quote
 
 import requests
-from sempryv.semantic import SemanticClass
+from sempryv.semantic.models import SemanticClass
 from sempryv.semantic.ontologies import loinc, snomedct
 
 BIOPORTAL_API_URL = "http://data.bioontology.org"
@@ -73,3 +73,19 @@ def search(term: str) -> List[SemanticClass]:
     )
     results = [r for r in responses["collection"] if "synonym" in r]
     return [_to_semantic(v) for v in results]
+
+
+def look(ontology: str, code: str) -> Optional[SemanticClass]:
+    """Look for a given ontology code."""
+    responses = _search(
+        code,
+        ontologies=[ontology],
+        include=["notation", "prefLabel", "synonym"],
+        pagesize=50,
+        display_context=False,
+        display_links=False,
+    )
+    results = [r for r in responses["collection"] if "synonym" in r]
+    if results:
+        return _to_semantic(results[0])
+    return None
