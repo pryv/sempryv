@@ -112,7 +112,6 @@ export default {
       return null;
     },
     refresh() {
-      this.selectedType = null;
       this.getStream(this.value);
     },
     getStream(streamId) {
@@ -132,6 +131,7 @@ export default {
     },
     closeDialog() {
       this.addDialog = false;
+      this.suggestionsDialog = false;
     },
     add(item) {
       var vm = this;
