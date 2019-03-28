@@ -1,18 +1,20 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=wrong-import-position
+# flake8: noqa
 """SemPryv semantic backend."""
 
 import os
-from flask import Flask
-from flask_cors import CORS
 
-
-from sempryv import semantic, fhir
-
-# Load `.env` file
+# Load `.env` file first to avoid missing env variable on import
 if not os.environ.get("SEMPRYV_PRODUCTION"):
     from dotenv import load_dotenv
 
     load_dotenv()
+
+from flask import Flask
+from flask_cors import CORS
+
+from sempryv import semantic, fhir
 
 # Setup Flask
 APP = Flask(__name__, subdomain_matching=True)

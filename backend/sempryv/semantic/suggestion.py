@@ -16,8 +16,7 @@ def suggest(kind, path):
 
 def _suggest_rules(kind, path):
     """Suggest semantic codes based on rules."""
-    rules, codes = _load_rules()
-    return _find_matching_codes(kind, path, rules, codes)
+    return _find_matching_codes(kind, path, RULES, CODES)
 
 
 def _suggest_ml(_kind, _path):
@@ -73,9 +72,7 @@ def _parse_code(code_str):
     """Return the code object of a given text code input."""
     ontology, code = code_str.split(":", maxsplit=1)
     ontology = {"snomed-ct": "SNOMEDCT", "loinc": "LOINC"}[ontology]
-    print(ontology)
-    print(code)
-    val = look(ontology, code)
-    if val:
-        print(val.serializable())
-    return val
+    return look(ontology, code)
+
+
+RULES, CODES = _load_rules()

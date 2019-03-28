@@ -13,8 +13,8 @@ def main():
     # Debug is enabled by default, can be disabled by environment variable
     debug = not os.environ.get("NO_DEBUG", False)
     if debug:
-        # Workaround for the werkzeug reloader removing the current directory from
-        # the path. It's nasty, but it works! Inspired by:
+        # Workaround for the werkzeug reloader removing the current directory
+        # from the path. It's nasty, but it works! Inspired by:
         # https://github.com/mitsuhiko/flask/issues/1246
         os.environ["PYTHONPATH"] = os.getcwd()
         # Enable PTVSD in werkzeug watched processes only
