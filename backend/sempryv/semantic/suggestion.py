@@ -38,7 +38,7 @@ def _find_matching_codes(kind, path, rules, codes):
         rule = rules[matching]
         if rule["skos:notation"].lower() == kind.lower():
             for matchtype in ["skos:closeMatch", "skos:broadMatch"]:
-                if matchtype in rule:
+                if matchtype in rule and rule[matchtype] in codes:
                     results.append(codes[rule[matchtype]])
     return results
 
