@@ -6,7 +6,7 @@ import datetime
 
 from flask import Response, request
 
-from sempryv.fhir.pryv import get_streams_structure, batch_call
+from sempryv.fhir import pryv
 
 
 def fhir_import(server, stream_id):
@@ -18,11 +18,11 @@ def fhir_import(server, stream_id):
         headers["Authorization"] = token
     if "auth" in request.args:
         headers["Authorization"] = request.args["auth"]
-    structure = get_streams_structure(server, headers)
+    structure = pryv.get_streams_structure(server, headers)
     if isinstance(structure, Response):
         return structure
 
-    # FHIR format checking
+    # FHIR formatting checking
     malformatted = False
     fhir = dict()
     try:
@@ -39,17 +39,25 @@ def fhir_import(server, stream_id):
         return Response(
             "The input format is not supported", status=400, mimetype="text/plain"
         )
+
+    # Semantic codes preparation
     try:
-        _import(server, headers, stream_id, fhir)
+        codes = _prepare_codes(server, headers, stream_id, fhir)
+    except ValueError:
+        return Response(
+            "Semantic codes not consistant or already existing",
+            status=400,
+            mimetype="text/plain",
+        )
+
+    # Finally import data
+    try:
+        events = [_to_event(entry, stream_id) for entry in fhir["entry"]]
+        _store_event(server, headers, events)
+        _store_codes(server, headers, stream_id, codes)
     except RuntimeError:
         return Response("Error while tryint to import the events", 400)
     return Response("OK", 200)
-
-
-def _import(server, headers, stream_id, fhir):
-    """Import the given FHIR bundle into the stream_id."""
-    events = [_to_event(entry, stream_id) for entry in fhir["entry"]]
-    _store_event(server, headers, events)
 
 
 def _to_event(observation, stream_id):
@@ -86,4 +94,44 @@ def _store_event(server, headers, events):
     batch = list()
     for event in events:
         batch.append({"method": "events.create", "params": event})
-    batch_call(server, headers, batch)
+    pryv.batch_call(server, headers, batch)
+
+
+def _prepare_codes(server, headers, stream_id, fhir):
+    """Prepare semantic codes to be stored."""
+    # Get existing codes
+    stream = pryv.get_stream(server, headers, stream_id)
+    oldcodes = {}
+    if stream and "clientData" in stream and "sempryv:codes" in stream["clientData"]:
+        oldcodes = stream["clientData"]["sempryv:codes"]
+    # Get new codes
+    newcodes = {}
+    for entry in fhir["entry"]:
+        kind = _decode_value(entry)[0]
+        if kind in newcodes:
+            continue
+        if "code" in entry and "coding" in entry["code"]:
+            coding = entry["code"]["coding"]
+            for code in coding:
+                code["system_name"] = {
+                    "http://snomed.info/sct": "SNOMEDCT",
+                    "http://loinc.org": "LOINC",
+                }.get(code["system"], "Unknown")
+            newcodes[kind] = coding
+    # Check for overlapping:
+    for newcode in newcodes:
+        if newcode in oldcodes:
+            raise ValueError
+    codes = {**newcodes, **oldcodes}
+    return codes
+
+
+def _store_codes(server, headers, stream_id, codes):
+    """Store semantic codes in the stream."""
+    stream = pryv.get_stream(server, headers, stream_id)
+    client_data = {}
+    if stream and "clientData" in stream:
+        client_data = stream["clientData"]
+    client_data["sempryv:codes"] = codes
+    update = {"clientData": client_data}
+    pryv.update_stream(server, headers, stream_id, update)

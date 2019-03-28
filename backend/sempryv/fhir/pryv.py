@@ -42,6 +42,25 @@ def get_events(server, headers, params):
     return events
 
 
+def get_stream(server, headers, stream_id):
+    """Get a stream."""
+    return get_streams_structure(server, headers)[stream_id]
+
+
+def update_stream(server, headers, stream_id, updated_content):
+    """Update a stream."""
+    response = requests.put(
+        "https://{}/streams/{}".format(server, stream_id),
+        headers=headers,
+        json=updated_content,
+    )
+    if response.status_code != 200:
+        return Response(
+            response.content, status=response.status_code, mimetype="text/plain"
+        )
+    return True
+
+
 def batch_call(server, headers, batch):
     """Do a batch call on a server."""
     response = requests.post("https://{}/".format(server), headers=headers, json=batch)
