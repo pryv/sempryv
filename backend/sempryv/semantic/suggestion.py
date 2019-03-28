@@ -52,7 +52,7 @@ def _load_rules():
         entries = json.load(file_pointer)["@graph"]
     # For each entry
     for entry in entries:
-        # If it is a type entry:
+        # If it is a type entry, laod its codes
         if "@type" in entry and entry["@type"] == "skos:Concept":
             rules[entry["@id"]] = entry
             for matchtype in ["skos:closeMatch", "skos:broadMatch"]:
@@ -62,7 +62,7 @@ def _load_rules():
                 code = _parse_code(code_str)
                 if code:
                     codes[code_str] = code
-        # If it is a path entry:
+        # If it is a path entry just copy it
         elif "pryv:mapping" in entry:
             rules[entry["@id"]] = entry
     return rules, codes
