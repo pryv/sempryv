@@ -95,11 +95,33 @@ export function set_recursive(stream, value, callback) {
   update_stream(stream, callback);
 }
 
+function _full_path_rec(streams, streamId, suffix) {
+  var stream = streams.filter(stream => {
+    return stream.id == streamId;
+  })[0];
+  var name = stream.name;
+  if (stream.parentId) {
+    return _full_path_rec(streams, stream.parentId, "/" + name + suffix);
+  } else {
+    return "/" + name + suffix;
+  }
+}
+
+export function full_path(streamId, callback) {
+  var conn = auth.connection();
+  var options = {};
+  conn.streams.getFlatenedObjects(options, function(err, streams) {
+    var path = _full_path_rec(streams, streamId, "");
+    callback(err, path);
+  });
+}
+
 export default {
   add_code,
   del_code,
   get_event_codes,
   get_event_types,
   get_recursive,
-  set_recursive
+  set_recursive,
+  full_path
 };

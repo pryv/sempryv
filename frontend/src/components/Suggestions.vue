@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import semantic from "@/semantic";
+
 export default {
   props: {
     kind: {
@@ -62,17 +64,20 @@ export default {
   },
   methods: {
     query(kind, streamId) {
-      this.$http
-        .get(
-          process.env.VUE_APP_BACKEND +
-            "/semantic/suggest?kind=" +
-            kind +
-            "&path=" +
-            streamId
-        )
-        .then(response => {
-          this.suggestions = response.body;
-        });
+      var self = this;
+      semantic.full_path(streamId, function(err, path) {
+        self.$http
+          .get(
+            process.env.VUE_APP_BACKEND +
+              "/semantic/suggest?kind=" +
+              kind +
+              "&path=" +
+              path
+          )
+          .then(response => {
+            self.suggestions = response.body;
+          });
+      });
     },
     close() {
       this.$emit("close");

@@ -59,12 +59,12 @@
     {
       "@id": "pryv:notetxt",
       "@type": "skos:Concept",
-      "skos:notation": "note/txt",
+      "skos:notation": "NOTE/TXT",
       "skos:closeMatch": "snomed-ct:102730007"
     },
     {
       "@id": "someRuleSet",
-      "pryv:pathExpression": "diary",
+      "pryv:pathExpression": "/diary.*",
       "pryv:mapping": ["pryv:frequencyHerz", "pryv:notetxt"]
     }
   ]

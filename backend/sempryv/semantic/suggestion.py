@@ -29,14 +29,14 @@ def _find_matching_codes(kind, path, rules, codes):
     """Find the codes from the rules that are matching path and kind."""
     matchings = []
     for rule in rules.values():
-        if "pryv:pathExpression" in rule and re.match(
-            rule["pryv:pathExpression"], path
+        if "pryv:pathExpression" in rule and re.fullmatch(
+            rule["pryv:pathExpression"].lower(), path.lower()
         ):
             matchings += rule["pryv:mapping"]
     results = []
     for matching in matchings:
         rule = rules[matching]
-        if rule["skos:notation"] == kind:
+        if rule["skos:notation"].lower() == kind.lower():
             for matchtype in ["skos:closeMatch", "skos:broadMatch"]:
                 if matchtype in rule:
                     results.append(codes[rule[matchtype]])
