@@ -39,6 +39,12 @@
       "skos:closeMatch": "snomed-ct:386725007"
     },
     {
+      "@id": "pryv:heart",
+      "@type": "skos:Concept",
+      "skos:notation": ["heart","note/txt"],
+      "skos:closeMatch": "snomed-ct:36407500"
+    },
+    {
       "@id": "pryv:mass",
       "@type": "skos:Concept",
       "skos:notation": "mass",
@@ -48,6 +54,18 @@
       "@id": "someRuleSet",
       "pryv:pathExpression": ".*/group",
       "pryv:mapping": ["pryv:mass", "pryv:temperature"]
+
+    },
+    {
+      "@id": "someRuleSet1",
+      "pryv:pathExpression": "body temperature/",
+      "pryv:mapping": ["pryv:temperature"]
+
+    },
+    {
+      "@id": "someRuleSet2",
+      "pryv:pathExpression": "heart/",
+      "pryv:mapping": ["pryv:heart"]
 
     },
     {
