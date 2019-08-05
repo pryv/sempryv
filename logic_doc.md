@@ -51,19 +51,19 @@ Figure 4: Annotated streams
 SemPryv includes the possibility of using predefined rules expressed in its knowledge graph. The rules are defined by 
 administrators or experts in a json format like this:
 
-<code>
+`
 
     "graph": [{
       "@id": "pryv:bodyTemperature",
       "@type": "skos:Concept",
-      "skos:notation": ["note/txt"],
+      "skos:notation": "note/txt",
       "skos:broader": "pryv:temperature",
       "skos:closeMatch": "snomed-ct:386725007"
     },
     {
       "@id": "pryv:heart",
       "@type": "skos:Concept",
-      "skos:notation": ["heart","note/txt"],
+      "skos:notation": "note/txt",
       "skos:closeMatch": "snomed-ct:36407500"
     },
     {
@@ -76,14 +76,108 @@ administrators or experts in a json format like this:
       "pryv:pathExpression": "heart/",
       "pryv:mapping": ["pryv:heart"]
     }]
-</code>
+`
+
+These rules essentially allow the definition of close terms from different ontologies. We observe that if the kind of annotation type is **note/txt**, the knowledge graph matches Pryv heart streams to a SNOMED-CT code identified as: **snomed-ct:364075005**. Then, the system matches these rules to heart stream path **heart/** and thus provide the final suggestions 
+
+Finally, when one makes an API call to get the streams, he gets the structure of her annotated data where the annotations 
+have also been saved
 
 
-
-
-
-Finally, when one make an API call to get the streams, he gets the structure of her annotated data where the annotations 
-have also been saved:
-
-
-
+`
+    "annotated_streams": [
+      {
+        "name": "Body Temperature",
+        "created": 1563181161.839,
+        "clientData": {
+          "sempryv:codes": {
+            "note/txt": [
+              {
+                "system_name": "SNOMEDCT",
+                "code": "722490005",
+                "display": "Temperature (property) (qualifier value)",
+                "system": "http://snomed.info/sct"
+              },
+              {
+                "system_name": "SNOMEDCT",
+                "code": "56342008",
+                "display": "Temperature taking (procedure)",
+                "system": "http://snomed.info/sct"
+              },
+              {
+                "system_name": "SNOMEDCT",
+                "code": "386725007",
+                "display": "Body temperature (observable entity)",
+                "system": "http://snomed.info/sct"
+              }
+            ]
+           },
+          "pryv-browser:bgColor": "#3498db",
+          "sempryv:recursive": false
+        },
+        "modified": 1564756907.893,
+        "children": [
+    
+        ],
+        "modifiedBy": "cjxa7szlr00471id30j8dtxpd",
+        "createdBy": "cjx3edqz8001k1hd33kitvxb8",
+        "parentId": null,
+        "id": "mass"
+      },
+      {
+        "name": "Heart",
+        "created": 1564496540.827,
+        "clientData": {
+          "sempryv:codes": {
+            "note/txt": [
+              {
+                "system_name": "SNOMEDCT",
+                "code": "467178001",
+                "display": "Bedside heart rate monitor (physical object)",
+                "system": "http://snomed.info/sct"
+              },
+              {
+                "system_name": "SNOMEDCT",
+                "code": "364075005",
+                "display": "Heart rate (observable entity)",
+                "system": "http://snomed.info/sct"
+              }
+            ]
+          },
+          "pryv-browser:bgColor": "#e81034",
+          "sempryv:recursive": true
+        },
+        "modified": 1564741665.221,
+        "children": [
+          {
+            "name": "Heart Rate",
+            "created": 1564497209.826,
+            "clientData": {
+              "sempryv:codes": {
+                "note/txt": [
+                  {
+                    "system_name": "SNOMEDCT",
+                    "code": "233916004",
+                    "display": "Heart block (disorder)",
+                    "system": "http://snomed.info/sct"
+                  }
+                ]
+              },
+              "sempryv:recursive": false
+            },
+            "modified": 1564585383.596,
+            "children": [
+            ],
+            "modifiedBy": "cjxa7szlr00471id30j8dtxpd",
+            "createdBy": "cjxa7szlr00471id30j8dtxpd",
+            "parentId": "heart",
+            "id": "heartRate"
+          }
+        ],
+        "modifiedBy": "cjxa7szlr00471id30j8dtxpd",
+        "createdBy": "cjxa7szlr00471id30j8dtxpd",
+        "parentId": null,
+        "id": "heart"
+      }
+    ]
+`
