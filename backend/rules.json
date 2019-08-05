@@ -24,17 +24,11 @@
     }
 
   },
-  "@graph": [{
-      "@id": "pryv:temperature",
-      "@type": "skos:Concept",
-      "skos:notation": "note/txt",
-      "skos:closeMatch": "snomed-ct:386725007",
-      "skos:broadMatch": "snomed-ct:386455007"
-    },
+  "@graph": [
     {
       "@id": "pryv:bodyTemperature",
       "@type": "skos:Concept",
-      "skos:notation": "note/txt",
+      "skos:notation": ["note/txt"],
       "skos:broader": "pryv:temperature",
       "skos:closeMatch": "snomed-ct:386725007"
     },
@@ -47,7 +41,7 @@
     {
       "@id": "pryv:mass",
       "@type": "skos:Concept",
-      "skos:notation": "mass",
+      "skos:notation": ["mass"],
       "skos:closeMatch": "snomed-ct:118538004"
     },
     {
@@ -71,7 +65,7 @@
     {
       "@id": "pryv:frequencyHerz",
       "@type": "skos:Concept",
-      "skos:notation": "frequency/hz",
+      "skos:notation": ["frequency/hz"],
       "skos:closeMatch": "loinc:34534"
     },
     {
