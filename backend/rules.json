@@ -26,7 +26,7 @@
   },
   "@graph": [
     {
-      "@id": "pryv:bodyTemperature",
+      "@id": "pryv:temperature",
       "@type": "skos:Concept",
       "skos:notation": ["note/txt"],
       "skos:broader": "pryv:temperature",
@@ -35,7 +35,7 @@
     {
       "@id": "pryv:heart",
       "@type": "skos:Concept",
-      "skos:notation": ["heart","note/txt"],
+      "skos:notation": ["note/txt"],
       "skos:closeMatch": "snomed-ct:36407500"
     },
     {
@@ -52,13 +52,13 @@
     },
     {
       "@id": "someRuleSet1",
-      "pryv:pathExpression": "body temperature/",
+      "pryv:pathExpression": "/body temperature",
       "pryv:mapping": ["pryv:temperature"]
 
     },
     {
       "@id": "someRuleSet2",
-      "pryv:pathExpression": "heart/",
+      "pryv:pathExpression": "/heart",
       "pryv:mapping": ["pryv:heart"]
 
     },
@@ -71,7 +71,7 @@
     {
       "@id": "pryv:notetxt",
       "@type": "skos:Concept",
-      "skos:notation": "NOTE/TXT",
+      "skos:notation": ["note/txt"],
       "skos:closeMatch": "snomed-ct:102730007"
     },
     {

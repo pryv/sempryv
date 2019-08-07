@@ -7,44 +7,52 @@ import re
 from sempryv.semantic.providers.bioportal import look
 
 
+# class SuggestionsProvider(object):
+#     def __init__(self):
+
 def suggest(kind, path):
     """Suggest semantic codes based on a kind and a path."""
-    rules = _suggest_rules(kind, path)
-    ml = _suggest_ml(kind, path)
+    rules = _rules_suggestions(kind, path)
+    ml = _ml_suggestions(kind, path)
     return rules + ml
 
 
-def _suggest_rules(kind, path):
+def _rules_suggestions(kind, path):
     """Suggest semantic codes based on rules."""
-    return _find_matching_codes(kind, path, RULES, CODES)
+    return _calculate_rule_suggestions(kind, path, RULES, CODES)
+    # return _calculate_rule_suggestions(kind, path, RULES, CODES)
 
 
-def _suggest_ml(_kind, _path):
+def _ml_suggestions(_kind, _path):
     """Suggest semantic codes based on ML."""
     # TODO: Placeholder for incorporating ML suggestions in the future
     return []
 
 
-def _find_matching_codes(kind, path, rules, codes):
+# def _calculate_rule_suggestions()
+
+def _calculate_rule_suggestions(kind, path, rules, codes):
     """Find the codes from the rules that are matching path and kind."""
     matchings = []
     for rule in rules.values():
         if "pryv:pathExpression" in rule and re.fullmatch(
-            rule["pryv:pathExpression"].lower(), path.lower()
+                rule["pryv:pathExpression"].lower(), path.lower()
         ):
             matchings += rule["pryv:mapping"]
     results = []
     for matching in matchings:
         rule = rules[matching]
-        if rule["skos:notation"].lower() == kind.lower():
-            for matchtype in ["skos:closeMatch", "skos:broadMatch"]:
-                if matchtype in rule and rule[matchtype] in codes:
-                    results.append(codes[rule[matchtype]])
+        for notation in rule["skos:notation"]:
+            if notation.lower() == kind.lower():
+                for matchtype in ["skos:closeMatch", "skos:broadMatch"]:
+                    if matchtype in rule and rule[matchtype] in codes:
+                        results.append(codes[rule[matchtype]])
     return results
 
 
 def _load_rules():
     """Load the rules."""
+    print('===================== LOAD RULES =====================\n')
     rules = {}
     codes = {}
     # Open the file
