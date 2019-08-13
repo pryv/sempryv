@@ -35,8 +35,8 @@
     {
       "@id": "pryv:heart",
       "@type": "skos:Concept",
-      "skos:notation": ["note/txt"],
-      "skos:closeMatch": "snomed-ct:36407500"
+      "skos:notation": ["heart","note/txt"],
+      "skos:closeMatch": "snomed-ct:80891009"
     },
     {
       "@id": "pryv:mass",

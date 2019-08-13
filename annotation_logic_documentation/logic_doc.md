@@ -13,7 +13,7 @@ It also connects to a series of providers for semantic vocabularies and also inc
 of HL7 FHIR - compliant data streams, represented as bundle collections of observations. Since the annotations are ready, 
 streams can be exposed to the Pryv again with all of their metadata.
 
-![](/home/orfeas/HES-SO/pryv/sempryv/photos_screenshots/sempryv_architecture.png)
+![](./screenshots/sempryv_architecture.png)
 Figure 1: Sempryv Architecture
 
 ## User Interface
