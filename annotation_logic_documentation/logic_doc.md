@@ -40,7 +40,7 @@ and so the final annotation is depicted in figure 4. The similar is done for the
 Figure 2: proposed terms based on stream events  
 
 
-![](./screenshots/query_suggestions.png)
+![](./screenshots/query_suggestions.png)  
 Figure 3: query suggestions
 
 ![](./screenshots/streams_annotated.png)  
