@@ -14,7 +14,7 @@ if not os.environ.get("SEMPRYV_PRODUCTION"):
 from flask import Flask
 from flask_cors import CORS
 
-from sempryv import semantic, fhir
+from sempryv import semantic, fhir # starts semantic/__init__.py and fhir/__init__
 
 # Setup Flask
 APP = Flask(__name__, subdomain_matching=True)

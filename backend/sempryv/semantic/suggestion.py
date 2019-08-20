@@ -20,16 +20,14 @@ def suggest(kind, path):
 def _rules_suggestions(kind, path):
     """Suggest semantic codes based on rules."""
     return _calculate_rule_suggestions(kind, path, RULES, CODES)
-    # return _calculate_rule_suggestions(kind, path, RULES, CODES)
 
 
 def _ml_suggestions(_kind, _path):
     """Suggest semantic codes based on ML."""
     # TODO: Placeholder for incorporating ML suggestions in the future
+
     return []
 
-
-# def _calculate_rule_suggestions()
 
 def _calculate_rule_suggestions(kind, path, rules, codes):
     """Find the codes from the rules that are matching path and kind."""
@@ -48,6 +46,12 @@ def _calculate_rule_suggestions(kind, path, rules, codes):
                     if matchtype in rule and rule[matchtype] in codes:
                         results.append(codes[rule[matchtype]])
     return results
+
+
+def load_annotated_streams(streams):
+    print(streams)
+
+    pass
 
 
 def _load_rules():
