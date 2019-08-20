@@ -124,6 +124,10 @@ export default {
           setTimeout(() => {
             this.$router.push({ name: "home" });
           }, 1000);
+          this.$http
+            .post(
+                process.env.VUE_APP_BACKEND + "/semantic/collect_user_streams?", {'uname':this.username,'token':this.token}
+            )
         },
         () => {
           // Authentication error, display an error message
