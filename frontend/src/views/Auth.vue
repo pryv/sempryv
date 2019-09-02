@@ -126,7 +126,7 @@ export default {
           }, 1000);
           this.$http
             .post(
-                process.env.VUE_APP_BACKEND + "/semantic/collect_user_streams?", {'uname':this.username,'token':this.token}
+                process.env.VUE_APP_BACKEND + "/semantic/create_annotation_mappings_for_user?", {'uname':this.username,'token':this.token}
             )
         },
         () => {

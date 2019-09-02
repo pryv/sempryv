@@ -48,10 +48,19 @@ def _calculate_rule_suggestions(kind, path, rules, codes):
     return results
 
 
-def load_annotated_streams(streams):
-    print(streams)
+def create_annotation_mappings(streams):
+    stream_annotations = {}
+    for stream in streams:
+        name=stream['name']
+        annotation_map[name]={}
+        children = stream['children']
+        sempryv_codes = stream['clientData']['sempryv:codes']
+        for type in sempryv_codes:
+            stream_annotations[name][type] = sempryv_codes[type]
+            pass
+        x=1
 
-    pass
+    return stream_annotations
 
 
 def _load_rules():
@@ -64,7 +73,7 @@ def _load_rules():
         entries = json.load(file_pointer)["@graph"]
     # For each entry
     for entry in entries:
-        # If it is a type entry, laod its codes
+        # If it is a type entry, load its codes
         if "@type" in entry and entry["@type"] == "skos:Concept":
             rules[entry["@id"]] = entry
             for matchtype in ["skos:closeMatch", "skos:broadMatch"]:
