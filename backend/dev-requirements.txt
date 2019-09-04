@@ -75,3 +75,4 @@ werkzeug==0.14.1
 wrapt==1.11.1
 yapf==0.26.0
 zipp==0.3.3
+scikit-learn

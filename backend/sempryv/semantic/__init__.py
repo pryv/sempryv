@@ -26,12 +26,7 @@ def suggest() -> str:
     return jsonify([r.serializable() for r in results])
 
 
-@BP.route("create_annotation_mappings_for_user", methods=["POST"])
-def create_annotation_mappings_for_user() -> str:
-    data = json.loads(request.data)
-    uname = data['uname']
-    token = data['token']
-    response = json.loads(requests.get(url="https://{}.pryv.me/streams".format(uname), params={"auth": token}).text)
-    streams = response['streams']
-    suggestion.create_annotation_mappings(streams)
+@BP.route("start_sempryv_ml_component", methods=["GET"])
+def start_sempryv_ml_component() -> str:
+    suggestion.sempryv_ml_train()
     return ''

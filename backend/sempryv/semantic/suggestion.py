@@ -5,6 +5,10 @@ import json
 import re
 
 from sempryv.semantic.providers.bioportal import look
+from semantic.stream_classifier import StreamsClassifier
+from joblib import dump, load
+from sklearn.feature_extraction.text import CountVectorizer
+import pickle
 
 
 # class SuggestionsProvider(object):
@@ -25,8 +29,30 @@ def _rules_suggestions(kind, path):
 def _ml_suggestions(_kind, _path):
     """Suggest semantic codes based on ML."""
     # TODO: Placeholder for incorporating ML suggestions in the future
+    model = load('model.pk')
+    new_stream = _kind + _path
+    predictions = _predict_suggestions(model, [new_stream])
+    results = []
+    for pred in predictions:
+        results.append(_parse_code(pred))
 
-    return []
+    return results
+
+
+def _predict_suggestions(model, stream):
+    vectorizer = load('file_vect.joblib')
+    counts = vectorizer.transform(stream)
+    predicted = model.predict(counts)
+    predicted_codes = get_codes(predicted[0])
+    return predicted_codes.split("_")[:-1]
+
+
+def get_codes(predicted: int):
+    f = open('code_labels.dict', 'rb')
+    code_labels = pickle.load(f)
+    for codes, label in code_labels.items():
+        if label == predicted:
+            return codes
 
 
 def _calculate_rule_suggestions(kind, path, rules, codes):
@@ -48,19 +74,20 @@ def _calculate_rule_suggestions(kind, path, rules, codes):
     return results
 
 
-def create_annotation_mappings(streams):
-    stream_annotations = {}
-    for stream in streams:
-        name=stream['name']
-        annotation_map[name]={}
-        children = stream['children']
-        sempryv_codes = stream['clientData']['sempryv:codes']
-        for type in sempryv_codes:
-            stream_annotations[name][type] = sempryv_codes[type]
-            pass
-        x=1
+def sempryv_ml_train() -> StreamsClassifier:
+    users_data = [{'uname': 'orfi2019', 'token': 'cjxa7szlr00461id327owwz27'},
+                  {'uname': 'orfeas', 'token': 'cjzy2ioal04xj0e40zdcy4sku'}]
+    sc = StreamsClassifier(users_data=users_data)
+    model = sc.train()
 
-    return stream_annotations
+    save_model_to_file(model, filename='model.joblib')
+    save_model_to_file(sc.count_vect, filename='file_vect.joblib')
+
+
+def save_model_to_file(model, filename):
+    # file = open(filename, 'wb')
+    # pickle.dumps(model, file)
+    dump(model, filename)
 
 
 def _load_rules():

@@ -125,9 +125,7 @@ export default {
             this.$router.push({ name: "home" });
           }, 1000);
           this.$http
-            .post(
-                process.env.VUE_APP_BACKEND + "/semantic/create_annotation_mappings_for_user?", {'uname':this.username,'token':this.token}
-            )
+            .get(process.env.VUE_APP_BACKEND + "/semantic/start_sempryv_ml_component?")
         },
         () => {
           // Authentication error, display an error message
