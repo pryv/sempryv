@@ -3,6 +3,7 @@
 
 from flask import Blueprint, jsonify, request
 from sempryv.semantic import providers, suggestion
+import json, requests
 
 # Flask blueprint
 BP: Blueprint = Blueprint("api", __name__)
@@ -23,3 +24,9 @@ def suggest() -> str:
     path = request.args.get("path")
     results = suggestion.suggest(kind, path)
     return jsonify([r.serializable() for r in results])
+
+
+@BP.route("start_sempryv_ml_component", methods=["GET"])
+def start_sempryv_ml_component() -> str:
+    suggestion.sempryv_ml_train()
+    return ''
