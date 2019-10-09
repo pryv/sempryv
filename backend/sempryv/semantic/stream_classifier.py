@@ -19,6 +19,10 @@ class StreamsClassifier(object):
             streams = stream_parser.streams
             for stream in streams:
                 stream_name = stream['name']
+                if 'clientData' not in stream:
+                    continue
+                if 'sempryv:codes' not in stream['clientData']:
+                    continue
                 sempryv_annotations = stream['clientData']['sempryv:codes']
                 for ann_type in sempryv_annotations:
                     self.train_data.append(stream_name + ' ' + ann_type)

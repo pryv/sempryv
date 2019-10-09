@@ -21,7 +21,7 @@ def main():
         # if "WERKZEUG_RUN_MAIN" in os.environ:
         #     ptvsd.enable_attach()
     # Run the Flask app
-    APP.run(host="0.0.0.0", port=8000, debug=debug)
+    APP.run(host="0.0.0.0", port=8000)
 
 
 if __name__ == "__main__":

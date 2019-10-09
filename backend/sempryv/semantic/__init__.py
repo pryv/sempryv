@@ -26,7 +26,11 @@ def suggest() -> str:
     return jsonify([r.serializable() for r in results])
 
 
-@BP.route("start_sempryv_ml_component", methods=["GET"])
+@BP.route("start_sempryv_ml_component", methods=["POST"])
 def start_sempryv_ml_component() -> str:
+    req_data = json.loads(request.data)
+    # username = req_data['username']
+    # token = req_data['token']
+
     suggestion.sempryv_ml_train()
     return ''
