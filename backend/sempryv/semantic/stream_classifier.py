@@ -23,6 +23,7 @@ class StreamsClassifier(object):
                     continue
                 if 'sempryv:codes' not in stream['clientData']:
                     continue
+
                 sempryv_annotations = stream['clientData']['sempryv:codes']
                 for ann_type in sempryv_annotations:
                     self.train_data.append(stream_name + ' ' + ann_type)
@@ -48,8 +49,9 @@ class StreamsClassifier(object):
     def train(self):
         self.create_train_data()
         counts = self.count_vect.fit_transform(self.train_data)
-        self.classifier_model = MultinomialNB().fit(counts, self.target_data)
-        return self.classifier_model
+        # self.classifier_model = MultinomialNB().fit(counts, self.target_data)
+        classifier_model = MultinomialNB().fit(counts, self.target_data)
+        return classifier_model
 
     def predict_annotations(self, model, stream):
         counts = self.count_vect.transform(stream)

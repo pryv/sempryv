@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Suggestion of semantic codes."""
-
+import os
 import json
 import re
 
@@ -29,7 +29,7 @@ def _rules_suggestions(kind, path):
 def _ml_suggestions(_kind, _path):
     """Suggest semantic codes based on ML."""
     # TODO: Placeholder for incorporating ML suggestions in the future
-    model = load('model.pk')
+    model = load('model.joblib')
     new_stream = _kind + _path
     predictions = _predict_suggestions(model, [new_stream])
     results = []
@@ -40,7 +40,12 @@ def _ml_suggestions(_kind, _path):
 
 
 def _predict_suggestions(model, stream):
-    vectorizer = load('file_vect.joblib')
+    # vectorizer = load('file_vect.joblib')
+    file = open('file_vect.joblib', 'rb')
+    vectorizer = pickle.load(file)
+    file.close()
+    # vector = CountVectorizer(vocabulary=vector.vocabulary)
+
     counts = vectorizer.transform(stream)
     predicted = model.predict(counts)
     predicted_codes = get_codes(predicted[0])
@@ -74,20 +79,23 @@ def _calculate_rule_suggestions(kind, path, rules, codes):
     return results
 
 
-def sempryv_ml_train() -> StreamsClassifier:
+def sempryv_ml_train():
     users_data = [{'uname': 'orfi2019', 'token': 'cjxa7szlr00461id327owwz27'},
                   {'uname': 'orfeas', 'token': 'cjzy2ioal04xj0e40zdcy4sku'}]
     sc = StreamsClassifier(users_data=users_data)
     model = sc.train()
-
-    save_model_to_file(model, filename='model.joblib')
+    # counts = sc.count_vect.transform(['/Disorders'])
+    # model.predict(counts)
     save_model_to_file(sc.count_vect, filename='file_vect.joblib')
+    save_model_to_file(model, filename='model.joblib')
 
 
 def save_model_to_file(model, filename):
-    # file = open(filename, 'wb')
-    # pickle.dumps(model, file)
-    dump(model, filename)
+    os.remove(filename)
+    file = open(filename, 'wb')
+    pickle.dump(model, file)
+    # dump(model, filename)
+    file.close()
 
 
 def _load_rules():
