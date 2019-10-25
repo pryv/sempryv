@@ -11,4 +11,10 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 
+#objects saved as local files
+backend/code_labels.dict
+backend/file_vect.joblib
+backend/model.joblib
+
+
 # End of https://www.gitignore.io/api/visualstudiocode

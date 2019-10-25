@@ -125,7 +125,7 @@ export default {
             this.$router.push({ name: "home" });
           }, 1000);
           this.$http
-            .get(process.env.VUE_APP_BACKEND + "/semantic/start_sempryv_ml_component?")
+            .post(process.env.VUE_APP_BACKEND + "/semantic/start_sempryv_ml_component?",{username:this.username, token: this.token})
         },
         () => {
           // Authentication error, display an error message
