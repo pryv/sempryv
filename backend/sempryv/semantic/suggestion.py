@@ -48,6 +48,7 @@ def _predict_suggestions(model, stream):
 
     counts = vectorizer.transform(stream)
     predicted = model.predict(counts)
+    print(predicted)
     predicted_codes = get_codes(predicted[0])
     return predicted_codes.split("_")[:-1]
 
@@ -55,6 +56,7 @@ def _predict_suggestions(model, stream):
 def get_codes(predicted: int):
     f = open('code_labels.dict', 'rb')
     code_labels = pickle.load(f)
+    print(code_labels)
     for codes, label in code_labels.items():
         if label == predicted:
             return codes
@@ -81,7 +83,9 @@ def _calculate_rule_suggestions(kind, path, rules, codes):
 
 def sempryv_ml_train():
     users_data = [{'uname': 'orfi2019', 'token': 'cjxa7szlr00461id327owwz27'},
-                  {'uname': 'orfeas', 'token': 'cjzy2ioal04xj0e40zdcy4sku'}]
+                  {'uname': 'orfeas', 'token': 'cjzy2ioal04xj0e40zdcy4sku'},
+                  {'uname': 'orfeas-synthetics', 'token': 'ck2g12tot00191i40w1x1h7t4'}
+                  ]
     sc = StreamsClassifier(users_data=users_data)
     model = sc.train()
     # counts = sc.count_vect.transform(['/Disorders'])
