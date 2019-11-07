@@ -6,6 +6,7 @@ import re
 
 from sempryv.semantic.providers.bioportal import look
 from semantic.stream_classifier import StreamsClassifier
+from semantic.thryve_pulso_trainer import ThryvePulsoTrainer
 from joblib import dump, load
 from sklearn.feature_extraction.text import CountVectorizer
 import pickle
@@ -136,3 +137,5 @@ def _parse_code(code_str):
 
 
 RULES, CODES = _load_rules()
+synthetics_trainer = ThryvePulsoTrainer()
+synthetics_trainer.train_data()
