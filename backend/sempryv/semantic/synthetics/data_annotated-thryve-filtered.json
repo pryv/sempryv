@@ -719,9 +719,8 @@
   "codes": [{"prefLabel": "Fitness for work",
     "id": "http://purl.bioontology.org/ontology/SNOMEDCT/302119000"},
    {"prefLabel": "Age",
-    "id": "http://purl.bioontology.org/ontology/LNC/MTHU010047"},
-   {"prefLabel": "Age Group",
-    "id": "http://purl.bioontology.org/ontology/STY/T100"}]},
+    "id": "http://purl.bioontology.org/ontology/LNC/MTHU010047"}
+  ]},
  {"id": "thryve-Daily-VO2maxPercentile",
   "name": "VO2maxPercentile",
   "codes": [{"prefLabel": "Percentile",

@@ -33,7 +33,7 @@ class StreamsClassifier(object):
             for code in annotations:
                 annotation = code['id'].split('/')[-1]
                 ontology_name = self.ontology_names[code['id'].split('/')[-2]]
-                codes += self.ontology_names[annotation['system_name']] + ':' + annotation['code'] + '_'
+                codes += ontology_name + ':' + annotation + '_'
             label = self.assign_codes_label(codes)
             self.target_data_synthetic.append(label)
 
