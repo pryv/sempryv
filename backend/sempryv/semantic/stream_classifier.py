@@ -2,7 +2,12 @@ import pickle
 from semantic.stream_parser import StreamParser
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
+<<<<<<< HEAD
 # from semantic.synt
+=======
+import json
+
+>>>>>>> a2c266903fa6d3881f5377a07dfb134ea020eb50
 
 class StreamsClassifier(object):
     def __init__(self, users_data=list):
@@ -10,8 +15,10 @@ class StreamsClassifier(object):
         self.target_data = []
         self.users_data = users_data
         self.code_labels = {}
-        self.ontology_names = {"SNOMEDCT": "snomed-ct", "LOINC": "loinc"}
+        self.ontology_names = {"SNOMEDCT": "snomed-ct", "LOINC": "loinc", "LNC": "loinc"}
         self.count_vect = CountVectorizer()
+        # self.synthetics = self.load_synthetic_data()
+        # self.create_train_data_from_synthetics()
 
     def create_train_data(self):
         for user in self.users_data:
@@ -34,9 +41,31 @@ class StreamsClassifier(object):
                     self.target_data.append(label)
         self.save_dict_to_file(self.code_labels)
 
+<<<<<<< HEAD
     def create_train_data_from_synthetic(self):
 
         pass
+=======
+    def create_train_data_from_synthetics(self):
+
+        streams = []
+        for stream in streams:
+            stream_name = stream['name']
+            if 'clientData' not in stream:
+                continue
+            if 'sempryv:codes' not in stream['clientData']:
+                continue
+
+            sempryv_annotations = stream['clientData']['sempryv:codes']
+            for ann_type in sempryv_annotations:
+                self.train_data.append(stream_name + ' ' + ann_type)
+                codes = ''
+                for annotation in sempryv_annotations[ann_type]:
+                    codes += self.ontology_names[annotation['system_name']] + ':' + annotation['code'] + '_'
+                label = self.assign_codes_label(codes)
+                self.target_data.append(label)
+        self.save_dict_to_file(self.code_labels)
+>>>>>>> a2c266903fa6d3881f5377a07dfb134ea020eb50
 
     def save_dict_to_file(self, dict: {}):
         f = open('code_labels.dict', 'wb')
@@ -68,9 +97,12 @@ class StreamsClassifier(object):
             if label == predicted:
                 return codes
 
+
 # users_data = [{'uname': 'orfi2019', 'token': 'cjxa7szlr00461id327owwz27'},
 #               {'uname': 'orfeas', 'token': 'cjzy2ioal04xj0e40zdcy4sku'}]
 # sc = StreamsClassifier(users_data=users_data)
+# sc.load_synthetic_data()
+
 # # sc.create_train_data()
 # sc.train()
 # new_stream = ["ACtivity txt"]
