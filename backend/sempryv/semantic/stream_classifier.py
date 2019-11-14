@@ -2,12 +2,8 @@ import pickle
 from semantic.stream_parser import StreamParser
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-<<<<<<< HEAD
-# from semantic.synt
-=======
 import json
 
->>>>>>> a2c266903fa6d3881f5377a07dfb134ea020eb50
 
 class StreamsClassifier(object):
     def __init__(self, users_data=list):
@@ -39,13 +35,8 @@ class StreamsClassifier(object):
                         codes += self.ontology_names[annotation['system_name']] + ':' + annotation['code'] + '_'
                     label = self.assign_codes_label(codes)
                     self.target_data.append(label)
-        self.save_dict_to_file(self.code_labels)
+        self.save_dict_to_file(self.code_labels, filename='code_labels_2.dict')
 
-<<<<<<< HEAD
-    def create_train_data_from_synthetic(self):
-
-        pass
-=======
     def create_train_data_from_synthetics(self):
 
         streams = []
@@ -64,11 +55,12 @@ class StreamsClassifier(object):
                     codes += self.ontology_names[annotation['system_name']] + ':' + annotation['code'] + '_'
                 label = self.assign_codes_label(codes)
                 self.target_data.append(label)
-        self.save_dict_to_file(self.code_labels)
->>>>>>> a2c266903fa6d3881f5377a07dfb134ea020eb50
+        self.save_dict_to_file(self.code_labels, 'code_labels.dict')
 
-    def save_dict_to_file(self, dict: {}):
-        f = open('code_labels.dict', 'wb')
+    def save_dict_to_file(self, dict: {}, filename: str):
+        if os.path.exists(path=filename):
+            os.remove(filename)
+        f = open(filename, 'wb')
         pickle.dump(dict, f)
         f.close()
 

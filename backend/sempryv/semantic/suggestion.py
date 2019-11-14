@@ -30,19 +30,25 @@ def _rules_suggestions(kind, path):
 def _ml_suggestions(_kind, _path):
     """Suggest semantic codes based on ML."""
     # TODO: Placeholder for incorporating ML suggestions in the future
-    model = load('model.joblib')
+    model = load('sempryv/synthetics_model.joblib')
+    # model = load('model_2.joblib')
     new_stream = _kind + _path
     predictions = _predict_suggestions(model, [new_stream])
     results = []
     for pred in predictions:
-        results.append(_parse_code(pred))
+        print(pred)
+        prediction_code=_parse_code(pred)
+        if prediction_code is None:
+            continue
+        results.append(prediction_code)
 
     return results
 
 
 def _predict_suggestions(model, stream):
     # vectorizer = load('file_vect.joblib')
-    file = open('file_vect.joblib', 'rb')
+    file = open('sempryv/file_vect.joblib', 'rb')
+    # file = open('file_vect_2.joblib', 'rb')
     vectorizer = pickle.load(file)
     file.close()
     # vector = CountVectorizer(vocabulary=vector.vocabulary)
@@ -55,7 +61,8 @@ def _predict_suggestions(model, stream):
 
 
 def get_codes(predicted: int):
-    f = open('code_labels.dict', 'rb')
+    f = open('sempryv/code_labels.dict', 'rb')
+    # f = open('code_labels_2.dict', 'rb')
     code_labels = pickle.load(f)
     print(code_labels)
     for codes, label in code_labels.items():
@@ -91,12 +98,13 @@ def sempryv_ml_train():
     model = sc.train()
     # counts = sc.count_vect.transform(['/Disorders'])
     # model.predict(counts)
-    save_model_to_file(sc.count_vect, filename='file_vect.joblib')
-    save_model_to_file(model, filename='model.joblib')
+    save_model_to_file(sc.count_vect, filename='file_vect_2.joblib')
+    save_model_to_file(model, filename='model_2.joblib')
 
 
 def save_model_to_file(model, filename):
-    os.remove(filename)
+    if os.path.exists(path=filename):
+        os.remove(filename)
     file = open(filename, 'wb')
     pickle.dump(model, file)
     # dump(model, filename)
@@ -137,5 +145,6 @@ def _parse_code(code_str):
 
 
 RULES, CODES = _load_rules()
+# print('Train model')
 synthetics_trainer = ThryvePulsoTrainer()
 synthetics_trainer.train_data()
