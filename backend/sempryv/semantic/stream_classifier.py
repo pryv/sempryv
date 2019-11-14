@@ -3,7 +3,7 @@ from semantic.stream_parser import StreamParser
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 import json
-
+import os
 
 class StreamsClassifier(object):
     def __init__(self, users_data=list):
@@ -35,7 +35,7 @@ class StreamsClassifier(object):
                         codes += self.ontology_names[annotation['system_name']] + ':' + annotation['code'] + '_'
                     label = self.assign_codes_label(codes)
                     self.target_data.append(label)
-        self.save_dict_to_file(self.code_labels)
+        self.save_dict_to_file(self.code_labels, filename='code_labels_2.dict')
 
     def create_train_data_from_synthetics(self):
 
@@ -55,10 +55,12 @@ class StreamsClassifier(object):
                     codes += self.ontology_names[annotation['system_name']] + ':' + annotation['code'] + '_'
                 label = self.assign_codes_label(codes)
                 self.target_data.append(label)
-        self.save_dict_to_file(self.code_labels)
+        self.save_dict_to_file(self.code_labels, 'code_labels.dict')
 
-    def save_dict_to_file(self, dict: {}):
-        f = open('code_labels.dict', 'wb')
+    def save_dict_to_file(self, dict: {}, filename: str):
+        if os.path.exists(path=filename):
+            os.remove(filename)
+        f = open(filename, 'wb')
         pickle.dump(dict, f)
         f.close()
 

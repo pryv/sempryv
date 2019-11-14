@@ -6,11 +6,12 @@ engine = create_engine('sqlite:///orfeas-example.db')
 Base = declarative_base()
 
 
-class TestTable(Base):
+class ModelsTable(Base):
     __tablename__ = 'test_table'
     stop_word = Column(String(100), primary_key=True)
     language = Column(String(50))
-    model = Column(BLOB)
+    classifier = Column(BLOB)
+    vectorizer = Column(BLOB)
     created_date = Column(DateTime)
     updated_date = Column(DateTime)
     touched_by = Column(String(100))
