@@ -2,7 +2,7 @@ import pickle
 from semantic.stream_parser import StreamParser
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-
+# from semantic.synt
 
 class StreamsClassifier(object):
     def __init__(self, users_data=list):
@@ -33,6 +33,10 @@ class StreamsClassifier(object):
                     label = self.assign_codes_label(codes)
                     self.target_data.append(label)
         self.save_dict_to_file(self.code_labels)
+
+    def create_train_data_from_synthetic(self):
+
+        pass
 
     def save_dict_to_file(self, dict: {}):
         f = open('code_labels.dict', 'wb')
