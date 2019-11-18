@@ -32,5 +32,5 @@ def start_sempryv_ml_component() -> str:
     # username = req_data['username']
     # token = req_data['token']
 
-    # suggestion.sempryv_ml_train()
+    suggestion.sempryv_ml_train()
     return ''

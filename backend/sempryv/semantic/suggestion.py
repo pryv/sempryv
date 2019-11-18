@@ -18,8 +18,9 @@ import pickle
 def suggest(kind, path):
     """Suggest semantic codes based on a kind and a path."""
     rules = _rules_suggestions(kind, path)
-    ml = _ml_suggestions(kind, path)
-    return rules + ml
+    ml_synthetic = _ml_synthetic_suggestions(kind, path)
+    # ml = _ml_suggestions(kind, path)
+    return rules + ml_synthetic
 
 
 def _rules_suggestions(kind, path):
@@ -27,13 +28,35 @@ def _rules_suggestions(kind, path):
     return _calculate_rule_suggestions(kind, path, RULES, CODES)
 
 
-def _ml_suggestions(_kind, _path):
+def _ml_synthetic_suggestions(_kind, _path):
     """Suggest semantic codes based on ML."""
     # TODO: Placeholder for incorporating ML suggestions in the future
     model = load('sempryv/synthetics_model.joblib')
-    # model = load('model_2.joblib')
+    file = open('sempryv/file_vect_synth.joblib', 'rb')
+    vectorizer = pickle.load(file)
+    file.close()
     new_stream = _kind + _path
-    predictions = _predict_suggestions(model, [new_stream])
+    predictions = _predict_suggestions(model, vectorizer, [new_stream])
+    results = []
+    for pred in predictions:
+        print(pred)
+        prediction_code = _parse_code(pred)
+        if prediction_code is None:
+            continue
+        results.append(prediction_code)
+
+    return results
+
+
+def _ml_suggestions(_kind, _path):
+    """Suggest semantic codes based on ML."""
+    # TODO: Placeholder for incorporating ML suggestions in the future
+    model = load('model_2.joblib')
+    file = open('file_vect_2.joblib', 'rb')
+    vectorizer = pickle.load(file)
+    file.close()
+    new_stream = _kind + _path
+    predictions = _predict_suggestions(model, vectorizer, [new_stream])
     results = []
     for pred in predictions:
         print(pred)
@@ -45,14 +68,7 @@ def _ml_suggestions(_kind, _path):
     return results
 
 
-def _predict_suggestions(model, stream):
-    # vectorizer = load('file_vect.joblib')
-    file = open('sempryv/file_vect.joblib', 'rb')
-    # file = open('file_vect_2.joblib', 'rb')
-    vectorizer = pickle.load(file)
-    file.close()
-    # vector = CountVectorizer(vocabulary=vector.vocabulary)
-
+def _predict_suggestions(model, vectorizer, stream):
     counts = vectorizer.transform(stream)
     predicted = model.predict(counts)
     print(predicted)
@@ -145,6 +161,7 @@ def _parse_code(code_str):
 
 
 RULES, CODES = _load_rules()
-# print('Train model')
+print('Train synthetic model...')
 synthetics_trainer = ThryvePulsoTrainer()
 synthetics_trainer.train_data()
+print('Training finished.')

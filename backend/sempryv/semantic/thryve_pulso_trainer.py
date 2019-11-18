@@ -4,7 +4,9 @@ import pickle
 
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-from semantic.domain_models import sempryv_models as database
+
+
+# from semantic.domain_models import sempryv_models as database
 
 
 class ThryvePulsoTrainer(object):
@@ -17,7 +19,7 @@ class ThryvePulsoTrainer(object):
         self.code_labels = {}
         self.create_train_target_data()
         self.count_vect = CountVectorizer()
-        self.db = database
+        # self.db = database
 
     @staticmethod
     def load_synthetic_data():
@@ -41,13 +43,19 @@ class ThryvePulsoTrainer(object):
             type = d_stream_types[ann_dato['id']]
             name = ann_dato['name']
             annotations = ann_dato['codes']
-            self.train_data_synthetic.append(name + ' ' + type)
             codes = ''
             for code in annotations:
+                alter_name = code['prefLabel']
+                name += ' ' + alter_name
                 annotation = code['id'].split('/')[-1]
                 ontology_name = self.ontology_names[code['id'].split('/')[-2]]
+                if ontology_name == 'loinc':
+                    continue
                 codes += ontology_name + ':' + annotation + '_'
+            if codes == '':
+                continue
             label = self.assign_codes_label(codes)
+            self.train_data_synthetic.append(name + ' ' + type)
             self.target_data_synthetic.append(label)
 
         # pulso
@@ -56,16 +64,22 @@ class ThryvePulsoTrainer(object):
             type = d_stream_types[ann_dato['id']]
             name = ann_dato['name']
             annotations = ann_dato['codes']
-            self.train_data_synthetic.append(name + ' ' + type)
             codes = ''
             for code in annotations:
+                alter_name = code['prefLabel']
+                name += ' ' + alter_name
                 annotation = code['id'].split('/')[-1]
                 ontology_name = self.ontology_names[code['id'].split('/')[-2]]
+                if ontology_name == 'loinc':
+                    continue
                 codes += ontology_name + ':' + annotation + '_'
+            if codes == '':
+                continue
             label = self.assign_codes_label(codes)
+            self.train_data_synthetic.append(name + ' ' + type)
             self.target_data_synthetic.append(label)
 
-        self.save_dict_to_file(self.code_labels, 'code_labels.dict')  # TODO: persist in db
+        self.save_dict_to_file(self.code_labels, 'code_labels_synth.dict')  # TODO: persist in db
 
     @staticmethod
     def save_dict_to_file(dict: {}, filename: str):
@@ -92,7 +106,7 @@ class ThryvePulsoTrainer(object):
 
     def train_data(self):
         counts = self.count_vect.fit_transform(self.train_data_synthetic)
-        self.save_model_to_file(self.count_vect, filename='file_vect.joblib')
+        self.save_model_to_file(self.count_vect, filename='file_vect_synth.joblib')
         classifier_model = MultinomialNB().fit(counts, self.target_data_synthetic)
         self.save_model_to_file(classifier_model, filename='synthetics_model.joblib')
 

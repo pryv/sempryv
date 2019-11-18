@@ -3,6 +3,7 @@ from semantic.stream_parser import StreamParser
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 import json
+import os
 
 
 class StreamsClassifier(object):
@@ -57,7 +58,8 @@ class StreamsClassifier(object):
                 self.target_data.append(label)
         self.save_dict_to_file(self.code_labels, 'code_labels.dict')
 
-    def save_dict_to_file(self, dict: {}, filename: str):
+    @staticmethod
+    def save_dict_to_file(dict: {}, filename: str):
         if os.path.exists(path=filename):
             os.remove(filename)
         f = open(filename, 'wb')

@@ -86,7 +86,6 @@ def look(ontology: str, code: str) -> Optional[SemanticClass]:
         display_links=False,
     )
     results = [r for r in responses["collection"] if "synonym" in r]
-    RESULTS = [r for r in responses["collection"] if r['notation'] == code]
     if results:
         return _to_semantic(results[0])
         # return _to_semantic(RESULTS[0])
