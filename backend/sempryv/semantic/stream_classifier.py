@@ -1,9 +1,10 @@
+import os
 import pickle
-from semantic.stream_parser import StreamParser
+
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-import json
-import os
+
+from semantic.stream_parser import StreamParser
 
 
 class StreamsClassifier(object):
