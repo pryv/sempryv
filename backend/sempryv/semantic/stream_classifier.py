@@ -14,8 +14,6 @@ class StreamsClassifier(object):
         self.code_labels = {}
         self.ontology_names = {"SNOMEDCT": "snomed-ct", "LOINC": "loinc", "LNC": "loinc"}
         self.count_vect = CountVectorizer()
-        # self.synthetics = self.load_synthetic_data()
-        # self.create_train_data_from_synthetics()
 
     def create_train_data(self):
         for user in self.users_data:
@@ -36,27 +34,8 @@ class StreamsClassifier(object):
                         codes += self.ontology_names[annotation['system_name']] + ':' + annotation['code'] + '_'
                     label = self.assign_codes_label(codes)
                     self.target_data.append(label)
-        self.save_dict_to_file(self.code_labels, filename='code_labels_2.dict')
+        self.save_dict_to_file(self.code_labels, filename='code_labels_users.dict')
 
-    def create_train_data_from_synthetics(self):
-
-        streams = []
-        for stream in streams:
-            stream_name = stream['name']
-            if 'clientData' not in stream:
-                continue
-            if 'sempryv:codes' not in stream['clientData']:
-                continue
-
-            sempryv_annotations = stream['clientData']['sempryv:codes']
-            for ann_type in sempryv_annotations:
-                self.train_data.append(stream_name + ' ' + ann_type)
-                codes = ''
-                for annotation in sempryv_annotations[ann_type]:
-                    codes += self.ontology_names[annotation['system_name']] + ':' + annotation['code'] + '_'
-                label = self.assign_codes_label(codes)
-                self.target_data.append(label)
-        self.save_dict_to_file(self.code_labels, 'code_labels.dict')
 
     @staticmethod
     def save_dict_to_file(dict: {}, filename: str):

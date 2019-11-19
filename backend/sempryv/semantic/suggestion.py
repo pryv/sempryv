@@ -19,8 +19,9 @@ def suggest(kind, path):
     """Suggest semantic codes based on a kind and a path."""
     rules = _rules_suggestions(kind, path)
     ml_synthetic = _ml_synthetic_suggestions(kind, path)
-    # ml = _ml_suggestions(kind, path)
-    return rules + ml_synthetic
+    ml = _ml_suggestions(kind, path)
+    # return rules + ml_synthetic
+    return rules + ml_synthetic + ml
 
 
 def _rules_suggestions(kind, path):
@@ -31,12 +32,13 @@ def _rules_suggestions(kind, path):
 def _ml_synthetic_suggestions(_kind, _path):
     """Suggest semantic codes based on ML."""
     # TODO: Placeholder for incorporating ML suggestions in the future
+    print('Synthetics model predictions')
     model = load('sempryv/synthetics_model.joblib')
     file = open('sempryv/file_vect_synth.joblib', 'rb')
     vectorizer = pickle.load(file)
     file.close()
     new_stream = _kind + _path
-    predictions = _predict_suggestions(model, vectorizer, [new_stream])
+    predictions = _predict_suggestions(model, vectorizer, [new_stream], model_type='synthetics')
     results = []
     for pred in predictions:
         print(pred)
@@ -51,12 +53,13 @@ def _ml_synthetic_suggestions(_kind, _path):
 def _ml_suggestions(_kind, _path):
     """Suggest semantic codes based on ML."""
     # TODO: Placeholder for incorporating ML suggestions in the future
-    model = load('model_2.joblib')
-    file = open('file_vect_2.joblib', 'rb')
+    print('Users model predictions')
+    model = load('model_users.joblib')
+    file = open('file_vect_users.joblib', 'rb')
     vectorizer = pickle.load(file)
     file.close()
     new_stream = _kind + _path
-    predictions = _predict_suggestions(model, vectorizer, [new_stream])
+    predictions = _predict_suggestions(model, vectorizer, [new_stream], model_type='users')
     results = []
     for pred in predictions:
         print(pred)
@@ -68,16 +71,32 @@ def _ml_suggestions(_kind, _path):
     return results
 
 
-def _predict_suggestions(model, vectorizer, stream):
+def _predict_suggestions(model, vectorizer, stream, model_type: str):
     counts = vectorizer.transform(stream)
     predicted = model.predict(counts)
     print(predicted)
-    predicted_codes = get_codes(predicted[0])
-    return predicted_codes.split("_")[:-1]
+    # predicted_codes = get_synthetic_codes(predicted[0])
+    # predicted_codes = get_codes(predicted = predicted[0], model_type= model_type)
+    code_labels = None
+    if model_type == 'synthetics':
+        f = open('sempryv/code_labels_synth.dict', 'rb')
+        code_labels = pickle.load(f)
+        f.close()
+    elif model_type == 'users':
+        f = open('code_labels_users.dict', 'rb')
+        code_labels = pickle.load(f)
+        f.close()
+    print(code_labels)
+    if code_labels is not None:
+        for codes, label in code_labels.items():
+            if label == predicted:
+                return codes.split("_")[:-1]
+
+    # return predicted_codes.split("_")[:-1]
 
 
 def get_codes(predicted: int):
-    f = open('sempryv/code_labels.dict', 'rb')
+    f = open('sempryv/code_labels_synth.dict', 'rb')
     # f = open('code_labels_2.dict', 'rb')
     code_labels = pickle.load(f)
     print(code_labels)
@@ -107,15 +126,15 @@ def _calculate_rule_suggestions(kind, path, rules, codes):
 
 def sempryv_ml_train():
     users_data = [{'uname': 'orfi2019', 'token': 'cjxa7szlr00461id327owwz27'},
-                  {'uname': 'orfeas', 'token': 'cjzy2ioal04xj0e40zdcy4sku'},
+                  {'uname': 'orfeas-client', 'token': 'ck1qo6fdk004j0g40juft91og'},
                   {'uname': 'orfeas-synthetics', 'token': 'ck2g12tot00191i40w1x1h7t4'}
                   ]
     sc = StreamsClassifier(users_data=users_data)
     model = sc.train()
     # counts = sc.count_vect.transform(['/Disorders'])
     # model.predict(counts)
-    save_model_to_file(sc.count_vect, filename='file_vect_2.joblib')
-    save_model_to_file(model, filename='model_2.joblib')
+    save_model_to_file(sc.count_vect, filename='file_vect_users.joblib')
+    save_model_to_file(model, filename='model_users.joblib')
 
 
 def save_model_to_file(model, filename):
