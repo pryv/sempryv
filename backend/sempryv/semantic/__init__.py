@@ -6,7 +6,7 @@ import json
 from flask import Blueprint, jsonify, request
 
 from sempryv.semantic import providers, suggestion
-from semantic.providers.data_provider import SempryvDataProvider
+from semantic.domain_models.data_provider import SempryvDataProvider
 # Flask blueprint
 BP: Blueprint = Blueprint("api", __name__)
 

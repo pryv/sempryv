@@ -29,6 +29,6 @@ class SempryvDataProvider:
 
     def persist_models(self, file):
         model = self.db.AnalyticsModels
-        new_model = self.db.AnalyticsModels()
+        # new_model = self.db.AnalyticsModels(classifier=)
 
         pass

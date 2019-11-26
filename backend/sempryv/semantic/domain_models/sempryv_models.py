@@ -8,7 +8,7 @@ Base = declarative_base()
 
 class AnalyticsModels(Base):
     __tablename__ = 'scikit_models'
-    classifier = Column(BLOB)
+    classifier = Column(BLOB, primary_key=True)
     vectorizer = Column(BLOB)
     # created_date = Column(DateTime)
     # updated_date = Column(DateTime)

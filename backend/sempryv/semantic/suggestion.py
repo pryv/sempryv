@@ -7,9 +7,8 @@ import re
 from sempryv.semantic.providers.bioportal import look
 from semantic.stream_classifier import StreamsClassifier
 from semantic.thryve_pulso_trainer import ThryvePulsoTrainer
-from semantic.providers.data_provider import SempryvDataProvider
-from joblib import dump, load
-from sklearn.feature_extraction.text import CountVectorizer
+from semantic.domain_models.data_provider import SempryvDataProvider
+from joblib import load
 import pickle
 
 
@@ -137,16 +136,18 @@ def sempryv_ml_train():
         users_data.append({'uname': user[0], 'token': user[1]})
     sc = StreamsClassifier(users_data=users_data)
     model = sc.train()
-    save_model_to_file(sc.count_vect, filename='file_vect_users.joblib') #TODO: persist in DB
-    db_file_vectorizer = convertToBinaryData(filename='file_vect_users.joblib')
-    data_provider.persist_models(file=db_file_vectorizer)
+    save_model_to_file(sc.count_vect, filename='file_vect_users.joblib')
+    # db_file_vectorizer = convertToBinaryData(filename='file_vect_users.joblib') # TODO: persist in DB
+    # data_provider.persist_models(file=db_file_vectorizer)
     save_model_to_file(model, filename='model_users.joblib')
 
+
 def convertToBinaryData(filename):
-    #Convert digital data to binary format
+    # Convert digital data to binary format
     with open(filename, 'rb') as file:
         blobData = file.read()
     return blobData
+
 
 def save_model_to_file(model, filename):
     if os.path.exists(path=filename):
