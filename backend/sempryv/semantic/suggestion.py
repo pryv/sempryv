@@ -7,8 +7,8 @@ import re
 from sempryv.semantic.providers.bioportal import look
 from semantic.stream_classifier import StreamsClassifier
 from semantic.thryve_pulso_trainer import ThryvePulsoTrainer
-from joblib import dump, load
-from sklearn.feature_extraction.text import CountVectorizer
+from semantic.domain_models.data_provider import SempryvDataProvider
+from joblib import load
 import pickle
 
 
@@ -63,7 +63,7 @@ def _ml_suggestions(_kind, _path):
     results = []
     for pred in predictions:
         print(pred)
-        prediction_code=_parse_code(pred)
+        prediction_code = _parse_code(pred)
         if prediction_code is None:
             continue
         results.append(prediction_code)
@@ -129,12 +129,24 @@ def sempryv_ml_train():
                   {'uname': 'orfeas-client', 'token': 'ck1qo6fdk004j0g40juft91og'},
                   {'uname': 'orfeas-synthetics', 'token': 'ck2g12tot00191i40w1x1h7t4'}
                   ]
+    users_data = []
+    data_provider = SempryvDataProvider()
+    users = data_provider.get_all_users()
+    for user in users:
+        users_data.append({'uname': user[0], 'token': user[1]})
     sc = StreamsClassifier(users_data=users_data)
     model = sc.train()
-    # counts = sc.count_vect.transform(['/Disorders'])
-    # model.predict(counts)
     save_model_to_file(sc.count_vect, filename='file_vect_users.joblib')
+    # db_file_vectorizer = convertToBinaryData(filename='file_vect_users.joblib') # TODO: persist in DB
+    # data_provider.persist_models(file=db_file_vectorizer)
     save_model_to_file(model, filename='model_users.joblib')
+
+
+def convertToBinaryData(filename):
+    # Convert digital data to binary format
+    with open(filename, 'rb') as file:
+        blobData = file.read()
+    return blobData
 
 
 def save_model_to_file(model, filename):

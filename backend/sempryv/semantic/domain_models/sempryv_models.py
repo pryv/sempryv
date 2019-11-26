@@ -6,15 +6,19 @@ engine = create_engine('sqlite:///orfeas-example.db')
 Base = declarative_base()
 
 
-class ModelsTable(Base):
-    __tablename__ = 'test_table'
-    stop_word = Column(String(100), primary_key=True)
-    language = Column(String(50))
-    classifier = Column(BLOB)
+class AnalyticsModels(Base):
+    __tablename__ = 'scikit_models'
+    classifier = Column(BLOB, primary_key=True)
     vectorizer = Column(BLOB)
-    created_date = Column(DateTime)
-    updated_date = Column(DateTime)
-    touched_by = Column(String(100))
+    # created_date = Column(DateTime)
+    # updated_date = Column(DateTime)
+    # touched_by = Column(String(100))
+
+
+class Users(Base):
+    __tablename__ = 'users'
+    username = Column(String(100), primary_key=True)
+    token = Column(String(100), primary_key=True)
 
 
 Base.metadata.create_all(bind=engine)

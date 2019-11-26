@@ -42,6 +42,7 @@ class ThryvePulsoTrainer(object):
         for ann_dato in self.thryve_annotated_data:
             type = d_stream_types[ann_dato['id']]
             name = ann_dato['name']
+            id = ann_dato['id']
             annotations = ann_dato['codes']
             codes = ''
             for code in annotations:
@@ -55,7 +56,7 @@ class ThryvePulsoTrainer(object):
             if codes == '':
                 continue
             label = self.assign_codes_label(codes)
-            self.train_data_synthetic.append(name + ' ' + type)
+            self.train_data_synthetic.append(id + ' ' + name + ' ' + type)
             self.target_data_synthetic.append(label)
 
         # pulso
@@ -63,6 +64,7 @@ class ThryvePulsoTrainer(object):
         for ann_dato in self.pulso_annotated_data:
             type = d_stream_types[ann_dato['id']]
             name = ann_dato['name']
+            id = ann_dato['id']
             annotations = ann_dato['codes']
             codes = ''
             for code in annotations:
@@ -76,7 +78,8 @@ class ThryvePulsoTrainer(object):
             if codes == '':
                 continue
             label = self.assign_codes_label(codes)
-            self.train_data_synthetic.append(name + ' ' + type)
+            # self.train_data_synthetic.append(name + ' ' + type)
+            self.train_data_synthetic.append(id + ' ' + name + ' ' + type)
             self.target_data_synthetic.append(label)
 
         self.save_dict_to_file(self.code_labels, 'code_labels_synth.dict')  # TODO: persist in db
