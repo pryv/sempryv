@@ -3,12 +3,15 @@
 
 import json
 import re
+import logging
+logging.basicConfig(filename='example.log', level=logging.INFO)
 
 from sempryv.semantic.providers.bioportal import look
 
 
 def suggest(kind, path):
     """Suggest semantic codes based on a kind and a path."""
+    logging.info('ml suggest')
     rules = _suggest_rules(kind, path)
     ml = _suggest_ml(kind, path)
     return rules + ml
