@@ -48,6 +48,7 @@ def _find_matching_codes(kind, path, rules, codes):
 
 def _load_rules():
     """Load the rules."""
+    logging.info('load rules')
     rules = {}
     codes = {}
     # Open the file
