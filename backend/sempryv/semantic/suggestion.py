@@ -10,6 +10,8 @@ from semantic.thryve_pulso_trainer import ThryvePulsoTrainer
 from semantic.domain_models.data_provider import SempryvDataProvider
 from joblib import load
 import pickle
+import logging
+logging.basicConfig(filename='example.log', level=logging.INFO)
 
 
 # class SuggestionsProvider(object):
@@ -125,10 +127,11 @@ def _calculate_rule_suggestions(kind, path, rules, codes):
 
 
 def sempryv_ml_train():
-    users_data = [{'uname': 'orfi2019', 'token': 'cjxa7szlr00461id327owwz27'},
-                  {'uname': 'orfeas-client', 'token': 'ck1qo6fdk004j0g40juft91og'},
-                  {'uname': 'orfeas-synthetics', 'token': 'ck2g12tot00191i40w1x1h7t4'}
-                  ]
+    # users_data = [{'uname': 'orfi2019', 'token': 'cjxa7szlr00461id327owwz27'},
+    #               {'uname': 'orfeas-client', 'token': 'ck1qo6fdk004j0g40juft91og'},
+    #               {'uname': 'orfeas-synthetics', 'token': 'ck2g12tot00191i40w1x1h7t4'}
+    #               ]
+    logging.error('ml train')
     users_data = []
     data_provider = SempryvDataProvider()
     users = data_provider.get_all_users()
