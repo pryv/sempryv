@@ -4,7 +4,7 @@
 
 import os
 
-import ptvsd
+# import ptvsd
 from sempryv import APP
 
 
@@ -18,10 +18,10 @@ def main():
         # https://github.com/mitsuhiko/flask/issues/1246
         os.environ["PYTHONPATH"] = os.getcwd()
         # Enable PTVSD in werkzeug watched processes only
-        if "WERKZEUG_RUN_MAIN" in os.environ:
-            ptvsd.enable_attach()
+        # if "WERKZEUG_RUN_MAIN" in os.environ:
+        #     ptvsd.enable_attach()
     # Run the Flask app
-    APP.run(host="0.0.0.0", port=8000, debug=debug)
+    APP.run(host="0.0.0.0", port=8000)
 
 
 if __name__ == "__main__":

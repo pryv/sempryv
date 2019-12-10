@@ -36,6 +36,8 @@ The rest of this documentation is assuming the following prerequisites:
 
 ## Production setup
 
+**Warning:** Building the image the frontend image requires at least 2GB RAM.
+
 To run SemPryv locally in production mode, the following steps are required:
 
 1.  Install `docker` (tested with version `18.05.0-ce`, build `f150324782`)

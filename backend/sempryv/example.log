@@ -1,0 +1,42 @@
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): data.bioontology.org:80
+DEBUG:urllib3.connectionpool:http://data.bioontology.org:80 "GET /search?q=386725007&ontologies=SNOMEDCT&include=notation%2CprefLabel%2Csynonym&pagesize=50&display_context=false&display_links=false HTTP/1.1" 200 402
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): data.bioontology.org:80
+DEBUG:urllib3.connectionpool:http://data.bioontology.org:80 "GET /search?q=80891009&ontologies=SNOMEDCT&include=notation%2CprefLabel%2Csynonym&pagesize=50&display_context=false&display_links=false HTTP/1.1" 200 366
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): data.bioontology.org:80
+DEBUG:urllib3.connectionpool:http://data.bioontology.org:80 "GET /search?q=118538004&ontologies=SNOMEDCT&include=notation%2CprefLabel%2Csynonym&pagesize=50&display_context=false&display_links=false HTTP/1.1" 200 421
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): data.bioontology.org:80
+DEBUG:urllib3.connectionpool:http://data.bioontology.org:80 "GET /search?q=34534&ontologies=LOINC&include=notation%2CprefLabel%2Csynonym&pagesize=50&display_context=false&display_links=false HTTP/1.1" 200 413
+DEBUG:urllib3.connectionpool:Starting new HTTP connection (1): data.bioontology.org:80
+DEBUG:urllib3.connectionpool:http://data.bioontology.org:80 "GET /search?q=102730007&ontologies=SNOMEDCT&include=notation%2CprefLabel%2Csynonym&pagesize=50&display_context=false&display_links=false HTTP/1.1" 200 337
+ERROR:root:start main
+INFO:werkzeug: * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+ERROR:root:ml train
+ERROR:sqlalchemy.pool.impl.NullPool:Exception during reset or similar
+Traceback (most recent call last):
+  File "/home/orfeas/PycharmProjects/sempryv/backend/venv/lib/python3.6/site-packages/sqlalchemy/pool/base.py", line 680, in _finalize_fairy
+    fairy._reset(pool)
+  File "/home/orfeas/PycharmProjects/sempryv/backend/venv/lib/python3.6/site-packages/sqlalchemy/pool/base.py", line 867, in _reset
+    pool._dialect.do_rollback(self)
+  File "/home/orfeas/PycharmProjects/sempryv/backend/venv/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 531, in do_rollback
+    dbapi_connection.rollback()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 140526475736832 and this is thread id 140527457810240.
+ERROR:sqlalchemy.pool.impl.NullPool:Exception closing connection <sqlite3.Connection object at 0x7fcede26fab0>
+Traceback (most recent call last):
+  File "/home/orfeas/PycharmProjects/sempryv/backend/venv/lib/python3.6/site-packages/sqlalchemy/pool/base.py", line 680, in _finalize_fairy
+    fairy._reset(pool)
+  File "/home/orfeas/PycharmProjects/sempryv/backend/venv/lib/python3.6/site-packages/sqlalchemy/pool/base.py", line 867, in _reset
+    pool._dialect.do_rollback(self)
+  File "/home/orfeas/PycharmProjects/sempryv/backend/venv/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 531, in do_rollback
+    dbapi_connection.rollback()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 140526475736832 and this is thread id 140527457810240.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/orfeas/PycharmProjects/sempryv/backend/venv/lib/python3.6/site-packages/sqlalchemy/pool/base.py", line 270, in _close_connection
+    self._dialect.do_close(connection)
+  File "/home/orfeas/PycharmProjects/sempryv/backend/venv/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 537, in do_close
+    dbapi_connection.close()
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 140526475736832 and this is thread id 140527457810240.
+INFO:werkzeug: * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [09/Dec/2019 18:46:14] "GET /semantic/suggest?kind=activity&path=/Activity-orfeas HTTP/1.1" 200 -

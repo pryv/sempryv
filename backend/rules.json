@@ -24,24 +24,24 @@
     }
 
   },
-  "@graph": [{
+  "@graph": [
+    {
       "@id": "pryv:temperature",
       "@type": "skos:Concept",
-      "skos:notation": "note/txt",
-      "skos:closeMatch": "snomed-ct:386725007",
-      "skos:broadMatch": "snomed-ct:386455007"
-    },
-    {
-      "@id": "pryv:bodyTemperature",
-      "@type": "skos:Concept",
-      "skos:notation": "note/txt",
+      "skos:notation": ["note/txt"],
       "skos:broader": "pryv:temperature",
       "skos:closeMatch": "snomed-ct:386725007"
     },
     {
+      "@id": "pryv:heart",
+      "@type": "skos:Concept",
+      "skos:notation": ["heart","note/txt"],
+      "skos:closeMatch": "snomed-ct:80891009"
+    },
+    {
       "@id": "pryv:mass",
       "@type": "skos:Concept",
-      "skos:notation": "mass",
+      "skos:notation": ["mass"],
       "skos:closeMatch": "snomed-ct:118538004"
     },
     {
@@ -51,15 +51,27 @@
 
     },
     {
+      "@id": "someRuleSet1",
+      "pryv:pathExpression": "/body temperature",
+      "pryv:mapping": ["pryv:temperature"]
+
+    },
+    {
+      "@id": "someRuleSet2",
+      "pryv:pathExpression": "/heart",
+      "pryv:mapping": ["pryv:heart"]
+
+    },
+    {
       "@id": "pryv:frequencyHerz",
       "@type": "skos:Concept",
-      "skos:notation": "frequency/hz",
+      "skos:notation": ["frequency/hz"],
       "skos:closeMatch": "loinc:34534"
     },
     {
       "@id": "pryv:notetxt",
       "@type": "skos:Concept",
-      "skos:notation": "NOTE/TXT",
+      "skos:notation": ["note/txt"],
       "skos:closeMatch": "snomed-ct:102730007"
     },
     {
@@ -69,3 +81,9 @@
     }
   ]
 }
+
+
+
+
+
+
