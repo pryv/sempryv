@@ -5,9 +5,9 @@ import json
 import re
 
 from sempryv.semantic.providers.bioportal import look
-from semantic.stream_classifier import StreamsClassifier
-from semantic.thryve_pulso_trainer import ThryvePulsoTrainer
-from semantic.domain_models.data_provider import SempryvDataProvider
+from sempryv.semantic.stream_classifier import StreamsClassifier
+from sempryv.semantic.thryve_pulso_trainer import ThryvePulsoTrainer
+from sempryv.semantic.domain_models.data_provider import SempryvDataProvider
 from joblib import load
 import pickle
 import logging
@@ -167,7 +167,8 @@ def _load_rules():
     rules = {}
     codes = {}
     # Open the file
-    with open("../rules.json", "r") as file_pointer:
+    # with open("../rules.json", "r") as file_pointer:
+    with open("rules.json", "r") as file_pointer:
         entries = json.load(file_pointer)["@graph"]
     # For each entry
     for entry in entries:

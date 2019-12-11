@@ -4,7 +4,7 @@ import pickle
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 
-from semantic.stream_parser import StreamParser
+from sempryv.semantic.stream_parser import StreamParser
 
 
 class StreamsClassifier(object):
