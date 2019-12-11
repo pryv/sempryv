@@ -7,17 +7,11 @@ import re
 
 
 from sempryv.semantic.providers.bioportal import look
-from semantic.stream_classifier import StreamsClassifier
-from semantic.thryve_pulso_trainer import ThryvePulsoTrainer
-from semantic.domain_models.data_provider import SempryvDataProvider
+from sempryv.semantic.stream_classifier import StreamsClassifier
+from sempryv.semantic.thryve_pulso_trainer import ThryvePulsoTrainer
+from sempryv.semantic.domain_models.data_provider import SempryvDataProvider
 from joblib import load
 import pickle
-import logging
-logging.basicConfig(filename='example.log', level=logging.INFO)
-
-
-# class SuggestionsProvider(object):
-#     def __init__(self):
 
 def suggest(kind, path):
     """Suggest semantic codes based on a kind and a path."""
@@ -35,8 +29,7 @@ def _rules_suggestions(kind, path):
 
 def _ml_synthetic_suggestions(_kind, _path):
     """Suggest semantic codes based on ML."""
-    # TODO: Placeholder for incorporating ML suggestions in the future
-    print('Synthetics model predictions')
+    print('========= Synthetics model predictions ==========')
     model = load('sempryv/synthetics_model.joblib')
     file = open('sempryv/file_vect_synth.joblib', 'rb')
     vectorizer = pickle.load(file)
@@ -56,8 +49,7 @@ def _ml_synthetic_suggestions(_kind, _path):
 
 def _ml_suggestions(_kind, _path):
     """Suggest semantic codes based on ML."""
-    # TODO: Placeholder for incorporating ML suggestions in the future
-    print('Users model predictions')
+    print('=========== Users model predictions ============')
     model = load('model_users.joblib')
     file = open('file_vect_users.joblib', 'rb')
     vectorizer = pickle.load(file)
@@ -129,11 +121,6 @@ def _calculate_rule_suggestions(kind, path, rules, codes):
 
 
 def sempryv_ml_train():
-    # users_data = [{'uname': 'orfi2019', 'token': 'cjxa7szlr00461id327owwz27'},
-    #               {'uname': 'orfeas-client', 'token': 'ck1qo6fdk004j0g40juft91og'},
-    #               {'uname': 'orfeas-synthetics', 'token': 'ck2g12tot00191i40w1x1h7t4'}
-    #               ]
-    logging.error('ml train')
     users_data = []
     data_provider = SempryvDataProvider()
     users = data_provider.get_all_users()
@@ -142,8 +129,6 @@ def sempryv_ml_train():
     sc = StreamsClassifier(users_data=users_data)
     model = sc.train()
     save_model_to_file(sc.count_vect, filename='file_vect_users.joblib')
-    # db_file_vectorizer = convertToBinaryData(filename='file_vect_users.joblib') # TODO: persist in DB
-    # data_provider.persist_models(file=db_file_vectorizer)
     save_model_to_file(model, filename='model_users.joblib')
 
 
@@ -169,7 +154,7 @@ def _load_rules():
     rules = {}
     codes = {}
     # Open the file
-    with open("../rules.json", "r") as file_pointer:
+    with open("rules.json", "r") as file_pointer:
         entries = json.load(file_pointer)["@graph"]
     # For each entry
     for entry in entries:
@@ -197,7 +182,7 @@ def _parse_code(code_str):
 
 
 RULES, CODES = _load_rules()
-print('Train synthetic model...')
+print('===== Train synthetic model... ====')
 synthetics_trainer = ThryvePulsoTrainer()
 synthetics_trainer.train_data()
-print('Training finished.')
+print('==== Training finished ====')

@@ -19,15 +19,14 @@ class ThryvePulsoTrainer(object):
         self.code_labels = {}
         self.create_train_target_data()
         self.count_vect = CountVectorizer()
-        # self.db = database
+        
 
     @staticmethod
     def load_synthetic_data():
-        # TODO: load data from DB
-        f_thryve = open('semantic/synthetics/thryve-streams.json', 'r')
-        f_thryve_annotations = open('semantic/synthetics/data_annotated-thryve-filtered.json', 'r')
-        f_pulso = open('semantic/synthetics/pulso-streams.json', 'r')
-        f_pulso_annotations = open('semantic/synthetics/data_annotated-pulso-filtered.json', 'r')
+        f_thryve = open('sempryv/semantic/synthetics/thryve-streams.json', 'r')
+        f_thryve_annotations = open('sempryv/semantic/synthetics/data_annotated-thryve-filtered.json', 'r')
+        f_pulso = open('sempryv/semantic/synthetics/pulso-streams.json', 'r')
+        f_pulso_annotations = open('sempryv/semantic/synthetics/data_annotated-pulso-filtered.json', 'r')
         thryve_streams = json.load(f_thryve)
         thryve_annotated_data = json.load(f_thryve_annotations)
         pulso_streams = json.load(f_pulso)

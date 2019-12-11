@@ -1,4 +1,4 @@
-from semantic.domain_models import sempryv_models as db
+from sempryv.semantic.domain_models import sempryv_models as db
 
 
 class SempryvDataProvider:

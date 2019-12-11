@@ -4,7 +4,7 @@ import pickle
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 
-from semantic.stream_parser import StreamParser
+from sempryv.semantic.stream_parser import StreamParser
 
 
 class StreamsClassifier(object):
@@ -56,7 +56,6 @@ class StreamsClassifier(object):
     def train(self):
         self.create_train_data()
         counts = self.count_vect.fit_transform(self.train_data)
-        # self.classifier_model = MultinomialNB().fit(counts, self.target_data)
         classifier_model = MultinomialNB().fit(counts, self.target_data)
         return classifier_model
 
@@ -71,15 +70,3 @@ class StreamsClassifier(object):
             if label == predicted:
                 return codes
 
-
-# users_data = [{'uname': 'orfi2019', 'token': 'cjxa7szlr00461id327owwz27'},
-#               {'uname': 'orfeas', 'token': 'cjzy2ioal04xj0e40zdcy4sku'}]
-# sc = StreamsClassifier(users_data=users_data)
-# sc.load_synthetic_data()
-
-# # sc.create_train_data()
-# sc.train()
-# new_stream = ["ACtivity txt"]
-#
-# pred = sc.predict(new_stream)
-# x = 1
