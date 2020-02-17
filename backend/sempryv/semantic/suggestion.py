@@ -167,8 +167,8 @@ def _load_rules():
     rules = {}
     codes = {}
     # Open the file
-    # with open("../rules.json", "r") as file_pointer:
-    with open("rules.json", "r") as file_pointer:
+    with open("../rules.json", "r") as file_pointer:
+    # with open("rules.json", "r") as file_pointer:
         entries = json.load(file_pointer)["@graph"]
     # For each entry
     for entry in entries:
