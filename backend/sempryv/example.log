@@ -8,3 +8,15 @@ INFO:werkzeug:127.0.0.1 - - [18/Feb/2020 10:30:27] "GET /semantic/suggest?kind=&
 INFO:werkzeug:127.0.0.1 - - [18/Feb/2020 10:30:27] "GET /semantic/suggest?kind=&path=/Diabetes%20Management HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [18/Feb/2020 10:30:32] "GET /semantic/suggest?kind=activity%20plain&path=/Activity-orfeas HTTP/1.1" 200 -
 INFO:werkzeug: * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2020 12:58:28] "GET /semantic/suggest?kind=activity%20plain&path=/Activity-orfeas HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2020 12:58:32] "GET /semantic/search?term=ac HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2020 12:58:33] "GET /semantic/search?term=act HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2020 12:58:33] "GET /semantic/search?term=activi HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2020 12:58:35] "GET /semantic/search?term=activit HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2020 12:58:35] "GET /semantic/search?term=activity HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2020 12:58:40] "GET /semantic/suggest?kind=&path=/Diary HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2020 12:58:40] "GET /semantic/suggest?kind=&path=/Activity-orfeas HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2020 12:58:41] "GET /semantic/suggest?kind=&path=/Exercises HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2020 12:58:42] "GET /semantic/suggest?kind=&path=/Heart/Heart%20Rate HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2020 12:58:44] "GET /semantic/suggest?kind=position/wgs84&path=/Heart/Heart%20Rate HTTP/1.1" 200 -

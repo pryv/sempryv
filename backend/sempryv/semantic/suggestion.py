@@ -35,7 +35,6 @@ def _rules_suggestions(kind, path):
 def _ml_synthetic_suggestions(_kind, _path):
     """Suggest semantic codes based on ML."""
     # TODO: Placeholder for incorporating ML suggestions in the future
-    print('Synthetics model predictions')
     model = load('sempryv/synthetics_model.joblib')
     file = open('sempryv/file_vect_synth.joblib', 'rb')
     vectorizer = pickle.load(file)
@@ -44,7 +43,6 @@ def _ml_synthetic_suggestions(_kind, _path):
     predictions = _predict_suggestions(model, vectorizer, [new_stream], model_type='synthetics')
     results = []
     for pred in predictions:
-        print(pred)
         prediction_code = _parse_code(pred)
         if prediction_code is None:
             continue
