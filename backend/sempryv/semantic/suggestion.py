@@ -11,6 +11,7 @@ from sempryv.semantic.domain_models.data_provider import SempryvDataProvider
 from joblib import load
 import pickle
 import logging
+
 logging.basicConfig(filename='example.log', level=logging.INFO)
 
 
@@ -55,7 +56,6 @@ def _ml_synthetic_suggestions(_kind, _path):
 def _ml_suggestions(_kind, _path):
     """Suggest semantic codes based on ML."""
     # TODO: Placeholder for incorporating ML suggestions in the future
-    print('Users model predictions')
     model = load('model_users.joblib')
     file = open('file_vect_users.joblib', 'rb')
     vectorizer = pickle.load(file)
@@ -64,7 +64,6 @@ def _ml_suggestions(_kind, _path):
     predictions = _predict_suggestions(model, vectorizer, [new_stream], model_type='users')
     results = []
     for pred in predictions:
-        print(pred)
         prediction_code = _parse_code(pred)
         if prediction_code is None:
             continue
@@ -76,9 +75,6 @@ def _ml_suggestions(_kind, _path):
 def _predict_suggestions(model, vectorizer, stream, model_type: str):
     counts = vectorizer.transform(stream)
     predicted = model.predict(counts)
-    print(predicted)
-    # predicted_codes = get_synthetic_codes(predicted[0])
-    # predicted_codes = get_codes(predicted = predicted[0], model_type= model_type)
     code_labels = None
     if model_type == 'synthetics':
         f = open('sempryv/code_labels_synth.dict', 'rb')
@@ -88,20 +84,15 @@ def _predict_suggestions(model, vectorizer, stream, model_type: str):
         f = open('code_labels_users.dict', 'rb')
         code_labels = pickle.load(f)
         f.close()
-    print(code_labels)
     if code_labels is not None:
         for codes, label in code_labels.items():
             if label == predicted:
                 return codes.split("_")[:-1]
 
-    # return predicted_codes.split("_")[:-1]
-
 
 def get_codes(predicted: int):
     f = open('sempryv/code_labels_synth.dict', 'rb')
-    # f = open('code_labels_2.dict', 'rb')
     code_labels = pickle.load(f)
-    print(code_labels)
     for codes, label in code_labels.items():
         if label == predicted:
             return codes
@@ -127,10 +118,6 @@ def _calculate_rule_suggestions(kind, path, rules, codes):
 
 
 def sempryv_ml_train():
-    # users_data = [{'uname': 'orfi2019', 'token': 'cjxa7szlr00461id327owwz27'},
-    #               {'uname': 'orfeas-client', 'token': 'ck1qo6fdk004j0g40juft91og'},
-    #               {'uname': 'orfeas-synthetics', 'token': 'ck2g12tot00191i40w1x1h7t4'}
-    #               ]
     logging.error('ml train')
     users_data = []
     data_provider = SempryvDataProvider()
@@ -140,16 +127,7 @@ def sempryv_ml_train():
     sc = StreamsClassifier(users_data=users_data)
     model = sc.train()
     save_model_to_file(sc.count_vect, filename='file_vect_users.joblib')
-    # db_file_vectorizer = convertToBinaryData(filename='file_vect_users.joblib') # TODO: persist in DB
-    # data_provider.persist_models(file=db_file_vectorizer)
     save_model_to_file(model, filename='model_users.joblib')
-
-
-def convertToBinaryData(filename):
-    # Convert digital data to binary format
-    with open(filename, 'rb') as file:
-        blobData = file.read()
-    return blobData
 
 
 def save_model_to_file(model, filename):
@@ -157,7 +135,6 @@ def save_model_to_file(model, filename):
         os.remove(filename)
     file = open(filename, 'wb')
     pickle.dump(model, file)
-    # dump(model, filename)
     file.close()
 
 
@@ -168,7 +145,7 @@ def _load_rules():
     codes = {}
     # Open the file
     with open("../rules.json", "r") as file_pointer:
-    # with open("rules.json", "r") as file_pointer:
+        # with open("rules.json", "r") as file_pointer:
         entries = json.load(file_pointer)["@graph"]
     # For each entry
     for entry in entries:
