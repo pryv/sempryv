@@ -3,3 +3,8 @@ INFO:werkzeug: * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
 INFO:werkzeug:127.0.0.1 - - [11/Dec/2019 12:39:40] "GET /semantic/suggest?kind=position/wgs84&path=/Heart/Heart%20Rate HTTP/1.1" 200 -
 INFO:werkzeug: * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
 INFO:werkzeug: * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2020 10:30:27] "GET /semantic/suggest?kind=&path=/Activity-orfeas HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2020 10:30:27] "GET /semantic/suggest?kind=&path=/Diabetes%20Management HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [18/Feb/2020 10:30:32] "GET /semantic/suggest?kind=activity%20plain&path=/Activity-orfeas HTTP/1.1" 200 -
+INFO:werkzeug: * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
