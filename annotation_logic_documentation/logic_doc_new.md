@@ -8,14 +8,6 @@ The semantic annotation process associates high-level ontology concepts to the s
 2. **Semi-automated** where annotation suggestions are provided to the users. These suggestions are derived by predefined rules that experts can modify and save them in system’s knowledge graph.
 3. **Fully-automated** suggestions: They derived by machine learning models that have been trained on synthetic data from mobile apps combined by users existing annotations.
 
-The architecture of SemPryv is depicted at the picture below. SemPryv has two main components, a web <b>User Interface</b> 
-for end-users and experts and a <b>back-end</b> that exposes the core services as a REST API to external applications. 
-It also connects to a series of providers for semantic vocabularies and also includes endpoints dedicated for the import/export 
-of HL7 FHIR - compliant data streams, represented as bundle collections of observations. Since the annotations are ready, 
-streams can be exposed to the Pryv again with all of their metadata.
-
-![](./screenshots/sempryv_architecture.png)
-Figure 1: Sempryv Architecture
 
 ## User Interface
 Every time a user connects with SemPryv she accesses the hierarchical structure of her streams and the corresponding events. 
@@ -48,7 +40,7 @@ Figure 3: query suggestions
 Figure 4: Annotated streams
 
 
-## Semi-automated suggestions and finally annotated data
+## Semi-automated suggestions
 SemPryv includes the possibility of using predefined rules expressed in its knowledge graph. The rules are defined by 
 administrators or experts in a json format like this:
 
@@ -79,6 +71,12 @@ administrators or experts in a json format like this:
 ```
 
 These rules essentially allow the definition of close terms from different ontologies. We observe that if the kind of annotation type is **note/txt**, the knowledge graph matches Pryv heart streams to a SNOMED-CT code identified as: **snomed-ct:364075005**. Then, the system matches these rules to heart stream path **heart/** and thus provide the final suggestions 
+
+## Fully-automated suggestions and finally annotated data
+SemPryv also provides automated suggestions to the users based on a machine learning pipeline. When a user wants to annotate 
+a stream, suggestions are provided by pressing the suggestions button. Two predictive models have been trained and they provide 
+combined suggestions: 1. A users model which uses the already annotated streams by all users and 2. a synthetics model which has 
+been trained on data from two mobile applications.    
 
 Finally, when one makes an API call to get the streams, he gets the structure of her annotated data where the annotations 
 have also been saved
@@ -181,4 +179,5 @@ have also been saved
   }
 ]
 ```
+
 

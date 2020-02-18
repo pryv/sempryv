@@ -4,14 +4,19 @@ import os
 import json
 import re
 
-
-
 from sempryv.semantic.providers.bioportal import look
 from sempryv.semantic.stream_classifier import StreamsClassifier
 from sempryv.semantic.thryve_pulso_trainer import ThryvePulsoTrainer
 from sempryv.semantic.domain_models.data_provider import SempryvDataProvider
 from joblib import load
 import pickle
+import logging
+
+logging.basicConfig(filename='example.log', level=logging.INFO)
+
+
+# class SuggestionsProvider(object):
+#     def __init__(self):
 
 def suggest(kind, path):
     """Suggest semantic codes based on a kind and a path."""
@@ -29,7 +34,7 @@ def _rules_suggestions(kind, path):
 
 def _ml_synthetic_suggestions(_kind, _path):
     """Suggest semantic codes based on ML."""
-    print('========= Synthetics model predictions ==========')
+    # TODO: Placeholder for incorporating ML suggestions in the future
     model = load('sempryv/synthetics_model.joblib')
     file = open('sempryv/file_vect_synth.joblib', 'rb')
     vectorizer = pickle.load(file)
@@ -38,7 +43,6 @@ def _ml_synthetic_suggestions(_kind, _path):
     predictions = _predict_suggestions(model, vectorizer, [new_stream], model_type='synthetics')
     results = []
     for pred in predictions:
-        print(pred)
         prediction_code = _parse_code(pred)
         if prediction_code is None:
             continue
@@ -49,7 +53,7 @@ def _ml_synthetic_suggestions(_kind, _path):
 
 def _ml_suggestions(_kind, _path):
     """Suggest semantic codes based on ML."""
-    print('=========== Users model predictions ============')
+    # TODO: Placeholder for incorporating ML suggestions in the future
     model = load('model_users.joblib')
     file = open('file_vect_users.joblib', 'rb')
     vectorizer = pickle.load(file)
@@ -58,7 +62,6 @@ def _ml_suggestions(_kind, _path):
     predictions = _predict_suggestions(model, vectorizer, [new_stream], model_type='users')
     results = []
     for pred in predictions:
-        print(pred)
         prediction_code = _parse_code(pred)
         if prediction_code is None:
             continue
@@ -70,9 +73,6 @@ def _ml_suggestions(_kind, _path):
 def _predict_suggestions(model, vectorizer, stream, model_type: str):
     counts = vectorizer.transform(stream)
     predicted = model.predict(counts)
-    print(predicted)
-    # predicted_codes = get_synthetic_codes(predicted[0])
-    # predicted_codes = get_codes(predicted = predicted[0], model_type= model_type)
     code_labels = None
     if model_type == 'synthetics':
         f = open('sempryv/code_labels_synth.dict', 'rb')
@@ -82,20 +82,15 @@ def _predict_suggestions(model, vectorizer, stream, model_type: str):
         f = open('code_labels_users.dict', 'rb')
         code_labels = pickle.load(f)
         f.close()
-    print(code_labels)
     if code_labels is not None:
         for codes, label in code_labels.items():
             if label == predicted:
                 return codes.split("_")[:-1]
 
-    # return predicted_codes.split("_")[:-1]
-
 
 def get_codes(predicted: int):
     f = open('sempryv/code_labels_synth.dict', 'rb')
-    # f = open('code_labels_2.dict', 'rb')
     code_labels = pickle.load(f)
-    print(code_labels)
     for codes, label in code_labels.items():
         if label == predicted:
             return codes
@@ -121,6 +116,7 @@ def _calculate_rule_suggestions(kind, path, rules, codes):
 
 
 def sempryv_ml_train():
+    logging.error('ml train')
     users_data = []
     data_provider = SempryvDataProvider()
     users = data_provider.get_all_users()
@@ -132,19 +128,11 @@ def sempryv_ml_train():
     save_model_to_file(model, filename='model_users.joblib')
 
 
-def convertToBinaryData(filename):
-    # Convert digital data to binary format
-    with open(filename, 'rb') as file:
-        blobData = file.read()
-    return blobData
-
-
 def save_model_to_file(model, filename):
     if os.path.exists(path=filename):
         os.remove(filename)
     file = open(filename, 'wb')
     pickle.dump(model, file)
-    # dump(model, filename)
     file.close()
 
 
@@ -154,7 +142,8 @@ def _load_rules():
     rules = {}
     codes = {}
     # Open the file
-    with open("rules.json", "r") as file_pointer:
+    with open("../rules.json", "r") as file_pointer:
+        # with open("rules.json", "r") as file_pointer:
         entries = json.load(file_pointer)["@graph"]
     # For each entry
     for entry in entries:

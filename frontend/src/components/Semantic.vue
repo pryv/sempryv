@@ -10,13 +10,13 @@
         :disabled="!selectedType"
         color="primary"
         @click="addDialog = true"
-        >{{ $t("Add") }}</v-btn
+        >{{ $t("Search") }}</v-btn
       >
       <v-btn
         :disabled="!selectedType"
         color="primary"
         @click="suggestionsDialog = true"
-        >{{ $t("Suggestions") }}</v-btn
+        >{{ $t("Suggest") }}</v-btn
       >
     </v-layout>
     <v-checkbox
