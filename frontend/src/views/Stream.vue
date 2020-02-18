@@ -13,7 +13,7 @@
           <v-container fluid grid-list-xs>
             <v-layout row wrap>
               <v-flex xs9>
-                <semantic v-model="stream.id" @updated="refreshStream()" />
+                <semantic v-model="stream.id" />
               </v-flex>
               <v-flex d-flex xs3 style="border-left: solid 1px gray;">
                 <v-list dense style="max-width: 100%;">
