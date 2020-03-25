@@ -16,5 +16,8 @@ backend/code_labels.dict
 backend/file_vect.joblib
 backend/model.joblib
 
+# docs
+annotation_logic_documentation/
+
 
 # End of https://www.gitignore.io/api/visualstudiocode
