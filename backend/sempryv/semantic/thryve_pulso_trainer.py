@@ -1,10 +1,11 @@
 import json
 import os
 import pickle
+import csv
+import numpy
 
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-
 
 # from semantic.domain_models import sempryv_models as database
 
@@ -20,6 +21,8 @@ class ThryvePulsoTrainer(object):
         self.create_train_target_data()
         self.count_vect = CountVectorizer()
         # self.db = database
+
+
 
     @staticmethod
     def load_synthetic_data():
@@ -56,6 +59,7 @@ class ThryvePulsoTrainer(object):
             if codes == '':
                 continue
             label = self.assign_codes_label(codes)
+            #self.train_data_synthetic.append(id + ' ' + name + ' ' + type)
             self.train_data_synthetic.append(id + ' ' + name)
             self.target_data_synthetic.append(label)
 
@@ -98,6 +102,25 @@ class ThryvePulsoTrainer(object):
             client_data = stream['clientData']
             dict_types[stream['id']] = list(client_data['sempryv:codes'].keys())[0]
         return dict_types
+
+    def get_names_of_all_synthetic_streams(self) -> list:
+        names = []
+        for stream in self.thryve_annotated_data:
+            if stream is None:
+                continue
+            names.append(stream['name'])
+        for stream in self.pulso_annotated_data:
+            if stream is None:
+                continue
+            names.append(stream['name'])
+
+        return names
+
+    @staticmethod
+    def write_lists_to_csv(list1: [], list2: [], filename: str):
+        with open(filename, 'w') as f:
+            writer = csv.writer(f)
+            writer.writerows(zip(list1, list2))
 
     def assign_codes_label(self, codes):
         if codes in self.code_labels:

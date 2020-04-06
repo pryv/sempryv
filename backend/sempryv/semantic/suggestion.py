@@ -22,7 +22,6 @@ def suggest(kind, path):
     rules = _rules_suggestions(kind, path)
     ml_synthetic = _ml_synthetic_suggestions(kind, path)
     ml = _ml_suggestions(kind, path)
-    # return rules + ml_synthetic
     return rules + ml_synthetic + ml
 
 
