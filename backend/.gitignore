@@ -104,3 +104,19 @@ venv.bak/
 # DBs
 *.db
 # End of https://www.gitignore.io/api/python
+
+# logs
+sempryv/example.log
+
+# ML models
+file_vect_2.joblib
+file_vect_users.joblib
+model.joblib
+model.pk
+model_2.joblib
+model_users.joblib
+
+# python objects saved in files
+code_labels.dict
+code_labels_2.dict
+code_labels_users.dict
