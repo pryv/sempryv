@@ -59,8 +59,8 @@ class ThryvePulsoTrainer(object):
             if codes == '':
                 continue
             label = self.assign_codes_label(codes)
-            #self.train_data_synthetic.append(id + ' ' + name + ' ' + type)
-            self.train_data_synthetic.append(id + ' ' + name)
+            self.train_data_synthetic.append(id + ' ' + name + ' ' + type)
+            #self.train_data_synthetic.append(id + ' ' + name)
             self.target_data_synthetic.append(label)
 
         # pulso
@@ -82,7 +82,7 @@ class ThryvePulsoTrainer(object):
             if codes == '':
                 continue
             label = self.assign_codes_label(codes)
-            self.train_data_synthetic.append(id + ' ' + name)
+            self.train_data_synthetic.append(id + ' ' + name + ' ' + type)
             self.target_data_synthetic.append(label)
 
         self.save_dict_to_file(self.code_labels, 'code_labels_synth.dict')  # TODO: persist in db

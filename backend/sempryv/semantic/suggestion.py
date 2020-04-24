@@ -11,18 +11,23 @@ from sempryv.semantic.domain_models.data_provider import SempryvDataProvider
 from joblib import load
 import pickle
 import logging
+
 logging.basicConfig(filename='example.log', level=logging.INFO)
 
-
-# class SuggestionsProvider(object):
-#     def __init__(self):
 
 def suggest(kind, path):
     """Suggest semantic codes based on a kind and a path."""
     rules = _rules_suggestions(kind, path)
     ml_synthetic = _ml_synthetic_suggestions(kind, path)
     ml = _ml_suggestions(kind, path)
-    return rules + ml_synthetic + ml
+    similarity_suggestions = _find_similarity_suggestions(kind, path)
+    # return rules + ml_synthetic + ml
+    return rules + similarity_suggestions
+
+
+def _find_similarity_suggestions(kind, path):
+    from
+    pass
 
 
 def _rules_suggestions(kind, path):
@@ -76,8 +81,6 @@ def _predict_suggestions(model, vectorizer, stream, model_type: str):
     counts = vectorizer.transform(stream)
     predicted = model.predict(counts)
     print(predicted)
-    # predicted_codes = get_synthetic_codes(predicted[0])
-    # predicted_codes = get_codes(predicted = predicted[0], model_type= model_type)
     code_labels = None
     if model_type == 'synthetics':
         f = open('sempryv/code_labels_synth.dict', 'rb')
@@ -94,16 +97,6 @@ def _predict_suggestions(model, vectorizer, stream, model_type: str):
                 return codes.split("_")[:-1]
 
     # return predicted_codes.split("_")[:-1]
-
-
-def get_codes(predicted: int):
-    f = open('sempryv/code_labels_synth.dict', 'rb')
-    # f = open('code_labels_2.dict', 'rb')
-    code_labels = pickle.load(f)
-    print(code_labels)
-    for codes, label in code_labels.items():
-        if label == predicted:
-            return codes
 
 
 def _calculate_rule_suggestions(kind, path, rules, codes):
@@ -167,7 +160,7 @@ def _load_rules():
     codes = {}
     # Open the file
     with open("../rules.json", "r") as file_pointer:
-    # with open("rules.json", "r") as file_pointer:
+        # with open("rules.json", "r") as file_pointer:
         entries = json.load(file_pointer)["@graph"]
     # For each entry
     for entry in entries:
