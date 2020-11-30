@@ -1,17 +1,18 @@
 # SemPryv
 
+
 ## Intro 
 
-Pryv.io is a comprehensive solution for managing this particularly sensible type of data streams, focusing both on data privacy and decentralization. 
+Pryv.io is a comprehensive solution for managing this particularly sensitive type of data stream, focusing both on data privacy and decentralization. 
 
-SemPryv is a system that providdes semantization mechanism for enriching Pryv.io personal data streams with standardized specialized vocabularies from third-party providers. It relies on third providers of semantic concepts, and includes rule-based mechanisms for facilitating the semantization process. This implementation is pluggable to the existing Pryv.io platforms
+SemPryv is a system that provides semantization mechanism for enriching Pryv.io personal data streams with standardized specialized vocabularies from third-party providers. It relies on third providers of semantic concepts, and includes rule-based mechanisms for facilitating the semantization process. This implementation is pluggable to the existing Pryv.io platforms.
 
 ## References
 
 This repository contains the code of the SemPryv project, developed by the
 [AISLab group](https://www.hevs.ch/en/minisites/projects-products/aislab/) with [Pryv](https://pryv.com).
 
-- [aislab group](https://www.hevs.ch/en/minisites/projects-products/aislab/)
+- [AIS Lab group](https://www.hevs.ch/en/minisites/projects-products/aislab/)
 - [hes-so valais/wallis](https://www.hevs.ch/)
 - [Pryv](https://pryv.com/)
 
@@ -24,14 +25,14 @@ SemPryv can be tested online at: [https://sempryv.ehealth.hevs.ch/en/auth](https
 Description & Architecture
 ==
 SemPryv aims to stream data enrichment by providing semantic annotation capabilities on the Pryv.io middleware. 
-The semantic annotation process associates high-level ontology concepts to the stream events. It can be done by two ways: 
+The semantic annotation process associates high-level ontology concepts to the stream events. It can be done in two ways: 
 
 1. **Manually** by searching well-known ontology providers (such as bioportal), or
-2. **Semi-automated** where annotation suggestions are provided to the users. These suggestions are derived by predefined rules that experts can modify and save them in system’s knowledge graph.
-3. **Fully-automated** suggestions: They derived by machine learning models that have been trained on synthetic data from mobile apps combined by users existing annotations.
+2. **Semi-automated** where annotation suggestions are provided to the users. These suggestions are derived by predefined rules that experts can modify and save them in the system’s knowledge graph.
+3. **Fully automated** suggestions: They derived by machine learning models that have been trained on synthetic data from mobile apps combined by users existing annotations.
 
-The architecture of SemPryv is depicted at the picture below. SemPryv has two main components, a web <b>User Interface</b> 
-for end-users and experts and a <b>back-end</b> that exposes the core services as a REST API to external applications. 
+The architecture of SemPryv is depicted in the picture below. SemPryv has two main components, a web <b>User Interface</b> 
+for end users and experts and a <b>back end</b> that exposes the core services as a REST API to external applications. 
 It also connects to a series of providers for semantic vocabularies and also includes endpoints dedicated for the import/export 
 of HL7 FHIR - compliant data streams, represented as bundle collections of observations. Since the annotations are ready, 
 streams can be exposed to the Pryv again with all of their metadata.
@@ -101,16 +102,16 @@ administrators or experts in a json format like this:
 }]
 ```
 
-These rules essentially allow the definition of close terms from different ontologies. We observe that if the kind of annotation type is **note/txt**, the knowledge graph matches Pryv heart streams to a SNOMED-CT code identified as: **snomed-ct:364075005**. Then, the system matches these rules to heart stream path **heart/** and thus provide the final suggestions 
+These rules essentially allow the definition of close terms from different ontologies. We observe that if the kind of annotation type is **note/txt**, the knowledge graph matches Pryv heart streams to a SNOMED-CT code identified as: **snomed-ct:364075005**. Then, the system matches these rules to heart stream path **heart/** and thus provide the final suggestions. 
 
-## Fully-automated suggestions and finally annotated data
+## Fully automated suggestions and finally annotated data
 SemPryv also provides automated suggestions to the users based on a machine learning pipeline. When a user wants to annotate 
 a stream, suggestions are provided by pressing the suggestions button. Two predictive models have been trained and they provide 
-combined suggestions: 1. A users model which uses the already annotated streams by all users and 2. a synthetics model which has 
+combined suggestions: 1. A user model which uses the already annotated streams by all users and 2. a synthetic model which has 
 been trained on data from two mobile applications.    
 
 Finally, when one makes an API call to get the streams, he gets the structure of her annotated data where the annotations 
-have also been saved
+have also been saved.
 
 
 ```shell
